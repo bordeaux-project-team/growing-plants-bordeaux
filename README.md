@@ -1,1 +1,1 @@
-# BordeauxGrowingPlants
+# Project of Universite de Bordeaux
