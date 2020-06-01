@@ -1,5 +1,5 @@
 # Project of Universite de Bordeaux
-How to run the project:  
+How to run the front-end:  
 Step 0: Follow this link to set up environment for React Native: https://reactnative.dev/docs/environment-setup  
 Step 1: Clone project  
 Step 2: Open Terminal in the project folder or Use Terminal of IDE after open the project  
