@@ -1,5 +1,10 @@
+using GrowingPlants.BusinessLogic.IServices;
+using GrowingPlants.BusinessLogic.Services;
+using GrowingPlants.BusinessLogic.UnitOfWorks;
+using GrowingPlants.DataAccess.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,6 +39,11 @@ namespace GrowingPlants.Apis
 			});
 
 			services.AddControllers();
+			services.AddSingleton(Configuration);
+			services.AddDbContext<GrowingPlantsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GrowingPlantsDb")));
+
+			services.AddScoped<IUserService, UserService>();
+			services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 			services.AddSwaggerGen(c =>
 			{
@@ -42,7 +52,7 @@ namespace GrowingPlants.Apis
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, GrowingPlantsContext context)
 		{
 			if (env.IsDevelopment())
 			{
@@ -69,6 +79,8 @@ namespace GrowingPlants.Apis
 
 			loggerFactory.AddSerilog();
 			loggerFactory.AddFile("Logs/log-{Date}.txt");
+
+			context.Database.Migrate();
 		}
 	}
 }

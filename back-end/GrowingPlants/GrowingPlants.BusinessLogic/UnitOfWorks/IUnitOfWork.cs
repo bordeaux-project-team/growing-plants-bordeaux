@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using GrowingPlants.DataAccess.IRepositories;
 
 namespace GrowingPlants.BusinessLogic.UnitOfWorks
 {
-	interface IUnitOfWork
+	public interface IUnitOfWork
 	{
+		IUserRepository UserRepository { get; set; }
 	}
 }
