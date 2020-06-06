@@ -17,6 +17,8 @@ Horse Racing/Document/TQI.BetfairIntegration.Api.7z
 *.userosscache
 *.sln.docstates
 
+Logs/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
