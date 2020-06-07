@@ -1,6 +1,7 @@
 ﻿using System;
+using GrowingPlants.Infrastructure.Utilities;
 
-namespace GrowingPlants.Infrastructure.Models
+namespace GrowingPlants.Infrastructure.DbModels
 {
 	public class User : BaseModel
 	{
@@ -11,8 +12,9 @@ namespace GrowingPlants.Infrastructure.Models
 		public string Address { get; set; }
 		public string Email { get; set; }
 		public string UserName { get; set; }
+		public Constants.UserRole Role { get; set; }
 		public string Password { get; set; }
-		public DateTime CreatedAt { get; set; }
-		public DateTime UpdatedAt { get; set; }
+		public DateTime? CreatedAt { get; set; }
+		public DateTime? UpdatedAt { get; set; }
 	}
 }

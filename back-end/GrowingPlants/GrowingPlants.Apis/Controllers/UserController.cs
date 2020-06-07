@@ -3,7 +3,9 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using GrowingPlants.BusinessLogic.IServices;
 using GrowingPlants.Infrastructure;
-using GrowingPlants.Infrastructure.Models;
+using GrowingPlants.Infrastructure.ApiModels;
+using GrowingPlants.Infrastructure.DbModels;
+using GrowingPlants.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -40,7 +42,7 @@ namespace GrowingPlants.Apis.Controllers
 			{
 				apiResult.Succeed = false;
 				apiResult.Result = "Error";
-				apiResult.Error = ex.ToString();
+				apiResult.ErrorMessage = ex.ToString();
 				_logger.LogInformation($"TestApiResult error: {ex}");
 			}
 			stopwatch.Stop();
@@ -55,56 +57,66 @@ namespace GrowingPlants.Apis.Controllers
 		[Route("register")]
 		public async Task<ApiResult<bool>> Register(User user)
 		{
-			var stopwatch = Stopwatch.StartNew();
-			var apiResult = new ApiResult<bool>();
-
 			try
 			{
+				var stopwatch = Stopwatch.StartNew();
 				_logger.LogInformation("Account registration");
-				apiResult.Result = await _userService.Register(user);
-				apiResult.Succeed = true;
+
+				var result = await _userService.Register(user);
+
 				_logger.LogInformation("Account registration complete");
+
+				stopwatch.Stop();
+				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+				return result;
 			}
 			catch (Exception ex)
 			{
-				apiResult.Succeed = false;
-				apiResult.Result = false;
-				apiResult.Error = ex.ToString();
 				_logger.LogInformation($"Account registration error: {ex}");
+
+				return new ApiResult<bool>
+				{
+					Succeed = false,
+					Result = false,
+					ErrorCode = ApiCode.UnknownError,
+					ErrorMessage = ex.ToString()
+				};
 			}
-			stopwatch.Stop();
-			apiResult.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
-			_logger.LogInformation($"Execution time: {apiResult.ExecutionTime}ms");
-			
-			return apiResult;
 		}
 
+		[AllowAnonymous]
 		[HttpPost]
 		[Route("login")]
-		public async Task<ApiResult<User>> Login(User user)
+		public async Task<ApiResult<UserLogin>> Login(LoginCredential loginCredential)
 		{
-			var stopwatch = Stopwatch.StartNew();
-			var apiResult = new ApiResult<User>();
-
 			try
 			{
+				var stopwatch = Stopwatch.StartNew();
+
 				_logger.LogInformation("User login");
-				apiResult.Result = await _userService.Login(user.UserName, user.Password);
-				apiResult.Succeed = true;
+				var result = await _userService.Login(loginCredential);
 				_logger.LogInformation("User login complete");
+
+				stopwatch.Stop();
+				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+				return result;
 			}
 			catch (Exception ex)
 			{
-				apiResult.Succeed = false;
-				apiResult.Result = null;
-				apiResult.Error = ex.ToString();
 				_logger.LogInformation($"User login error: {ex}");
-			}
-			stopwatch.Stop();
-			apiResult.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
-			_logger.LogInformation($"Execution time: {apiResult.ExecutionTime}ms");
 
-			return apiResult;
+				return new ApiResult<UserLogin>
+				{
+					Succeed = false,
+					Result = null,
+					ErrorCode = ApiCode.UnknownError,
+					ErrorMessage = ex.ToString()
+				};
+			}
 		}
 	}
 }

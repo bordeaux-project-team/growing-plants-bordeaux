@@ -1,15 +1,19 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using GrowingPlants.BusinessLogic.IServices;
 using GrowingPlants.BusinessLogic.UnitOfWorks;
-using GrowingPlants.Infrastructure.Models;
+using GrowingPlants.Infrastructure.ApiModels;
+using GrowingPlants.Infrastructure.DbModels;
+using GrowingPlants.Infrastructure.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using DateTime = System.DateTime;
 
 namespace GrowingPlants.BusinessLogic.Services
 {
@@ -32,35 +36,111 @@ namespace GrowingPlants.BusinessLogic.Services
 		/// </summary>
 		/// <param name="user"></param>
 		/// <returns></returns>
-		public async Task<bool> Register(User user)
+		public async Task<ApiResult<bool>> Register(User user)
 		{
-			if (user == null)
-			{
-				throw new ArgumentException("User is null");
-			}
+			if (user == null) throw new ArgumentException("User is null");
+			if (string.IsNullOrEmpty(user.Email)) throw new ArgumentException("Email is null");
+			if (string.IsNullOrEmpty(user.Password)) throw new ArgumentException("Password is null");
+
 			_logger.LogInformation($"User registration: {JsonConvert.SerializeObject(user)}");
 
+			var existingUser = await _unitOfWork.UserRepository.FindUserByEmail(user.Email);
+			if (existingUser != null)
+			{
+				return new ApiResult<bool>
+				{
+					ErrorCode = ApiCode.UserExisted,
+					Result = false,
+					Succeed = false
+				};
+			}
+
+			user.Password = HashPassword(user.Password);
+			user.CreatedAt = DateTime.UtcNow;
+
+			var canInsert = await _unitOfWork.UserRepository.Insert(user);
+			if (!canInsert) throw new Exception("Cannot insert new user into database");
+
+			return new ApiResult<bool>
+			{
+				Result = true,
+				Succeed = true
+			};
+		}
+
+		public async Task<ApiResult<UserLogin>> Login(LoginCredential loginCredential)
+		{
+			if (loginCredential == null || 
+			    string.IsNullOrEmpty(loginCredential.Email) ||
+			    string.IsNullOrEmpty(loginCredential.Password))
+			{
+				return new ApiResult<UserLogin>
+				{
+					Succeed = false,
+					ErrorCode = ApiCode.BadCredential,
+					Result = null
+				};
+			}
+
+			var user = await _unitOfWork.UserRepository.FindUserByEmail(loginCredential.Email);
+			if (user == null)
+			{
+				return new ApiResult<UserLogin>
+				{
+					Succeed = false,
+					ErrorCode = ApiCode.BadCredential,
+					Result = null
+				};
+			}
+
+			var hashedPassword = HashPassword(loginCredential.Password);
+			if (hashedPassword != user.Password)
+			{
+				return new ApiResult<UserLogin>
+				{
+					Succeed = false,
+					ErrorCode = ApiCode.BadCredential,
+					Result = null
+				};
+			}
+
+			var token = GenerateToken(user);
+			return new ApiResult<UserLogin>
+			{
+				Result = new UserLogin
+				{
+					Token = token,
+					User = user
+				},
+				Succeed = true
+			};
+		}
+
+		private string GenerateToken(User user)
+		{
 			var secretKey = Encoding.ASCII.GetBytes(_configuration["Secret"]);
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
 				Subject = new ClaimsIdentity(new[]
 				{
-					new Claim(ClaimTypes.Name, user.Email)
+					new Claim(ClaimTypes.Name, user.Id.ToString()), 
+					new Claim(ClaimTypes.Email, user.Email),
+					new Claim(ClaimTypes.Role, user.Role.ToString())
 				}),
-				Expires = DateTime.UtcNow.AddDays(1),
+				Expires = DateTime.UtcNow.AddDays(30),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature)
 			};
 
-			var token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
-			await _unitOfWork.UserRepository.Insert(user);
-
-			return true;
+			return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
 		}
 
-		public Task<User> Login(string username, string password)
+		private static string HashPassword(string password)
 		{
-			throw new NotImplementedException();
+			var data = Encoding.ASCII.GetBytes(password);
+			data = new SHA256Managed().ComputeHash(data);
+			var hashedPassword = Encoding.ASCII.GetString(data);
+			return hashedPassword;
 		}
 	}
 }

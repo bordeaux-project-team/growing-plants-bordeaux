@@ -2,7 +2,7 @@
 {
 	public class Constants
 	{
-		public enum Role
+		public enum UserRole
 		{
 			User = 1,
 			Admin = 2

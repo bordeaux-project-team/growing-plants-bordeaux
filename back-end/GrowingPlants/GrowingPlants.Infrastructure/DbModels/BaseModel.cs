@@ -1,4 +1,4 @@
-﻿namespace GrowingPlants.Infrastructure.Models
+﻿namespace GrowingPlants.Infrastructure.DbModels
 {
 	public class BaseModel
 	{
