@@ -2,9 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using GrowingPlants.BusinessLogic.IServices;
-using GrowingPlants.Infrastructure;
-using GrowingPlants.Infrastructure.ApiModels;
-using GrowingPlants.Infrastructure.DbModels;
+using GrowingPlants.Infrastructure.Models;
 using GrowingPlants.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,11 +34,9 @@ namespace GrowingPlants.Apis.Controllers
 			{
 				_logger.LogInformation("Test API");
 				apiResult.Result = await Task.FromResult(data);
-				apiResult.Succeed = true;
 			}
 			catch (Exception ex)
 			{
-				apiResult.Succeed = false;
 				apiResult.Result = "Error";
 				apiResult.ErrorMessage = ex.ToString();
 				_logger.LogInformation($"TestApiResult error: {ex}");
@@ -54,15 +50,15 @@ namespace GrowingPlants.Apis.Controllers
 
 		[AllowAnonymous]
 		[HttpPost]
-		[Route("register")]
-		public async Task<ApiResult<bool>> Register(User user)
+		[Route("register-account")]
+		public async Task<ApiResult<bool>> RegisterAccount(User user)
 		{
 			try
 			{
 				var stopwatch = Stopwatch.StartNew();
 				_logger.LogInformation("Account registration");
 
-				var result = await _userService.Register(user);
+				var result = await _userService.RegisterAccount(user);
 
 				_logger.LogInformation("Account registration complete");
 
@@ -78,9 +74,8 @@ namespace GrowingPlants.Apis.Controllers
 
 				return new ApiResult<bool>
 				{
-					Succeed = false,
 					Result = false,
-					ErrorCode = ApiCode.UnknownError,
+					ApiCode = ApiCode.UnknownError,
 					ErrorMessage = ex.ToString()
 				};
 			}
@@ -89,7 +84,7 @@ namespace GrowingPlants.Apis.Controllers
 		[AllowAnonymous]
 		[HttpPost]
 		[Route("login")]
-		public async Task<ApiResult<UserLogin>> Login(LoginCredential loginCredential)
+		public async Task<ApiResult<User>> Login(LoginCredential loginCredential)
 		{
 			try
 			{
@@ -109,11 +104,10 @@ namespace GrowingPlants.Apis.Controllers
 			{
 				_logger.LogInformation($"User login error: {ex}");
 
-				return new ApiResult<UserLogin>
+				return new ApiResult<User>
 				{
-					Succeed = false,
 					Result = null,
-					ErrorCode = ApiCode.UnknownError,
+					ApiCode = ApiCode.UnknownError,
 					ErrorMessage = ex.ToString()
 				};
 			}

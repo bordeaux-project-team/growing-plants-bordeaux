@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using GrowingPlants.Infrastructure.DbModels;
+using GrowingPlants.Infrastructure.Models;
 
 namespace GrowingPlants.DataAccess.IRepositories
 {

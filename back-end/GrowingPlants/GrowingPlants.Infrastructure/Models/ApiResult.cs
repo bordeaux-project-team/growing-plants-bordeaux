@@ -1,10 +1,8 @@
-﻿namespace GrowingPlants.Infrastructure.ApiModels
+﻿namespace GrowingPlants.Infrastructure.Models
 {
 	public class ApiResult<T>
 	{
-		public bool Succeed { get; set; }
-
-		public string ErrorCode { get; set; }
+		public string ApiCode { get; set; }
 
 		public string ErrorMessage { get; set; }
 

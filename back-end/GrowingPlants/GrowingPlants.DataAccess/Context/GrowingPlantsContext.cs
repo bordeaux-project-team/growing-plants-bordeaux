@@ -1,4 +1,4 @@
-﻿using GrowingPlants.Infrastructure.DbModels;
+﻿using GrowingPlants.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GrowingPlants.DataAccess.Context

@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GrowingPlants.BusinessLogic.IServices;
 using GrowingPlants.BusinessLogic.UnitOfWorks;
-using GrowingPlants.Infrastructure.ApiModels;
-using GrowingPlants.Infrastructure.DbModels;
+using GrowingPlants.Infrastructure.Models;
 using GrowingPlants.Infrastructure.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -36,7 +35,7 @@ namespace GrowingPlants.BusinessLogic.Services
 		/// </summary>
 		/// <param name="user"></param>
 		/// <returns></returns>
-		public async Task<ApiResult<bool>> Register(User user)
+		public async Task<ApiResult<bool>> RegisterAccount(User user)
 		{
 			if (user == null) throw new ArgumentException("User is null");
 			if (string.IsNullOrEmpty(user.Email)) throw new ArgumentException("Email is null");
@@ -49,14 +48,15 @@ namespace GrowingPlants.BusinessLogic.Services
 			{
 				return new ApiResult<bool>
 				{
-					ErrorCode = ApiCode.UserExisted,
-					Result = false,
-					Succeed = false
+					ApiCode = ApiCode.UserExisted,
+					Result = false
 				};
 			}
 
 			user.Password = HashPassword(user.Password);
 			user.CreatedAt = DateTime.UtcNow;
+			user.Role = Constants.UserRole.Client;
+			user.Status = true;
 
 			var canInsert = await _unitOfWork.UserRepository.Insert(user);
 			if (!canInsert) throw new Exception("Cannot insert new user into database");
@@ -64,20 +64,19 @@ namespace GrowingPlants.BusinessLogic.Services
 			return new ApiResult<bool>
 			{
 				Result = true,
-				Succeed = true
+				ApiCode = ApiCode.Success
 			};
 		}
 
-		public async Task<ApiResult<UserLogin>> Login(LoginCredential loginCredential)
+		public async Task<ApiResult<User>> Login(LoginCredential loginCredential)
 		{
 			if (loginCredential == null || 
 			    string.IsNullOrEmpty(loginCredential.Email) ||
 			    string.IsNullOrEmpty(loginCredential.Password))
 			{
-				return new ApiResult<UserLogin>
+				return new ApiResult<User>
 				{
-					Succeed = false,
-					ErrorCode = ApiCode.BadCredential,
+					ApiCode = ApiCode.BadCredential,
 					Result = null
 				};
 			}
@@ -85,10 +84,9 @@ namespace GrowingPlants.BusinessLogic.Services
 			var user = await _unitOfWork.UserRepository.FindUserByEmail(loginCredential.Email);
 			if (user == null)
 			{
-				return new ApiResult<UserLogin>
+				return new ApiResult<User>
 				{
-					Succeed = false,
-					ErrorCode = ApiCode.BadCredential,
+					ApiCode = ApiCode.BadCredential,
 					Result = null
 				};
 			}
@@ -96,23 +94,18 @@ namespace GrowingPlants.BusinessLogic.Services
 			var hashedPassword = HashPassword(loginCredential.Password);
 			if (hashedPassword != user.Password)
 			{
-				return new ApiResult<UserLogin>
+				return new ApiResult<User>
 				{
-					Succeed = false,
-					ErrorCode = ApiCode.BadCredential,
+					ApiCode = ApiCode.BadCredential,
 					Result = null
 				};
 			}
 
-			var token = GenerateToken(user);
-			return new ApiResult<UserLogin>
+			user.Token = GenerateToken(user);
+			return new ApiResult<User>
 			{
-				Result = new UserLogin
-				{
-					Token = token,
-					User = user
-				},
-				Succeed = true
+				Result = user,
+				ApiCode = ApiCode.Success
 			};
 		}
 

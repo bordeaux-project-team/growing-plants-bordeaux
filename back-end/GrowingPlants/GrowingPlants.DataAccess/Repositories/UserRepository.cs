@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using GrowingPlants.DataAccess.Context;
 using GrowingPlants.DataAccess.IRepositories;
-using GrowingPlants.Infrastructure.DbModels;
+using GrowingPlants.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GrowingPlants.DataAccess.Repositories

@@ -4,14 +4,16 @@ using GrowingPlants.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrowingPlants.DataAccess.Migrations
 {
     [DbContext(typeof(GrowingPlantsContext))]
-    partial class GrowingPlantsContextModelSnapshot : ModelSnapshot
+    [Migration("20200608040800_AddStatusAndUpdateRoleUserEntity")]
+    partial class AddStatusAndUpdateRoleUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
