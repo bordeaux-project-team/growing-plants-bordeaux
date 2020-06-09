@@ -21,6 +21,7 @@ namespace GrowingPlants.BusinessLogic.Services
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IConfiguration _configuration;
 		private readonly ILogger _logger;
+
 		public UserService(ILoggerFactory loggerFactory, IUnitOfWork unitOfWork, IConfiguration configuration)
 		{
 			_unitOfWork = unitOfWork;
