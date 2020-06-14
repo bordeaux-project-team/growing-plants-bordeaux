@@ -3,7 +3,7 @@ import Login from './Login';
 import {doLogin} from '../../services/user-service';
 import AsyncStorage from '@react-native-community/async-storage';
 
-class LoginContainer extends Component {
+export default class LoginScreen extends Component {
   render() {
     return <Login doLogin={this.doLogin} />;
   }
@@ -16,5 +16,3 @@ class LoginContainer extends Component {
     console.log(`User: ${JSON.stringify(user)}`);
   }
 }
-
-export default LoginContainer;

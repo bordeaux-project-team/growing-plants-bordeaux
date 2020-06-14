@@ -1,3 +1,4 @@
-import LoginContainer from './login';
+import LoginScreen from './login';
+import SignUpScreen from './sign-up';
 
-export {LoginContainer};
+export {LoginScreen, SignUpScreen};
