@@ -14,12 +14,12 @@ const headersAuth = {
 
 const getToken = async () => {
   try {
-    return await AsyncStorage.getItem('token');
+    return `Bearer ${await AsyncStorage.getItem('token')}`;
   } catch (err) {
     console.log(err);
     return null;
   }
-}
+};
 
 const fetchPost = async (endPoint, data, auth) => {
   try {
@@ -40,4 +40,21 @@ const fetchPost = async (endPoint, data, auth) => {
   }
 };
 
-export {fetchPost};
+const fetchGet = async (endPoint, auth) => {
+  try {
+    let header = headers;
+    if (auth) {
+      header = headersAuth;
+      header.Authorization = await getToken();
+    }
+    const url = `${apiUrl}${endPoint}`;
+    return await fetch(url, {
+      headers: header,
+    });
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+export {fetchPost, fetchGet};

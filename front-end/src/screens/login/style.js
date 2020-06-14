@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgb(255,255,255)',
   },
   background: {
-    flex: 1,
+    flex: 1
   },
   rect: {
     flex: 1,

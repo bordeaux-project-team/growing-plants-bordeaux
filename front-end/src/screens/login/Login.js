@@ -10,7 +10,6 @@ import {
 import Icon from 'react-native-vector-icons/EvilIcons';
 import {styles} from './style';
 import {useNavigation} from '@react-navigation/native';
-
 const Login = props => {
   const navigation = useNavigation();
   return (
@@ -30,7 +29,6 @@ const Login = props => {
                   <TextInput
                     placeholder="Email address"
                     placeholderTextColor="rgba(255,255,255,1)"
-                    secureTextEntry={false}
                     style={styles.usernameInput}
                   />
                 </View>
@@ -39,7 +37,7 @@ const Login = props => {
                   <TextInput
                     placeholder="Password"
                     placeholderTextColor="rgba(255,255,255,1)"
-                    secureTextEntry={false}
+                    secureTextEntry={true}
                     style={styles.passwordInput}
                   />
                 </View>
