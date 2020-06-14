@@ -43,9 +43,7 @@ const Login = props => {
                 </View>
               </View>
               <View style={styles.usernameColumnFiller} />
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate('Channels')}
-                style={styles.button}>
+              <TouchableOpacity onPress={props.doLogin} style={styles.button}>
                 <Text style={styles.text2}>Log in</Text>
               </TouchableOpacity>
             </View>

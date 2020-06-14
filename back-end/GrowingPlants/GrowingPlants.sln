@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrowingPlants.Apis", "GrowingPlants.Apis\GrowingPlants.Apis.csproj", "{348DBB7F-F7A5-4930-A7E5-D495467C2132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrowingPlants.BusinessLogic", "GrowingPlants.BusinessLogic\GrowingPlants.BusinessLogic.csproj", "{B078F4CC-4522-4A42-8829-4E431C3ACF74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrowingPlants.BusinessLogic", "GrowingPlants.BusinessLogic\GrowingPlants.BusinessLogic.csproj", "{B078F4CC-4522-4A42-8829-4E431C3ACF74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrowingPlants.DataAccess", "GrowingPlants.DataAccess\GrowingPlants.DataAccess.csproj", "{B792F14D-436F-4D36-8F63-B980AA2A8963}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrowingPlants.DataAccess", "GrowingPlants.DataAccess\GrowingPlants.DataAccess.csproj", "{B792F14D-436F-4D36-8F63-B980AA2A8963}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrowingPlants.UnitTests", "GrowingPlants.UnitTests\GrowingPlants.UnitTests.csproj", "{C9FFFCC6-CDC9-4232-AA65-5A01AB851D2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrowingPlants.Infrastructure", "GrowingPlants.Infrastructure\GrowingPlants.Infrastructure.csproj", "{C5446AA1-24EB-4AC2-81A2-9ED4B893FB6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrowingPlants.Infrastructure", "GrowingPlants.Infrastructure\GrowingPlants.Infrastructure.csproj", "{C5446AA1-24EB-4AC2-81A2-9ED4B893FB6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrowingPlants.Tests", "GrowingPlants.Tests\GrowingPlants.Tests.csproj", "{6C3509DA-4E61-4469-94CA-F399F9C6643B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +31,14 @@ Global
 		{B792F14D-436F-4D36-8F63-B980AA2A8963}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B792F14D-436F-4D36-8F63-B980AA2A8963}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B792F14D-436F-4D36-8F63-B980AA2A8963}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C9FFFCC6-CDC9-4232-AA65-5A01AB851D2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9FFFCC6-CDC9-4232-AA65-5A01AB851D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9FFFCC6-CDC9-4232-AA65-5A01AB851D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9FFFCC6-CDC9-4232-AA65-5A01AB851D2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5446AA1-24EB-4AC2-81A2-9ED4B893FB6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5446AA1-24EB-4AC2-81A2-9ED4B893FB6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5446AA1-24EB-4AC2-81A2-9ED4B893FB6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5446AA1-24EB-4AC2-81A2-9ED4B893FB6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3509DA-4E61-4469-94CA-F399F9C6643B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3509DA-4E61-4469-94CA-F399F9C6643B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3509DA-4E61-4469-94CA-F399F9C6643B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3509DA-4E61-4469-94CA-F399F9C6643B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
