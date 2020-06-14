@@ -10,3 +10,6 @@ Step 6: `npx react-native run-android`
 
 With `Task :app:generateDebugResValues` issue:  
 Run `cd android; ./gradlew clean`
+
+For localhost server: Need to run adb reverse to forward the port to emulator
+`adb reverse tcp:64160 tcp:64160`
