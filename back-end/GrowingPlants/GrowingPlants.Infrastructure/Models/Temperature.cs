@@ -7,8 +7,8 @@ namespace GrowingPlants.Infrastructure.Models
 		public string Name { get; set; }
 		public int FromDegree { get; set; }
 		public int ToDegree { get; set; }
-		public int MeasurementId { get; set; }
-
+		public int? MeasurementUnitId { get; set; }
+		public MeasurementUnit MeasurementUnit { get; set; }
 		public List<Tree> Trees { get; set; }
 	}
 }

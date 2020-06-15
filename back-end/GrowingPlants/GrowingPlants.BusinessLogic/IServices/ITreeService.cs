@@ -7,5 +7,7 @@ namespace GrowingPlants.BusinessLogic.IServices
 	public interface ITreeService
 	{
 		Task<ApiResult<bool>> InsertTrees(List<Tree> trees);
+
+		Task<ApiResult<bool>> UpdateTree(Tree tree);
 	}
 }

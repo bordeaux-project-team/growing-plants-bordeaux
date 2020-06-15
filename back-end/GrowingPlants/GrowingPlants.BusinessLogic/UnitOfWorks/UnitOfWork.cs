@@ -8,11 +8,19 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
 	{
 		public IUserRepository UserRepository { get; set; }
 		public ITreeRepository TreeRepository { get; set; }
+		public IMeasurementUnitRepository MeasurementUnitRepository { get; set; }
+		public ILightRepository LightRepository { get; set; }
+		public IHumidityRepository HumidityRepository { get; set; }
+		public ITemperatureRepository TemperatureRepository { get; set; }
 
 		public UnitOfWork(GrowingPlantsContext context)
 		{
 			UserRepository = new UserRepository(context);
 			TreeRepository = new TreeRepository(context);
+			MeasurementUnitRepository = new MeasurementUnitRepository(context);
+			LightRepository = new LightRepository(context);
+			HumidityRepository = new HumidityRepository(context);
+			TemperatureRepository = new TemperatureRepository(context);
 		}
 	}
 }

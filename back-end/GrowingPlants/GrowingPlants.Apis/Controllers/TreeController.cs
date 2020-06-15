@@ -59,5 +59,39 @@ namespace GrowingPlants.Apis.Controllers
 				};
 			}
 		}
+
+		[HttpPut]
+		[Route("update/{id}")]
+		public async Task<ApiResult<bool>> UpdateTree(int id, Tree tree)
+		{
+			try
+			{
+				var stopwatch = Stopwatch.StartNew();
+				_logger.LogInformation("Update tree");
+
+				tree.Id = id;
+
+				var result = await _treeService.UpdateTree(tree);
+
+				_logger.LogInformation("Update tree complete");
+
+				stopwatch.Stop();
+				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogInformation($"Update tree error: {ex}");
+
+				return new ApiResult<bool>
+				{
+					Result = false,
+					ApiCode = ApiCode.UnknownError,
+					ErrorMessage = ex.ToString()
+				};
+			}
+		}
 	}
 }

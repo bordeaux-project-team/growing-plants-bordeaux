@@ -16,7 +16,9 @@ namespace GrowingPlants.DataAccess.Repositories
 		public async Task<IEnumerable<Tree>> GetAll()
 		{
 			return await Context.Trees
-				.Include(x => x.Temperature)
+				.Include(tree => tree.Temperature)
+				.Include(tree => tree.Light)
+				.Include(tree => tree.Humidity)
 				.ToListAsync();
 		}
 	}

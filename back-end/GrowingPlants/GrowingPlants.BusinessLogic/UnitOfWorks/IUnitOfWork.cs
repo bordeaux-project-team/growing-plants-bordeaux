@@ -6,5 +6,9 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
 	{
 		IUserRepository UserRepository { get; set; }
 		ITreeRepository TreeRepository { get; set; }
+		IMeasurementUnitRepository MeasurementUnitRepository { get; set; }
+		ILightRepository LightRepository { get; set; }
+		IHumidityRepository HumidityRepository { get; set; }
+		ITemperatureRepository TemperatureRepository { get; set; }
 	}
 }
