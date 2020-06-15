@@ -11,6 +11,7 @@ namespace GrowingPlants.DataAccess.Context
 		public DbSet<Light> Lights { get; set; }
 		public DbSet<Humidity> HumiditySet { get; set; }
 		public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
+		public DbSet<FavoriteTree> FavoriteTrees { get; set; }
 
 		public GrowingPlantsContext(DbContextOptions options) : base(options)
 		{
@@ -25,6 +26,23 @@ namespace GrowingPlants.DataAccess.Context
 			LightBuilder(modelBuilder);
 			HumidityBuilder(modelBuilder);
 			MeasurementUnitBuilder(modelBuilder);
+			FavoriteTreeBuilder(modelBuilder);
+		}
+
+		private static void FavoriteTreeBuilder(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<FavoriteTree>().ToTable("FavoriteTree");
+			modelBuilder.Entity<FavoriteTree>().Property(x => x.Id).ValueGeneratedOnAdd();
+
+			modelBuilder.Entity<FavoriteTree>()
+				.HasOne(ft => ft.Tree)
+				.WithMany(t => t.FavoriteTrees)
+				.HasForeignKey(ft => ft.TreeId);
+
+			modelBuilder.Entity<FavoriteTree>()
+				.HasOne(ft => ft.User)
+				.WithMany(t => t.FavoriteTrees)
+				.HasForeignKey(ft => ft.UserId);
 		}
 
 		private static void MeasurementUnitBuilder(ModelBuilder modelBuilder)

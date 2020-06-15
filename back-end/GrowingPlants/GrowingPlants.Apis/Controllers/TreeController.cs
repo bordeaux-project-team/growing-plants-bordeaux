@@ -92,5 +92,37 @@ namespace GrowingPlants.Apis.Controllers
 				};
 			}
 		}
+
+		[HttpPost]
+		[Route("favorite")]
+		public async Task<ApiResult<bool>> InsertOrUpdateFavoriteTree(FavoriteTree favoriteTree)
+		{
+			try
+			{
+				var stopwatch = Stopwatch.StartNew();
+				_logger.LogInformation("Insert or update favorite tree");
+
+				var result = await _treeService.InsertOrUpdateFavoriteTree(favoriteTree);
+
+				_logger.LogInformation("Insert or update favorite tree");
+
+				stopwatch.Stop();
+				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogInformation($"Insert or update favorite tree error: {ex}");
+
+				return new ApiResult<bool>
+				{
+					Result = false,
+					ApiCode = ApiCode.UnknownError,
+					ErrorMessage = ex.ToString()
+				};
+			}
+		}
 	}
 }

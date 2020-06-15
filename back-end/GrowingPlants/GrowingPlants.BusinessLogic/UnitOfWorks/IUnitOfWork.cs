@@ -10,5 +10,6 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
 		ILightRepository LightRepository { get; set; }
 		IHumidityRepository HumidityRepository { get; set; }
 		ITemperatureRepository TemperatureRepository { get; set; }
+		IFavoriteTreeRepository FavoriteTreeRepository { get; set; }
 	}
 }

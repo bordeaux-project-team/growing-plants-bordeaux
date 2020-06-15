@@ -9,5 +9,7 @@ namespace GrowingPlants.BusinessLogic.IServices
 		Task<ApiResult<bool>> InsertTrees(List<Tree> trees);
 
 		Task<ApiResult<bool>> UpdateTree(Tree tree);
+
+		Task<ApiResult<bool>> InsertOrUpdateFavoriteTree(FavoriteTree favoriteTree);
 	}
 }

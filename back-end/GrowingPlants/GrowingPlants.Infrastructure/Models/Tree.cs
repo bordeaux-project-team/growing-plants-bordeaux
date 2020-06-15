@@ -1,4 +1,6 @@
-﻿namespace GrowingPlants.Infrastructure.Models
+﻿using System.Collections.Generic;
+
+namespace GrowingPlants.Infrastructure.Models
 {
 	public class Tree : BaseModel
 	{
@@ -20,5 +22,6 @@
 		public string GardenType { get; set; }
 		public string PlantingGuide { get; set; }
 		public int ExposureTime { get; set; } // Number of hours
+		public List<FavoriteTree> FavoriteTrees { get; set; }
 	}
 }

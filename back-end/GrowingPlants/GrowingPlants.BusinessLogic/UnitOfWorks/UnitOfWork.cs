@@ -12,6 +12,7 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
 		public ILightRepository LightRepository { get; set; }
 		public IHumidityRepository HumidityRepository { get; set; }
 		public ITemperatureRepository TemperatureRepository { get; set; }
+		public IFavoriteTreeRepository FavoriteTreeRepository { get; set; }
 
 		public UnitOfWork(GrowingPlantsContext context)
 		{
@@ -21,6 +22,7 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
 			LightRepository = new LightRepository(context);
 			HumidityRepository = new HumidityRepository(context);
 			TemperatureRepository = new TemperatureRepository(context);
+			FavoriteTreeRepository = new FavoriteTreeRepository(context);
 		}
 	}
 }

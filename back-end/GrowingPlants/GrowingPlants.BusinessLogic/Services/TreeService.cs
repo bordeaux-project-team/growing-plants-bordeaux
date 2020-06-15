@@ -99,5 +99,42 @@ namespace GrowingPlants.BusinessLogic.Services
 				ApiCode = ApiCode.Success
 			};
 		}
+
+		public async Task<ApiResult<bool>> InsertOrUpdateFavoriteTree(FavoriteTree favoriteTree)
+		{
+			if (favoriteTree == null)
+			{
+				_logger.LogError("FavoriteTree is null");
+				return new ApiResult<bool>
+				{
+					ApiCode = ApiCode.NullObject,
+					ErrorMessage = "FavoriteTree inputted is null",
+					Result = false
+				};
+			}
+
+			var existing = await _unitOfWork.FavoriteTreeRepository.GetById(favoriteTree.Id);
+			if (existing == null)
+			{
+				_logger.LogInformation($"FavoriteTree to insert: {JsonConvert.SerializeObject(favoriteTree)}");
+				var insertResult = await _unitOfWork.FavoriteTreeRepository.Insert(favoriteTree);
+				return new ApiResult<bool>
+				{
+					Result = insertResult,
+					ApiCode = ApiCode.Success
+				};
+			}
+
+			_logger.LogInformation($"FavoriteTree to update: {JsonConvert.SerializeObject(favoriteTree)}");
+
+			existing.IsFavorite = favoriteTree.IsFavorite;
+
+			var updateResult = await _unitOfWork.FavoriteTreeRepository.Update(existing);
+			return new ApiResult<bool>
+			{
+				Result = updateResult,
+				ApiCode = ApiCode.Success
+			};
+		}
 	}
 }

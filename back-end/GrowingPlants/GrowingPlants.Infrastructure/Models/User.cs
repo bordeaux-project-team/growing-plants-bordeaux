@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GrowingPlants.Infrastructure.Models
@@ -17,5 +18,7 @@ namespace GrowingPlants.Infrastructure.Models
 
 		[NotMapped]
 		public string Token { get; set; }
+
+		public List<FavoriteTree> FavoriteTrees { get; set; }
 	}
 }
