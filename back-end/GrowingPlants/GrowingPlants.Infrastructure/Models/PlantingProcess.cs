@@ -7,6 +7,8 @@ namespace GrowingPlants.Infrastructure.Models
 	{
 		public int? TreeId { get; set; }
 		public Tree Tree { get; set; }
+		public int? UserId { get; set; }
+		public User User { get; set; }
 		public DateTime StartDate { get; set; }
 		public DateTime GerminationDate { get; set; }
 		public DateTime VegetativeDate { get; set; }
