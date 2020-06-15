@@ -13,6 +13,13 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
 		public IHumidityRepository HumidityRepository { get; set; }
 		public ITemperatureRepository TemperatureRepository { get; set; }
 		public IFavoriteTreeRepository FavoriteTreeRepository { get; set; }
+		public IPlantingEnvironmentRepository PlantingEnvironmentRepository { get; set; }
+		public ICountryRepository CountryRepository { get; set; }
+		public IPlantingProcessRepository PlantingProcessRepository { get; set; }
+		public IProcessStepRepository ProcessStepRepository { get; set; }
+		public IPlantingActionRepository PlantingActionRepository { get; set; }
+		public IRecurrenceRepository RecurrenceRepository { get; set; }
+		public INotificationRepository NotificationRepository { get; set; }
 
 		public UnitOfWork(GrowingPlantsContext context)
 		{
@@ -23,6 +30,13 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
 			HumidityRepository = new HumidityRepository(context);
 			TemperatureRepository = new TemperatureRepository(context);
 			FavoriteTreeRepository = new FavoriteTreeRepository(context);
+			CountryRepository = new CountryRepository(context);
+			PlantingProcessRepository = new PlantingProcessRepository(context);
+			PlantingEnvironmentRepository = new PlantingEnvironmentRepository(context);
+			ProcessStepRepository = new ProcessStepRepository(context);
+			PlantingActionRepository = new PlantingActionRepository(context);
+			RecurrenceRepository = new RecurrenceRepository(context);
+			NotificationRepository = new NotificationRepository(context);
 		}
 	}
 }
