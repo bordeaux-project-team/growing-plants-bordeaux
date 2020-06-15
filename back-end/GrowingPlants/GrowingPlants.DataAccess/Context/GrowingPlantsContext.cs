@@ -90,16 +90,6 @@ namespace GrowingPlants.DataAccess.Context
 		{
 			modelBuilder.Entity<FavoriteTree>().ToTable("FavoriteTree");
 			modelBuilder.Entity<FavoriteTree>().Property(x => x.Id).ValueGeneratedOnAdd();
-
-			modelBuilder.Entity<FavoriteTree>()
-				.HasOne(ft => ft.Tree)
-				.WithMany(t => t.FavoriteTrees)
-				.HasForeignKey(ft => ft.TreeId);
-
-			modelBuilder.Entity<FavoriteTree>()
-				.HasOne(ft => ft.User)
-				.WithMany(t => t.FavoriteTrees)
-				.HasForeignKey(ft => ft.UserId);
 		}
 
 		private static void MeasurementUnitBuilder(ModelBuilder modelBuilder)
@@ -112,55 +102,24 @@ namespace GrowingPlants.DataAccess.Context
 		{
 			modelBuilder.Entity<Humidity>().ToTable("Humidity");
 			modelBuilder.Entity<Humidity>().Property(x => x.Id).ValueGeneratedOnAdd();
-
-			modelBuilder.Entity<Humidity>()
-				.HasOne(t => t.MeasurementUnit)
-				.WithMany(t => t.HumidityList)
-				.HasForeignKey(t => t.MeasurementUnitId);
 		}
 
 		private static void LightBuilder(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Light>().ToTable("Light");
 			modelBuilder.Entity<Light>().Property(x => x.Id).ValueGeneratedOnAdd();
-
-			modelBuilder.Entity<Light>()
-				.HasOne(t => t.MeasurementUnit)
-				.WithMany(t => t.Lights)
-				.HasForeignKey(t => t.MeasurementUnitId);
 		}
 
 		private static void TemperatureBuilder(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Temperature>().ToTable("Temperature");
 			modelBuilder.Entity<Temperature>().Property(x => x.Id).ValueGeneratedOnAdd();
-
-
-			modelBuilder.Entity<Temperature>()
-				.HasOne(t => t.MeasurementUnit)
-				.WithMany(t => t.Temperatures)
-				.HasForeignKey(t => t.MeasurementUnitId);
 		}
 
 		private static void TreeBuilder(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Tree>().ToTable("Tree");
 			modelBuilder.Entity<Tree>().Property(x => x.Id).ValueGeneratedOnAdd();
-
-			modelBuilder.Entity<Tree>()
-				.HasOne(t => t.Temperature)
-				.WithMany(t => t.Trees)
-				.HasForeignKey(t => t.TemperatureId);
-
-			modelBuilder.Entity<Tree>()
-				.HasOne(t => t.Light)
-				.WithMany(l => l.Trees)
-				.HasForeignKey(t => t.LightId);
-
-			modelBuilder.Entity<Tree>()
-				.HasOne(t => t.Humidity)
-				.WithMany(h => h.Trees)
-				.HasForeignKey(t => t.HumidityId);
 		}
 
 		private static void UserBuilder(ModelBuilder modelBuilder)

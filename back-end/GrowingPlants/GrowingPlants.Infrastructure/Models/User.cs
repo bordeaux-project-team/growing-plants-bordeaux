@@ -20,5 +20,6 @@ namespace GrowingPlants.Infrastructure.Models
 		public string Token { get; set; }
 
 		public List<FavoriteTree> FavoriteTrees { get; set; }
+		public List<PlantingProcess> PlantingProcesses { get; set; }
 	}
 }

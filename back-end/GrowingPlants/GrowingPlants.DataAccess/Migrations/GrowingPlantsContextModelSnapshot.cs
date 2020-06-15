@@ -187,11 +187,11 @@ namespace GrowingPlants.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ActionDescription")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Icon")
                         .HasColumnType("nvarchar(max)");
@@ -202,17 +202,12 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProcessStepId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MeasurementUnitId");
-
-                    b.HasIndex("ProcessStepId");
 
                     b.ToTable("PlantingAction");
                 });
@@ -289,9 +284,6 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.Property<DateTime>("HarvestDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("PlantingEnvironmentId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -305,8 +297,6 @@ namespace GrowingPlants.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PlantingEnvironmentId");
 
                     b.HasIndex("TreeId");
 
@@ -369,6 +359,12 @@ namespace GrowingPlants.DataAccess.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Days")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -559,10 +555,6 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.HasOne("GrowingPlants.Infrastructure.Models.MeasurementUnit", "MeasurementUnit")
                         .WithMany("PlantingActions")
                         .HasForeignKey("MeasurementUnitId");
-
-                    b.HasOne("GrowingPlants.Infrastructure.Models.ProcessStep", null)
-                        .WithMany("PlantingActions")
-                        .HasForeignKey("ProcessStepId");
                 });
 
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.PlantingEnvironment", b =>
@@ -586,12 +578,8 @@ namespace GrowingPlants.DataAccess.Migrations
 
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.PlantingProcess", b =>
                 {
-                    b.HasOne("GrowingPlants.Infrastructure.Models.PlantingEnvironment", "PlantingEnvironment")
-                        .WithMany()
-                        .HasForeignKey("PlantingEnvironmentId");
-
                     b.HasOne("GrowingPlants.Infrastructure.Models.Tree", "Tree")
-                        .WithMany()
+                        .WithMany("PlantingProcesses")
                         .HasForeignKey("TreeId");
                 });
 
@@ -602,15 +590,15 @@ namespace GrowingPlants.DataAccess.Migrations
                         .HasForeignKey("NotificationId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.PlantingAction", "PlantingAction")
-                        .WithMany()
+                        .WithMany("ProcessSteps")
                         .HasForeignKey("PlantingActionId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.PlantingProcess", "PlantingProcess")
-                        .WithMany()
+                        .WithMany("ProcessSteps")
                         .HasForeignKey("PlantingProcessId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.Recurrence", "Recurrence")
-                        .WithMany()
+                        .WithMany("ProcessSteps")
                         .HasForeignKey("RecurrenceId");
                 });
 
@@ -631,7 +619,7 @@ namespace GrowingPlants.DataAccess.Migrations
                         .WithMany("Trees")
                         .HasForeignKey("LightId");
 
-                    b.HasOne("GrowingPlants.Infrastructure.Models.PlantingEnvironment", null)
+                    b.HasOne("GrowingPlants.Infrastructure.Models.PlantingEnvironment", "PlantingEnvironment")
                         .WithMany("Trees")
                         .HasForeignKey("PlantingEnvironmentId");
 
