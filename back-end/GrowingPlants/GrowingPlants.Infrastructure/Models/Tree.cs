@@ -22,6 +22,9 @@ namespace GrowingPlants.Infrastructure.Models
 		public string GardenType { get; set; }
 		public string PlantingGuide { get; set; }
 		public int ExposureTime { get; set; } // Number of hours
+		public int? PlantingEnvironmentId { get; set; }
+		public PlantingEnvironment PlantingEnvironment { get; set; }
 		public List<FavoriteTree> FavoriteTrees { get; set; }
+		public List<PlantingProcess> PlantingProcesses { get; set; }
 	}
 }

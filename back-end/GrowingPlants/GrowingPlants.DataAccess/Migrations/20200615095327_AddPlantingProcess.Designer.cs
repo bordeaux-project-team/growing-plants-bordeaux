@@ -4,14 +4,16 @@ using GrowingPlants.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrowingPlants.DataAccess.Migrations
 {
     [DbContext(typeof(GrowingPlantsContext))]
-    partial class GrowingPlantsContextModelSnapshot : ModelSnapshot
+    [Migration("20200615095327_AddPlantingProcess")]
+    partial class AddPlantingProcess
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -2,9 +2,10 @@
 
 namespace GrowingPlants.Infrastructure.Models
 {
-	public class Country : BaseModel
+	public class Recurrence : BaseModel
 	{
 		public string Name { get; set; }
-		public List<PlantingEnvironment> PlantingEnvironments { get; set; }
+		public int Days { get; set; }
+		public List<ProcessStep> ProcessSteps { get; set; }
 	}
 }
