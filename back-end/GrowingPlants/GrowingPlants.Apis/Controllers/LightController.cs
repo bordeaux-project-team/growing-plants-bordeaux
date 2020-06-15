@@ -15,30 +15,30 @@ namespace GrowingPlants.Apis.Controllers
 	[Authorize(Roles = Constants.UserRole.Admin)]
 	[ApiController]
 	[Route("api/[controller]")]
-	public class TreeController : ControllerBase
+	public class LightController : ControllerBase
 	{
-		private readonly ITreeService _treeService;
+		private readonly ILightService _lightService;
 		private readonly ILogger _logger;
 
-		public TreeController(ILoggerFactory loggerFactory, ITreeService treeService)
+		public LightController(ILoggerFactory loggerFactory, ILightService lightService)
 		{
-			_treeService = treeService;
-			_logger = loggerFactory.CreateLogger(typeof(UserController));
+			_lightService = lightService;
+			_logger = loggerFactory.CreateLogger(typeof(LightController));
 		}
 
 
 		[HttpPost]
 		[Route("insert")]
-		public async Task<ApiResult<bool>> InsertTrees(IEnumerable<Tree> trees)
+		public async Task<ApiResult<bool>> InsertLights(IEnumerable<Light> lights)
 		{
 			try
 			{
 				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Insert trees");
+				_logger.LogInformation("Insert lights");
 
-				var result = await _treeService.InsertTrees(trees?.ToList());
+				var result = await _lightService.InsertLights(lights?.ToList());
 
-				_logger.LogInformation("Insert trees complete");
+				_logger.LogInformation("Insert lights complete");
 
 				stopwatch.Stop();
 				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
@@ -48,7 +48,7 @@ namespace GrowingPlants.Apis.Controllers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogInformation($"Insert trees error: {ex}");
+				_logger.LogInformation($"Insert lights error: {ex}");
 
 				return new ApiResult<bool>
 				{
@@ -61,18 +61,18 @@ namespace GrowingPlants.Apis.Controllers
 
 		[HttpPut]
 		[Route("update/{id}")]
-		public async Task<ApiResult<bool>> UpdateTree(int id, Tree tree)
+		public async Task<ApiResult<bool>> UpdateTree(int id, Light light)
 		{
 			try
 			{
 				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Update tree");
+				_logger.LogInformation("Update light");
 
-				tree.Id = id;
+				light.Id = id;
 
-				var result = await _treeService.UpdateTree(tree);
+				var result = await _lightService.UpdateLight(light);
 
-				_logger.LogInformation("Update tree complete");
+				_logger.LogInformation("Update light complete");
 
 				stopwatch.Stop();
 				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
@@ -82,7 +82,7 @@ namespace GrowingPlants.Apis.Controllers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogInformation($"Update tree error: {ex}");
+				_logger.LogInformation($"Update light error: {ex}");
 
 				return new ApiResult<bool>
 				{

@@ -15,30 +15,30 @@ namespace GrowingPlants.Apis.Controllers
 	[Authorize(Roles = Constants.UserRole.Admin)]
 	[ApiController]
 	[Route("api/[controller]")]
-	public class TreeController : ControllerBase
+	public class MeasurementUnitController : ControllerBase
 	{
-		private readonly ITreeService _treeService;
+		private readonly IMeasurementUnitService _measurementUnitService;
 		private readonly ILogger _logger;
 
-		public TreeController(ILoggerFactory loggerFactory, ITreeService treeService)
+		public MeasurementUnitController(ILoggerFactory loggerFactory, IMeasurementUnitService measurementUnitService)
 		{
-			_treeService = treeService;
-			_logger = loggerFactory.CreateLogger(typeof(UserController));
+			_measurementUnitService = measurementUnitService;
+			_logger = loggerFactory.CreateLogger(typeof(MeasurementUnitController));
 		}
 
 
 		[HttpPost]
 		[Route("insert")]
-		public async Task<ApiResult<bool>> InsertTrees(IEnumerable<Tree> trees)
+		public async Task<ApiResult<bool>> InsertMeasurementUnits(IEnumerable<MeasurementUnit> measurementUnits)
 		{
 			try
 			{
 				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Insert trees");
+				_logger.LogInformation("Insert measurementUnits");
 
-				var result = await _treeService.InsertTrees(trees?.ToList());
+				var result = await _measurementUnitService.InsertMeasurementUnits(measurementUnits?.ToList());
 
-				_logger.LogInformation("Insert trees complete");
+				_logger.LogInformation("Insert measurementUnits complete");
 
 				stopwatch.Stop();
 				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
@@ -48,7 +48,7 @@ namespace GrowingPlants.Apis.Controllers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogInformation($"Insert trees error: {ex}");
+				_logger.LogInformation($"Insert measurementUnits error: {ex}");
 
 				return new ApiResult<bool>
 				{
@@ -61,18 +61,18 @@ namespace GrowingPlants.Apis.Controllers
 
 		[HttpPut]
 		[Route("update/{id}")]
-		public async Task<ApiResult<bool>> UpdateTree(int id, Tree tree)
+		public async Task<ApiResult<bool>> UpdateMeasurementUnit(int id, MeasurementUnit measurementUnit)
 		{
 			try
 			{
 				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Update tree");
+				_logger.LogInformation("Update measurementUnit");
 
-				tree.Id = id;
+				measurementUnit.Id = id;
 
-				var result = await _treeService.UpdateTree(tree);
+				var result = await _measurementUnitService.UpdateMeasurementUnit(measurementUnit);
 
-				_logger.LogInformation("Update tree complete");
+				_logger.LogInformation("Update measurementUnit complete");
 
 				stopwatch.Stop();
 				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
@@ -82,7 +82,7 @@ namespace GrowingPlants.Apis.Controllers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogInformation($"Update tree error: {ex}");
+				_logger.LogInformation($"Update measurementUnit error: {ex}");
 
 				return new ApiResult<bool>
 				{

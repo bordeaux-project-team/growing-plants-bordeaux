@@ -47,6 +47,10 @@ namespace GrowingPlants.Apis
 
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<ITreeService, TreeService>();
+			services.AddScoped<IHumidityService, HumidityService>();
+			services.AddScoped<ILightService, LightService>();
+			services.AddScoped<ITemperatureService, TemperatureService>();
+			services.AddScoped<IMeasurementUnitService, MeasurementUnitService>();
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 			var secretKey = Encoding.ASCII.GetBytes(Configuration["Secret"]);
