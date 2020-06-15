@@ -23,7 +23,7 @@ namespace GrowingPlants.Apis.Controllers
 		public TreeController(ILoggerFactory loggerFactory, ITreeService treeService)
 		{
 			_treeService = treeService;
-			_logger = loggerFactory.CreateLogger(typeof(UserController));
+			_logger = loggerFactory.CreateLogger(typeof(TreeController));
 		}
 
 
