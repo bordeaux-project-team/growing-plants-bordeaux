@@ -24,6 +24,7 @@ namespace GrowingPlants.Apis.Controllers
 			_logger = loggerFactory.CreateLogger(typeof(UserController));
 		}
 
+		[Authorize(Roles = Constants.UserRole.Admin)]
 		[HttpGet]
 		[Route("test/{data}")]
 		public async Task<ApiResult<string>> TestApiResult(string data)

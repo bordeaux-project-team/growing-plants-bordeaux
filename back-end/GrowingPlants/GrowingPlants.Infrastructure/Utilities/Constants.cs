@@ -1,11 +1,11 @@
 ﻿namespace GrowingPlants.Infrastructure.Utilities
 {
-	public class Constants
+	public static class Constants
 	{
-		public enum UserRole
+		public struct UserRole
 		{
-			Client = 1,
-			Admin = 2
+			public const string Admin = "Admin";
+			public const string Client = "Client";
 		}
 	}
 }

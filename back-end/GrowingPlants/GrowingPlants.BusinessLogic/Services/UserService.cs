@@ -56,7 +56,12 @@ namespace GrowingPlants.BusinessLogic.Services
 
 			user.Password = HashPassword(user.Password);
 			user.CreatedAt = DateTime.UtcNow;
-			user.Role = Constants.UserRole.Client;
+
+			if (string.IsNullOrEmpty(user.Role))
+			{
+				user.Role = Constants.UserRole.Client;
+			}
+
 			user.Status = true;
 
 			var canInsert = await _unitOfWork.UserRepository.Insert(user);
@@ -118,7 +123,7 @@ namespace GrowingPlants.BusinessLogic.Services
 			{
 				Subject = new ClaimsIdentity(new[]
 				{
-					new Claim(ClaimTypes.Name, user.Id.ToString()), 
+					new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
 					new Claim(ClaimTypes.Email, user.Email),
 					new Claim(ClaimTypes.Role, user.Role.ToString())
 				}),

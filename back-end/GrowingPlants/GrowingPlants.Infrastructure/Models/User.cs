@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using GrowingPlants.Infrastructure.Utilities;
 
 namespace GrowingPlants.Infrastructure.Models
 {
@@ -12,7 +11,7 @@ namespace GrowingPlants.Infrastructure.Models
 		public bool Gender { get; set; }
 		public string Address { get; set; }
 		public string Email { get; set; }
-		public Constants.UserRole Role { get; set; }
+		public string Role { get; set; }
 		public string Password { get; set; }
 		public bool Status { get; set; }
 		public DateTime? CreatedAt { get; set; }

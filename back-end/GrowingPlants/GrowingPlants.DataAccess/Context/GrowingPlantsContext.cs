@@ -14,6 +14,11 @@ namespace GrowingPlants.DataAccess.Context
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
+			UserBuilder(modelBuilder);
+		}
+
+		private static void UserBuilder(ModelBuilder modelBuilder)
+		{
 			modelBuilder.Entity<User>().ToTable("User");
 			modelBuilder.Entity<User>().Property(x => x.Id).ValueGeneratedOnAdd();
 		}
