@@ -37,7 +37,7 @@ namespace GrowingPlants.BusinessLogic.Services
 
 			_logger.LogInformation($"Trees to insert: {JsonConvert.SerializeObject(trees)}");
 
-			trees.ForEach(tree => tree.CreatedAt = DateTime.UtcNow);
+			trees.ForEach(x => x.CreatedAt = DateTime.UtcNow);
 
 			var result = await _unitOfWork.TreeRepository.Insert(trees);
 

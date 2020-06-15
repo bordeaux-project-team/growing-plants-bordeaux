@@ -22,24 +22,24 @@ namespace GrowingPlants.BusinessLogic.Services
 			_logger = loggerFactory.CreateLogger(typeof(HumidityService));
 		}
 
-		public async Task<ApiResult<bool>> InsertTrees(List<Tree> trees)
+		public async Task<ApiResult<bool>> InsertHumidityList(List<Humidity> humidityList)
 		{
-			if (trees == null || !trees.Any())
+			if (humidityList == null || !humidityList.Any())
 			{
-				_logger.LogError("Trees is empty");
+				_logger.LogError("HumidityList is empty");
 				return new ApiResult<bool>
 				{
 					ApiCode = ApiCode.EmptyOrNullListObjects,
-					ErrorMessage = "Trees inputted is empty",
+					ErrorMessage = "HumidityList inputted is empty",
 					Result = false
 				};
 			}
 
-			_logger.LogInformation($"Trees to insert: {JsonConvert.SerializeObject(trees)}");
+			_logger.LogInformation($"HumidityList to insert: {JsonConvert.SerializeObject(humidityList)}");
 
-			trees.ForEach(tree => tree.CreatedAt = DateTime.UtcNow);
+			humidityList.ForEach(x => x.CreatedAt = DateTime.UtcNow);
 
-			var result = await _unitOfWork.TreeRepository.Insert(trees);
+			var result = await _unitOfWork.HumidityRepository.Insert(humidityList);
 
 			return new ApiResult<bool>
 			{
@@ -48,66 +48,45 @@ namespace GrowingPlants.BusinessLogic.Services
 			};
 		}
 
-		public async Task<ApiResult<bool>> UpdateTree(Tree tree)
+		public async Task<ApiResult<bool>> UpdateHumidity(Humidity humidity)
 		{
-			if (tree == null)
+			if (humidity == null)
 			{
-				_logger.LogError("Tree is null");
+				_logger.LogError("Humidity is null");
 				return new ApiResult<bool>
 				{
 					ApiCode = ApiCode.NullObject,
-					ErrorMessage = "Tree inputted is null",
+					ErrorMessage = "Humidity inputted is null",
 					Result = false
 				};
 			}
 
-			_logger.LogInformation($"Tree to update: {JsonConvert.SerializeObject(tree)}");
+			_logger.LogInformation($"Humidity to update: {JsonConvert.SerializeObject(humidity)}");
 
-			var existing = await _unitOfWork.TreeRepository.GetById(tree.Id);
+			var existing = await _unitOfWork.HumidityRepository.GetById(humidity.Id);
 			if (existing == null)
 			{
-				_logger.LogError($"Tree not found with id: {tree.Id}");
+				_logger.LogError($"Humidity not found with id: {humidity.Id}");
 				return new ApiResult<bool>
 				{
 					ApiCode = ApiCode.NotFound,
-					ErrorMessage = $"Tree not found with id: {tree.Id}",
+					ErrorMessage = $"Humidity not found with id: {humidity.Id}",
 					Result = false
 				};
 			}
 
-			existing.Name = tree.Name;
-			existing.Description = tree.Description;
-			existing.ComparisonWith = tree.ComparisonWith;
-			existing.ComparisonAgainst = tree.ComparisonAgainst;
-			existing.ExposureTime = tree.ExposureTime;
-			existing.FloweringTime = tree.FloweringTime;
-			existing.GardenType = tree.GardenType;
-			existing.GerminationTime = tree.GerminationTime;
-			existing.HarvestTime = tree.HarvestTime;
-			existing.HumidityId = tree.HumidityId;
-			existing.LightId = tree.LightId;
-			existing.Picture = tree.Picture;
-			existing.PlantingGuide = tree.PlantingGuide;
-			existing.VegetativeTime = tree.VegetativeTime;
-			existing.TemperatureId = tree.TemperatureId;
+			existing.Name = humidity.Name;
+			existing.FromUnit = humidity.FromUnit;
+			existing.MeasurementUnitId = humidity.MeasurementUnitId;
+			existing.ToUnit = humidity.ToUnit;
 			existing.UpdatedAt = DateTime.UtcNow;
 
-			var result = await _unitOfWork.TreeRepository.Update(existing);
+			var result = await _unitOfWork.HumidityRepository.Update(existing);
 			return new ApiResult<bool>
 			{
 				Result = result,
 				ApiCode = ApiCode.Success
 			};
-		}
-
-		public Task<ApiResult<bool>> InsertHumidityList(List<Humidity> humidityList)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<ApiResult<bool>> UpdateHumidity(Humidity humidity)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

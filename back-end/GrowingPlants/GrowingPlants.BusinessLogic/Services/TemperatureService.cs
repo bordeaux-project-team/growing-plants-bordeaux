@@ -22,34 +22,24 @@ namespace GrowingPlants.BusinessLogic.Services
 			_logger = loggerFactory.CreateLogger(typeof(TemperatureService));
 		}
 
-		public Task<ApiResult<bool>> InsertTemperatures(List<Temperature> temperatures)
+		public async Task<ApiResult<bool>> InsertTemperatures(List<Temperature> temperatures)
 		{
-			throw new NotImplementedException();
-		}
-
-		public Task<ApiResult<bool>> UpdateTemperature(Temperature temperature)
-		{
-			throw new NotImplementedException();
-		}
-
-		public async Task<ApiResult<bool>> InsertTrees(List<Tree> trees)
-		{
-			if (trees == null || !trees.Any())
+			if (temperatures == null || !temperatures.Any())
 			{
-				_logger.LogError("Trees is empty");
+				_logger.LogError("Temperatures is empty");
 				return new ApiResult<bool>
 				{
 					ApiCode = ApiCode.EmptyOrNullListObjects,
-					ErrorMessage = "Trees inputted is empty",
+					ErrorMessage = "Temperatures inputted is empty",
 					Result = false
 				};
 			}
 
-			_logger.LogInformation($"Trees to insert: {JsonConvert.SerializeObject(trees)}");
+			_logger.LogInformation($"Temperatures to insert: {JsonConvert.SerializeObject(temperatures)}");
 
-			trees.ForEach(tree => tree.CreatedAt = DateTime.UtcNow);
+			temperatures.ForEach(x => x.CreatedAt = DateTime.UtcNow);
 
-			var result = await _unitOfWork.TreeRepository.Insert(trees);
+			var result = await _unitOfWork.TemperatureRepository.Insert(temperatures);
 
 			return new ApiResult<bool>
 			{
@@ -58,51 +48,40 @@ namespace GrowingPlants.BusinessLogic.Services
 			};
 		}
 
-		public async Task<ApiResult<bool>> UpdateTree(Tree tree)
+		public async Task<ApiResult<bool>> UpdateTemperature(Temperature temperature)
 		{
-			if (tree == null)
+			if (temperature == null)
 			{
-				_logger.LogError("Tree is null");
+				_logger.LogError("Temperature is null");
 				return new ApiResult<bool>
 				{
 					ApiCode = ApiCode.NullObject,
-					ErrorMessage = "Tree inputted is null",
+					ErrorMessage = "Temperature inputted is null",
 					Result = false
 				};
 			}
 
-			_logger.LogInformation($"Tree to update: {JsonConvert.SerializeObject(tree)}");
+			_logger.LogInformation($"Temperature to update: {JsonConvert.SerializeObject(temperature)}");
 
-			var existing = await _unitOfWork.TreeRepository.GetById(tree.Id);
+			var existing = await _unitOfWork.TemperatureRepository.GetById(temperature.Id);
 			if (existing == null)
 			{
-				_logger.LogError($"Tree not found with id: {tree.Id}");
+				_logger.LogError($"Temperature not found with id: {temperature.Id}");
 				return new ApiResult<bool>
 				{
 					ApiCode = ApiCode.NotFound,
-					ErrorMessage = $"Tree not found with id: {tree.Id}",
+					ErrorMessage = $"Temperature not found with id: {temperature.Id}",
 					Result = false
 				};
 			}
 
-			existing.Name = tree.Name;
-			existing.Description = tree.Description;
-			existing.ComparisonWith = tree.ComparisonWith;
-			existing.ComparisonAgainst = tree.ComparisonAgainst;
-			existing.ExposureTime = tree.ExposureTime;
-			existing.FloweringTime = tree.FloweringTime;
-			existing.GardenType = tree.GardenType;
-			existing.GerminationTime = tree.GerminationTime;
-			existing.HarvestTime = tree.HarvestTime;
-			existing.HumidityId = tree.HumidityId;
-			existing.LightId = tree.LightId;
-			existing.Picture = tree.Picture;
-			existing.PlantingGuide = tree.PlantingGuide;
-			existing.VegetativeTime = tree.VegetativeTime;
-			existing.TemperatureId = tree.TemperatureId;
+			existing.Name = temperature.Name;
+			existing.MeasurementUnitId = temperature.MeasurementUnitId;
+			existing.FromDegree = temperature.FromDegree;
+			existing.ToDegree = temperature.ToDegree;
 			existing.UpdatedAt = DateTime.UtcNow;
 
-			var result = await _unitOfWork.TreeRepository.Update(existing);
+			var result = await _unitOfWork.TemperatureRepository.Update(existing);
 			return new ApiResult<bool>
 			{
 				Result = result,
