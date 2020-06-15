@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GrowingPlants.DataAccess.Context;
 using GrowingPlants.DataAccess.IRepositories;
 using GrowingPlants.Infrastructure.Models;

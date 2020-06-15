@@ -1,0 +1,23 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using GrowingPlants.DataAccess.Context;
+using GrowingPlants.DataAccess.IRepositories;
+using GrowingPlants.Infrastructure.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace GrowingPlants.DataAccess.Repositories
+{
+	public class TreeRepository : Repository<Tree>, ITreeRepository
+	{
+		public TreeRepository(GrowingPlantsContext context) : base(context)
+		{
+		}
+
+		public async Task<IEnumerable<Tree>> GetAll()
+		{
+			return await Context.Trees
+				.Include(x => x.Temperature)
+				.ToListAsync();
+		}
+	}
+}

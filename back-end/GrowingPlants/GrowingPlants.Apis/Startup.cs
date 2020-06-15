@@ -46,6 +46,7 @@ namespace GrowingPlants.Apis
 			services.AddDbContext<GrowingPlantsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GrowingPlantsDb")));
 
 			services.AddScoped<IUserService, UserService>();
+			services.AddScoped<ITreeService, TreeService>();
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 			var secretKey = Encoding.ASCII.GetBytes(Configuration["Secret"]);

@@ -7,10 +7,12 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
 	public class UnitOfWork : IUnitOfWork
 	{
 		public IUserRepository UserRepository { get; set; }
+		public ITreeRepository TreeRepository { get; set; }
 
 		public UnitOfWork(GrowingPlantsContext context)
 		{
 			UserRepository = new UserRepository(context);
+			TreeRepository = new TreeRepository(context);
 		}
 	}
 }
