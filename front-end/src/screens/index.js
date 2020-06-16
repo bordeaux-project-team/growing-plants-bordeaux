@@ -1,3 +1,10 @@
-import LoginContainer from './login';
+import React, {Component} from 'react';
+import MainScreen from './main-screen.component';
 
-export {LoginContainer};
+class MainScreenContainer extends Component {
+  render() {
+    return <MainScreen />;
+  }
+}
+
+export {MainScreenContainer};
