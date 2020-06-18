@@ -33,11 +33,11 @@ namespace GrowingPlants.Apis.Controllers
 			try
 			{
 				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Insert plantingProcesses");
+				_logger.LogInformation("Insert plantingEnvironments");
 
 				var result = await _plantingEnvironmentService.InsertPlantingEnvironments(plantingEnvironments?.ToList());
 
-				_logger.LogInformation("Insert plantingProcesses complete");
+				_logger.LogInformation("Insert plantingEnvironments complete");
 
 				stopwatch.Stop();
 				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
@@ -47,7 +47,7 @@ namespace GrowingPlants.Apis.Controllers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogInformation($"Insert plantingProcesses error: {ex}");
+				_logger.LogInformation($"Insert plantingEnvironments error: {ex}");
 
 				return new ApiResult<bool>
 				{

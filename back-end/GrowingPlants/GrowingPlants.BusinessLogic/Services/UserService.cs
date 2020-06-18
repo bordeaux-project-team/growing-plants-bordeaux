@@ -125,7 +125,7 @@ namespace GrowingPlants.BusinessLogic.Services
 				{
 					new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
 					new Claim(ClaimTypes.Email, user.Email),
-					new Claim(ClaimTypes.Role, user.Role.ToString())
+					new Claim(ClaimTypes.Role, user.Role)
 				}),
 				Expires = DateTime.UtcNow.AddDays(30),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature)

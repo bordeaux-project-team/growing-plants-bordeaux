@@ -55,10 +55,10 @@ namespace GrowingPlants.Apis
 
 			var secretKey = Encoding.ASCII.GetBytes(Configuration["Secret"]);
 			services.AddAuthentication(x =>
-				{
-					x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-					x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-				})
+			{
+				x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
 				.AddJwtBearer(x =>
 				{
 					x.RequireHttpsMetadata = false;
@@ -89,7 +89,7 @@ namespace GrowingPlants.Apis
 					}
 				};
 				c.AddSecurityDefinition("Bearer", securitySchema);
-				c.AddSecurityRequirement(new OpenApiSecurityRequirement {{securitySchema, new[] {"Bearer"}}});
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement { { securitySchema, new[] { "Bearer" } } });
 			});
 		}
 
@@ -122,7 +122,7 @@ namespace GrowingPlants.Apis
 			});
 
 			loggerFactory.AddSerilog();
-			loggerFactory.AddFile("Logs/log-{Date}.txt");
+			loggerFactory.AddFile("Logs/log.txt");
 
 			context.Database.Migrate();
 		}
