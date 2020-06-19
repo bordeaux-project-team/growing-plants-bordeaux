@@ -7,31 +7,27 @@ import Button from '../common/button.component';
 
 const LoginForm = props => {
   return (
-    <View>
-      <View style={styles.form}>
-        <View>
-          <InputText
-            inputStyle={loginInputStyles.username}
-            iconName="user"
-            iconStyle={loginInputStyles.usernameIcon}
-            placeholder="Email"
-            textInputStyle={loginInputStyles.usernameInput}
-          />
-          <InputText
-            inputStyle={loginInputStyles.password}
-            iconName="lock"
-            iconStyle={loginInputStyles.passwordIcon}
-            placeholder="Password"
-            textInputStyle={loginInputStyles.passwordInput}
-          />
-          <Button
-            doPress={props.doLogin}
-            buttonTypeStyle={styles.loginButton}
-            buttonTextStyle={styles.loginButtonText}
-            buttonText="Log in"
-          />
-        </View>
-      </View>
+    <View style={styles.form}>
+      <InputText
+        inputStyle={loginInputStyles.username}
+        iconName="user"
+        iconStyle={loginInputStyles.usernameIcon}
+        placeholder="Email"
+        textInputStyle={loginInputStyles.usernameInput}
+      />
+      <InputText
+        inputStyle={loginInputStyles.password}
+        iconName="lock"
+        iconStyle={loginInputStyles.passwordIcon}
+        placeholder="Password"
+        textInputStyle={loginInputStyles.passwordInput}
+      />
+      <Button
+        doPress={props.doLogin}
+        buttonTypeStyle={loginInputStyles.mainButton}
+        buttonTextStyle={loginInputStyles.mainButtonText}
+        buttonText="Log in"
+      />
       <View style={styles.footerTexts}>
         <Button
           doPress={props.doLogin}

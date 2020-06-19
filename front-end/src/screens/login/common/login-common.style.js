@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import commonStyles from '../../styles/common.style';
 
 const styles = StyleSheet.create({
   username: {
@@ -55,6 +56,14 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,1)',
     alignSelf: 'flex-end',
   },
+  mainButton: {
+    height: 59,
+    backgroundColor: 'rgba(31,178,204,1)',
+    borderRadius: 5,
+    justifyContent: 'center',
+    marginTop: 27,
+  },
+  mainButtonText: commonStyles.whiteCenterText,
 });
 
 export default styles;

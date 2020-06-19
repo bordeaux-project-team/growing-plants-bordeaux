@@ -5,6 +5,10 @@ const commonStyles = StyleSheet.create({
     color: 'rgba(255,255,255,1)',
     alignSelf: 'center',
   },
+  loginForm: {
+    height: 230,
+    marginTop: 60,
+  },
 });
 
 export default commonStyles;
