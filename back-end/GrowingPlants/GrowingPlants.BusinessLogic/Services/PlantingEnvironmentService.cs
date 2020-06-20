@@ -131,14 +131,54 @@ namespace GrowingPlants.BusinessLogic.Services
             };
         }
 
-        public Task<ApiResult<List<Garden>>> GetGardensByEnvironmentId(int id)
+        public async Task<ApiResult<List<PlantingSpot>>> GetPlantingSpotsByEnvironmentId(int id)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Environment id {id}");
+
+            var plantingSpots = await _unitOfWork.PlantingSpotRepository.GetPlantingSpotsByEnvironmentId(id);
+
+            if (plantingSpots == null || !plantingSpots.Any())
+            {
+                return new ApiResult<List<PlantingSpot>>
+                {
+                    ApiCode = ApiCode.NotFound,
+                    Result = null,
+                    ErrorMessage = $"PlantingSpots not found with environment id: {id}"
+                };
+            }
+
+            return new ApiResult<List<PlantingSpot>>
+            {
+                Result = plantingSpots,
+                ApiCode = ApiCode.Success
+            };
         }
 
-        public Task<ApiResult<bool>> InsertUpdateGardens(List<Garden> gardens)
+        public async Task<ApiResult<bool>> InsertUpdatePlantingSpots(int environmentId, List<PlantingSpot> plantingSpots)
         {
-            throw new NotImplementedException();
+            if (plantingSpots == null || !plantingSpots.Any())
+            {
+                _logger.LogError("PlantingSpots is empty");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.EmptyOrNullListObjects,
+                    ErrorMessage = "PlantingSpots inputted is empty",
+                    Result = false
+                };
+            }
+            _logger.LogInformation($"Insert or update plantingSpots for {environmentId} - {JsonConvert.SerializeObject(plantingSpots)}");
+            var existing = await _unitOfWork.PlantingSpotRepository.GetPlantingSpotsByEnvironmentId(environmentId);
+
+            if (existing == null || !existing.Any())
+            {
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NotFound,
+                    Result = false,
+                    ErrorMessage = $"PlantingSpots not found with environment id: {environmentId}"
+                };
+            }
+
         }
 
         public async Task<ApiResult<bool>> InsertHumidityList(List<Humidity> humidityList)

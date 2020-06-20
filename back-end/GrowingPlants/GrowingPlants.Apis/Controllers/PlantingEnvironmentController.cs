@@ -157,17 +157,17 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/gardens")]
-        public async Task<ApiResult<List<Garden>>> GetGardensByEnvironmentId(int id)
+        [Route("{id}/plantingSpots")]
+        public async Task<ApiResult<List<PlantingSpot>>> GetPlantingSpotsByEnvironmentId(int id)
         {
             try
             {
                 var stopwatch = Stopwatch.StartNew();
-                _logger.LogInformation("Get gardens by plantingEnvironment Id");
+                _logger.LogInformation("Get plantingSpots by plantingEnvironment Id");
 
-                var result = await _plantingEnvironmentService.GetGardensByEnvironmentId(id);
+                var result = await _plantingEnvironmentService.GetPlantingSpotsByEnvironmentId(id);
 
-                _logger.LogInformation("Get gardens by plantingEnvironment Id complete");
+                _logger.LogInformation("Get plantingSpots by plantingEnvironment Id complete");
 
                 stopwatch.Stop();
                 result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
@@ -177,9 +177,9 @@ namespace GrowingPlants.Apis.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Get gardens by plantingEnvironment Id error: {ex}");
+                _logger.LogInformation($"Get plantingSpots by plantingEnvironment Id error: {ex}");
 
-                return new ApiResult<List<Garden>>
+                return new ApiResult<List<PlantingSpot>>
                 {
                     Result = null,
                     ApiCode = ApiCode.UnknownError,
@@ -189,17 +189,17 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpGet]
-        [Route("gardens/insert-update")]
-        public async Task<ApiResult<bool>> InsertUpdateGardens(List<Garden> gardens)
+        [Route("{id}/plantingSpots/insert-update")]
+        public async Task<ApiResult<bool>> InsertUpdatePlantingSpots(int environmentId, List<PlantingSpot> plantingSpots)
         {
             try
             {
                 var stopwatch = Stopwatch.StartNew();
-                _logger.LogInformation("Insert or update gardens");
+                _logger.LogInformation("Insert or update plantingSpots");
 
-                var result = await _plantingEnvironmentService.InsertUpdateGardens(gardens);
+                var result = await _plantingEnvironmentService.InsertUpdatePlantingSpots(environmentId, plantingSpots);
 
-                _logger.LogInformation("Insert or update gardens complete");
+                _logger.LogInformation("Insert or update plantingSpots complete");
 
                 stopwatch.Stop();
                 result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
@@ -209,7 +209,7 @@ namespace GrowingPlants.Apis.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Insert or update gardens error: {ex}");
+                _logger.LogInformation($"Insert or update plantingSpots error: {ex}");
 
                 return new ApiResult<bool>
                 {

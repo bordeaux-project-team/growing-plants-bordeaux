@@ -1,6 +1,6 @@
 ﻿namespace GrowingPlants.Infrastructure.Models
 {
-    public class Garden : BaseModel
+    public class PlantingSpot : BaseModel
     {
         public int? TreeId { get; set; }
         public Tree Tree { get; set; }

@@ -16,7 +16,7 @@ namespace GrowingPlants.BusinessLogic.IServices
         Task<ApiResult<bool>> UpdateHumidity(Humidity humidity);
         Task<ApiResult<bool>> DeletePlantingEnvironment(int id);
         Task<ApiResult<List<PlantingEnvironment>>> GetPlantingEnvironmentsByUser(int userId);
-        Task<ApiResult<List<Garden>>> GetGardensByEnvironmentId(int id);
-        Task<ApiResult<bool>> InsertUpdateGardens(List<Garden> gardens);
+        Task<ApiResult<List<PlantingSpot>>> GetPlantingSpotsByEnvironmentId(int id);
+        Task<ApiResult<bool>> InsertUpdatePlantingSpots(int environmentId, List<PlantingSpot> plantingSpots);
     }
 }
