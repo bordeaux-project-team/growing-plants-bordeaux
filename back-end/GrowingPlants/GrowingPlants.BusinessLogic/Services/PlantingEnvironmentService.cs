@@ -11,225 +11,319 @@ using Newtonsoft.Json;
 
 namespace GrowingPlants.BusinessLogic.Services
 {
-	public class PlantingEnvironmentService : IPlantingEnvironmentService
-	{
-		private readonly IUnitOfWork _unitOfWork;
-		private readonly ILogger _logger;
-		public PlantingEnvironmentService(ILoggerFactory loggerFactory, IUnitOfWork unitOfWork)
-		{
-			_unitOfWork = unitOfWork;
-			_logger = loggerFactory.CreateLogger(typeof(PlantingEnvironmentService));
-		}
+    public class PlantingEnvironmentService : IPlantingEnvironmentService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger _logger;
+        public PlantingEnvironmentService(ILoggerFactory loggerFactory, IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+            _logger = loggerFactory.CreateLogger(typeof(PlantingEnvironmentService));
+        }
 
-		public Task<ApiResult<bool>> InsertPlantingEnvironments(List<PlantingEnvironment> plantingEnvironments)
-		{
-			throw new System.NotImplementedException();
-		}
+        public async Task<ApiResult<bool>> InsertPlantingEnvironment(PlantingEnvironment plantingEnvironment)
+        {
+            if (plantingEnvironment == null)
+            {
+                _logger.LogError("plantingEnvironment is null");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NullObject,
+                    ErrorMessage = "plantingEnvironment inputted is null",
+                    Result = false
+                };
+            }
 
-		public Task<ApiResult<bool>> UpdatePlantingEnvironment(PlantingEnvironment plantingEnvironment)
-		{
-			throw new NotImplementedException();
-		}
+            if (plantingEnvironment.UserId == null)
+            {
+                _logger.LogError($"User id is null for {JsonConvert.SerializeObject(plantingEnvironment)}");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NullObject,
+                    ErrorMessage = "User id is null",
+                    Result = false
+                };
+            }
 
-		public async Task<ApiResult<bool>> InsertHumidityList(List<Humidity> humidityList)
-		{
-			if (humidityList == null || !humidityList.Any())
-			{
-				_logger.LogError("HumidityList is empty");
-				return new ApiResult<bool>
-				{
-					ApiCode = ApiCode.EmptyOrNullListObjects,
-					ErrorMessage = "HumidityList inputted is empty",
-					Result = false
-				};
-			}
+            _logger.LogInformation($"Insert planting environment: {JsonConvert.SerializeObject(plantingEnvironment)}");
 
-			_logger.LogInformation($"HumidityList to insert: {JsonConvert.SerializeObject(humidityList)}");
+            var insertResult = await _unitOfWork.PlantingEnvironmentRepository.Insert(plantingEnvironment);
 
-			humidityList.ForEach(x => x.CreatedAt = DateTime.UtcNow);
+            return new ApiResult<bool>
+            {
+                Result = insertResult,
+                ApiCode = ApiCode.Success
+            };
+        }
 
-			var result = await _unitOfWork.HumidityRepository.Insert(humidityList);
+        public async Task<ApiResult<bool>> UpdatePlantingEnvironment(PlantingEnvironment plantingEnvironment)
+        {
+            if (plantingEnvironment == null)
+            {
+                _logger.LogError("plantingEnvironment is null");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NullObject,
+                    ErrorMessage = "plantingEnvironment inputted is null",
+                    Result = false
+                };
+            }
 
-			return new ApiResult<bool>
-			{
-				ApiCode = ApiCode.Success,
-				Result = result
-			};
-		}
+            _logger.LogInformation($"plantingEnvironment to update: {JsonConvert.SerializeObject(plantingEnvironment)}");
 
-		public async Task<ApiResult<bool>> UpdateHumidity(Humidity humidity)
-		{
-			if (humidity == null)
-			{
-				_logger.LogError("Humidity is null");
-				return new ApiResult<bool>
-				{
-					ApiCode = ApiCode.NullObject,
-					ErrorMessage = "Humidity inputted is null",
-					Result = false
-				};
-			}
+            var existing = await _unitOfWork.PlantingEnvironmentRepository.GetById(plantingEnvironment.Id);
+            if (existing == null)
+            {
+                _logger.LogError($"plantingEnvironment not found with id: {plantingEnvironment.Id}");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NotFound,
+                    ErrorMessage = $"plantingEnvironment not found with id: {plantingEnvironment.Id}",
+                    Result = false
+                };
+            }
 
-			_logger.LogInformation($"Humidity to update: {JsonConvert.SerializeObject(humidity)}");
+            existing.Name = plantingEnvironment.Name;
+            existing.CountryId = plantingEnvironment.CountryId;
+            existing.HumidityId = plantingEnvironment.HumidityId;
+            existing.TemperatureId = plantingEnvironment.TemperatureId;
+            existing.ExposureTime = plantingEnvironment.ExposureTime;
+            existing.Length = plantingEnvironment.Length;
+            existing.Width = plantingEnvironment.Width;
+            existing.LightId = plantingEnvironment.LightId;
+            existing.Light = plantingEnvironment.Light;
+            existing.Type = plantingEnvironment.Type;
+            existing.UpdatedAt = DateTime.UtcNow;
 
-			var existing = await _unitOfWork.HumidityRepository.GetById(humidity.Id);
-			if (existing == null)
-			{
-				_logger.LogError($"Humidity not found with id: {humidity.Id}");
-				return new ApiResult<bool>
-				{
-					ApiCode = ApiCode.NotFound,
-					ErrorMessage = $"Humidity not found with id: {humidity.Id}",
-					Result = false
-				};
-			}
+            var result = await _unitOfWork.PlantingEnvironmentRepository.Update(existing);
+            return new ApiResult<bool>
+            {
+                Result = result,
+                ApiCode = ApiCode.Success
+            };
+        }
 
-			existing.Name = humidity.Name;
-			existing.FromUnit = humidity.FromUnit;
-			existing.MeasurementUnitId = humidity.MeasurementUnitId;
-			existing.ToUnit = humidity.ToUnit;
-			existing.UpdatedAt = DateTime.UtcNow;
+        public async Task<ApiResult<bool>> DeletePlantingEnvironment(int id)
+        {
+            var toDelete = await _unitOfWork.PlantingEnvironmentRepository.GetById(id);
+            if (toDelete == null)
+            {
+                _logger.LogError($"plantingEnvironment not found with id: {id}");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NotFound,
+                    ErrorMessage = $"plantingEnvironment not found with id: {id}",
+                    Result = false
+                };
+            }
+            _logger.LogInformation($"Delete plantingEnvironment with Id: {id} - {JsonConvert.SerializeObject(toDelete)}");
+            var deleteResult = await _unitOfWork.PlantingEnvironmentRepository.Delete(toDelete);
+            return new ApiResult<bool>
+            {
+                Result = deleteResult,
+                ApiCode = ApiCode.Success
+            };
+        }
 
-			var result = await _unitOfWork.HumidityRepository.Update(existing);
-			return new ApiResult<bool>
-			{
-				Result = result,
-				ApiCode = ApiCode.Success
-			};
-		}
+        public async Task<ApiResult<bool>> InsertHumidityList(List<Humidity> humidityList)
+        {
+            if (humidityList == null || !humidityList.Any())
+            {
+                _logger.LogError("HumidityList is empty");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.EmptyOrNullListObjects,
+                    ErrorMessage = "HumidityList inputted is empty",
+                    Result = false
+                };
+            }
 
-		public async Task<ApiResult<bool>> InsertLights(List<Light> lights)
-		{
-			if (lights == null || !lights.Any())
-			{
-				_logger.LogError("Lights is empty");
-				return new ApiResult<bool>
-				{
-					ApiCode = ApiCode.EmptyOrNullListObjects,
-					ErrorMessage = "Lights inputted is empty",
-					Result = false
-				};
-			}
+            _logger.LogInformation($"HumidityList to insert: {JsonConvert.SerializeObject(humidityList)}");
 
-			_logger.LogInformation($"Lights to insert: {JsonConvert.SerializeObject(lights)}");
+            humidityList.ForEach(x => x.CreatedAt = DateTime.UtcNow);
 
-			lights.ForEach(x => x.CreatedAt = DateTime.UtcNow);
+            var result = await _unitOfWork.HumidityRepository.Insert(humidityList);
 
-			var result = await _unitOfWork.LightRepository.Insert(lights);
+            return new ApiResult<bool>
+            {
+                ApiCode = ApiCode.Success,
+                Result = result
+            };
+        }
 
-			return new ApiResult<bool>
-			{
-				ApiCode = ApiCode.Success,
-				Result = result
-			};
-		}
+        public async Task<ApiResult<bool>> UpdateHumidity(Humidity humidity)
+        {
+            if (humidity == null)
+            {
+                _logger.LogError("Humidity is null");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NullObject,
+                    ErrorMessage = "Humidity inputted is null",
+                    Result = false
+                };
+            }
 
-		public async Task<ApiResult<bool>> UpdateLight(Light light)
-		{
-			if (light == null)
-			{
-				_logger.LogError("Light is null");
-				return new ApiResult<bool>
-				{
-					ApiCode = ApiCode.NullObject,
-					ErrorMessage = "Light inputted is null",
-					Result = false
-				};
-			}
+            _logger.LogInformation($"Humidity to update: {JsonConvert.SerializeObject(humidity)}");
 
-			_logger.LogInformation($"Light to update: {JsonConvert.SerializeObject(light)}");
+            var existing = await _unitOfWork.HumidityRepository.GetById(humidity.Id);
+            if (existing == null)
+            {
+                _logger.LogError($"Humidity not found with id: {humidity.Id}");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NotFound,
+                    ErrorMessage = $"Humidity not found with id: {humidity.Id}",
+                    Result = false
+                };
+            }
 
-			var existing = await _unitOfWork.LightRepository.GetById(light.Id);
-			if (existing == null)
-			{
-				_logger.LogError($"Light not found with id: {light.Id}");
-				return new ApiResult<bool>
-				{
-					ApiCode = ApiCode.NotFound,
-					ErrorMessage = $"Light not found with id: {light.Id}",
-					Result = false
-				};
-			}
+            existing.Name = humidity.Name;
+            existing.FromUnit = humidity.FromUnit;
+            existing.MeasurementUnitId = humidity.MeasurementUnitId;
+            existing.ToUnit = humidity.ToUnit;
+            existing.UpdatedAt = DateTime.UtcNow;
 
-			existing.Name = light.Name;
-			existing.MeasurementUnitId = light.MeasurementUnitId;
-			existing.FromUnit = light.FromUnit;
-			existing.ToUnit = light.ToUnit;
-			existing.UpdatedAt = DateTime.UtcNow;
+            var result = await _unitOfWork.HumidityRepository.Update(existing);
+            return new ApiResult<bool>
+            {
+                Result = result,
+                ApiCode = ApiCode.Success
+            };
+        }
 
-			var result = await _unitOfWork.LightRepository.Update(existing);
-			return new ApiResult<bool>
-			{
-				Result = result,
-				ApiCode = ApiCode.Success
-			};
-		}
+        public async Task<ApiResult<bool>> InsertLights(List<Light> lights)
+        {
+            if (lights == null || !lights.Any())
+            {
+                _logger.LogError("Lights is empty");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.EmptyOrNullListObjects,
+                    ErrorMessage = "Lights inputted is empty",
+                    Result = false
+                };
+            }
 
-		public async Task<ApiResult<bool>> InsertTemperatures(List<Temperature> temperatures)
-		{
-			if (temperatures == null || !temperatures.Any())
-			{
-				_logger.LogError("Temperatures is empty");
-				return new ApiResult<bool>
-				{
-					ApiCode = ApiCode.EmptyOrNullListObjects,
-					ErrorMessage = "Temperatures inputted is empty",
-					Result = false
-				};
-			}
+            _logger.LogInformation($"Lights to insert: {JsonConvert.SerializeObject(lights)}");
 
-			_logger.LogInformation($"Temperatures to insert: {JsonConvert.SerializeObject(temperatures)}");
+            lights.ForEach(x => x.CreatedAt = DateTime.UtcNow);
 
-			temperatures.ForEach(x => x.CreatedAt = DateTime.UtcNow);
+            var result = await _unitOfWork.LightRepository.Insert(lights);
 
-			var result = await _unitOfWork.TemperatureRepository.Insert(temperatures);
+            return new ApiResult<bool>
+            {
+                ApiCode = ApiCode.Success,
+                Result = result
+            };
+        }
 
-			return new ApiResult<bool>
-			{
-				ApiCode = ApiCode.Success,
-				Result = result
-			};
-		}
+        public async Task<ApiResult<bool>> UpdateLight(Light light)
+        {
+            if (light == null)
+            {
+                _logger.LogError("Light is null");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NullObject,
+                    ErrorMessage = "Light inputted is null",
+                    Result = false
+                };
+            }
 
-		public async Task<ApiResult<bool>> UpdateTemperature(Temperature temperature)
-		{
-			if (temperature == null)
-			{
-				_logger.LogError("Temperature is null");
-				return new ApiResult<bool>
-				{
-					ApiCode = ApiCode.NullObject,
-					ErrorMessage = "Temperature inputted is null",
-					Result = false
-				};
-			}
+            _logger.LogInformation($"Light to update: {JsonConvert.SerializeObject(light)}");
 
-			_logger.LogInformation($"Temperature to update: {JsonConvert.SerializeObject(temperature)}");
+            var existing = await _unitOfWork.LightRepository.GetById(light.Id);
+            if (existing == null)
+            {
+                _logger.LogError($"Light not found with id: {light.Id}");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NotFound,
+                    ErrorMessage = $"Light not found with id: {light.Id}",
+                    Result = false
+                };
+            }
 
-			var existing = await _unitOfWork.TemperatureRepository.GetById(temperature.Id);
-			if (existing == null)
-			{
-				_logger.LogError($"Temperature not found with id: {temperature.Id}");
-				return new ApiResult<bool>
-				{
-					ApiCode = ApiCode.NotFound,
-					ErrorMessage = $"Temperature not found with id: {temperature.Id}",
-					Result = false
-				};
-			}
+            existing.Name = light.Name;
+            existing.MeasurementUnitId = light.MeasurementUnitId;
+            existing.FromUnit = light.FromUnit;
+            existing.ToUnit = light.ToUnit;
+            existing.UpdatedAt = DateTime.UtcNow;
 
-			existing.Name = temperature.Name;
-			existing.MeasurementUnitId = temperature.MeasurementUnitId;
-			existing.FromDegree = temperature.FromDegree;
-			existing.ToDegree = temperature.ToDegree;
-			existing.UpdatedAt = DateTime.UtcNow;
+            var result = await _unitOfWork.LightRepository.Update(existing);
+            return new ApiResult<bool>
+            {
+                Result = result,
+                ApiCode = ApiCode.Success
+            };
+        }
 
-			var result = await _unitOfWork.TemperatureRepository.Update(existing);
-			return new ApiResult<bool>
-			{
-				Result = result,
-				ApiCode = ApiCode.Success
-			};
-		}
-	}
+        public async Task<ApiResult<bool>> InsertTemperatures(List<Temperature> temperatures)
+        {
+            if (temperatures == null || !temperatures.Any())
+            {
+                _logger.LogError("Temperatures is empty");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.EmptyOrNullListObjects,
+                    ErrorMessage = "Temperatures inputted is empty",
+                    Result = false
+                };
+            }
+
+            _logger.LogInformation($"Temperatures to insert: {JsonConvert.SerializeObject(temperatures)}");
+
+            temperatures.ForEach(x => x.CreatedAt = DateTime.UtcNow);
+
+            var result = await _unitOfWork.TemperatureRepository.Insert(temperatures);
+
+            return new ApiResult<bool>
+            {
+                ApiCode = ApiCode.Success,
+                Result = result
+            };
+        }
+
+        public async Task<ApiResult<bool>> UpdateTemperature(Temperature temperature)
+        {
+            if (temperature == null)
+            {
+                _logger.LogError("Temperature is null");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NullObject,
+                    ErrorMessage = "Temperature inputted is null",
+                    Result = false
+                };
+            }
+
+            _logger.LogInformation($"Temperature to update: {JsonConvert.SerializeObject(temperature)}");
+
+            var existing = await _unitOfWork.TemperatureRepository.GetById(temperature.Id);
+            if (existing == null)
+            {
+                _logger.LogError($"Temperature not found with id: {temperature.Id}");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NotFound,
+                    ErrorMessage = $"Temperature not found with id: {temperature.Id}",
+                    Result = false
+                };
+            }
+
+            existing.Name = temperature.Name;
+            existing.MeasurementUnitId = temperature.MeasurementUnitId;
+            existing.FromDegree = temperature.FromDegree;
+            existing.ToDegree = temperature.ToDegree;
+            existing.UpdatedAt = DateTime.UtcNow;
+
+            var result = await _unitOfWork.TemperatureRepository.Update(existing);
+            return new ApiResult<bool>
+            {
+                Result = result,
+                ApiCode = ApiCode.Success
+            };
+        }
+    }
 }

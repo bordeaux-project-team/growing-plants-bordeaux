@@ -4,14 +4,16 @@ using GrowingPlants.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrowingPlants.DataAccess.Migrations
 {
     [DbContext(typeof(GrowingPlantsContext))]
-    partial class GrowingPlantsContextModelSnapshot : ModelSnapshot
+    [Migration("20200620050214_AddUserToPlantingEnvironment")]
+    partial class AddUserToPlantingEnvironment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,34 +71,6 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("FavoriteTree");
-                });
-
-            modelBuilder.Entity("GrowingPlants.Infrastructure.Models.Garden", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PlantingEnvironmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TreeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlantingEnvironmentId");
-
-                    b.HasIndex("TreeId");
-
-                    b.ToTable("Garden");
                 });
 
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.Humidity", b =>
@@ -490,6 +464,9 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PlantingEnvironmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PlantingGuide")
                         .HasColumnType("nvarchar(max)");
 
@@ -507,6 +484,8 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.HasIndex("HumidityId");
 
                     b.HasIndex("LightId");
+
+                    b.HasIndex("PlantingEnvironmentId");
 
                     b.HasIndex("TemperatureId");
 
@@ -567,17 +546,6 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.HasOne("GrowingPlants.Infrastructure.Models.User", "User")
                         .WithMany("FavoriteTrees")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("GrowingPlants.Infrastructure.Models.Garden", b =>
-                {
-                    b.HasOne("GrowingPlants.Infrastructure.Models.PlantingEnvironment", "PlantingEnvironment")
-                        .WithMany()
-                        .HasForeignKey("PlantingEnvironmentId");
-
-                    b.HasOne("GrowingPlants.Infrastructure.Models.Tree", "Tree")
-                        .WithMany()
-                        .HasForeignKey("TreeId");
                 });
 
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.Humidity", b =>
@@ -670,6 +638,10 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.HasOne("GrowingPlants.Infrastructure.Models.Light", "Light")
                         .WithMany("Trees")
                         .HasForeignKey("LightId");
+
+                    b.HasOne("GrowingPlants.Infrastructure.Models.PlantingEnvironment", "PlantingEnvironment")
+                        .WithMany("Trees")
+                        .HasForeignKey("PlantingEnvironmentId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.Temperature", "Temperature")
                         .WithMany("Trees")

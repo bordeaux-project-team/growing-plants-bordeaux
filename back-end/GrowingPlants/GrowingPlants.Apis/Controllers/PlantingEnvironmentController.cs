@@ -12,282 +12,318 @@ using Microsoft.Extensions.Logging;
 
 namespace GrowingPlants.Apis.Controllers
 {
-	[Authorize(Roles = Constants.UserRole.Admin)]
-	[ApiController]
-	[Route("api/[controller]")]
-	public class PlantingEnvironmentController : ControllerBase
-	{
-		private readonly IPlantingEnvironmentService _plantingEnvironmentService;
-		private readonly ILogger _logger;
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
+    public class PlantingEnvironmentController : ControllerBase
+    {
+        private readonly IPlantingEnvironmentService _plantingEnvironmentService;
+        private readonly ILogger _logger;
 
-		public PlantingEnvironmentController(ILoggerFactory loggerFactory, IPlantingEnvironmentService plantingEnvironmentService)
-		{
-			_plantingEnvironmentService = plantingEnvironmentService;
-			_logger = loggerFactory.CreateLogger(typeof(PlantingEnvironmentController));
-		}
+        public PlantingEnvironmentController(ILoggerFactory loggerFactory, IPlantingEnvironmentService plantingEnvironmentService)
+        {
+            _plantingEnvironmentService = plantingEnvironmentService;
+            _logger = loggerFactory.CreateLogger(typeof(PlantingEnvironmentController));
+        }
 
-		[HttpPost]
-		[Route("insert")]
-		public async Task<ApiResult<bool>> InsertPlantingEnvironments(IEnumerable<PlantingEnvironment> plantingEnvironments)
-		{
-			try
-			{
-				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Insert plantingEnvironments");
+        [HttpPost]
+        [Route("insert")]
+        public async Task<ApiResult<bool>> InsertPlantingEnvironments(PlantingEnvironment plantingEnvironment)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Insert plantingEnvironment");
 
-				var result = await _plantingEnvironmentService.InsertPlantingEnvironments(plantingEnvironments?.ToList());
+                var result = await _plantingEnvironmentService.InsertPlantingEnvironment(plantingEnvironment);
 
-				_logger.LogInformation("Insert plantingEnvironments complete");
+                _logger.LogInformation("Insert plantingEnvironment complete");
 
-				stopwatch.Stop();
-				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
-				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
 
-				return result;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogInformation($"Insert plantingEnvironments error: {ex}");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Insert plantingEnvironment error: {ex}");
 
-				return new ApiResult<bool>
-				{
-					Result = false,
-					ApiCode = ApiCode.UnknownError,
-					ErrorMessage = ex.ToString()
-				};
-			}
-		}
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
 
-		[HttpPut]
-		[Route("update/{id}")]
-		public async Task<ApiResult<bool>> UpdatePlantingEnvironment(int id, PlantingEnvironment plantingEnvironment)
-		{
-			try
-			{
-				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Update plantingEnvironment");
+        [HttpPut]
+        [Route("update/{id}")]
+        public async Task<ApiResult<bool>> UpdatePlantingEnvironment(int id, PlantingEnvironment plantingEnvironment)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Update plantingEnvironment");
 
-				plantingEnvironment.Id = id;
+                plantingEnvironment.Id = id;
 
-				var result = await _plantingEnvironmentService.UpdatePlantingEnvironment(plantingEnvironment);
+                var result = await _plantingEnvironmentService.UpdatePlantingEnvironment(plantingEnvironment);
 
-				_logger.LogInformation("Update plantingEnvironment complete");
+                _logger.LogInformation("Update plantingEnvironment complete");
 
-				stopwatch.Stop();
-				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
-				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
 
-				return result;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogInformation($"Update plantingEnvironment error: {ex}");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Update plantingEnvironment error: {ex}");
 
-				return new ApiResult<bool>
-				{
-					Result = false,
-					ApiCode = ApiCode.UnknownError,
-					ErrorMessage = ex.ToString()
-				};
-			}
-		}
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
 
-		[HttpPost]
-		[Route("humidity/insert")]
-		public async Task<ApiResult<bool>> InsertHumidityList(IEnumerable<Humidity> humidityList)
-		{
-			try
-			{
-				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Insert humidityList");
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ApiResult<bool>> DeletePlantingEnvironment(int id)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Delete plantingEnvironment");
 
-				var result = await _plantingEnvironmentService.InsertHumidityList(humidityList?.ToList());
+                var result = await _plantingEnvironmentService.DeletePlantingEnvironment(id);
 
-				_logger.LogInformation("Insert humidityList complete");
+                _logger.LogInformation("Delete plantingEnvironment complete");
 
-				stopwatch.Stop();
-				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
-				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
 
-				return result;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogInformation($"Insert humidityList error: {ex}");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Delete plantingEnvironment error: {ex}");
 
-				return new ApiResult<bool>
-				{
-					Result = false,
-					ApiCode = ApiCode.UnknownError,
-					ErrorMessage = ex.ToString()
-				};
-			}
-		}
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
 
-		[HttpPut]
-		[Route("humidity/update/{id}")]
-		public async Task<ApiResult<bool>> UpdateHumidity(int id, Humidity humidity)
-		{
-			try
-			{
-				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Update humidity");
+        [Authorize(Roles = Constants.UserRole.Admin)]
+        [HttpPost]
+        [Route("humidity/insert")]
+        public async Task<ApiResult<bool>> InsertHumidityList(IEnumerable<Humidity> humidityList)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Insert humidityList");
 
-				humidity.Id = id;
+                var result = await _plantingEnvironmentService.InsertHumidityList(humidityList?.ToList());
 
-				var result = await _plantingEnvironmentService.UpdateHumidity(humidity);
+                _logger.LogInformation("Insert humidityList complete");
 
-				_logger.LogInformation("Update humidity complete");
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
 
-				stopwatch.Stop();
-				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
-				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Insert humidityList error: {ex}");
 
-				return result;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogInformation($"Update humidity error: {ex}");
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
 
-				return new ApiResult<bool>
-				{
-					Result = false,
-					ApiCode = ApiCode.UnknownError,
-					ErrorMessage = ex.ToString()
-				};
-			}
-		}
+        [Authorize(Roles = Constants.UserRole.Admin)]
+        [HttpPut]
+        [Route("humidity/update/{id}")]
+        public async Task<ApiResult<bool>> UpdateHumidity(int id, Humidity humidity)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Update humidity");
 
-		[HttpPost]
-		[Route("light/insert")]
-		public async Task<ApiResult<bool>> InsertLights(IEnumerable<Light> lights)
-		{
-			try
-			{
-				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Insert lights");
+                humidity.Id = id;
 
-				var result = await _plantingEnvironmentService.InsertLights(lights?.ToList());
+                var result = await _plantingEnvironmentService.UpdateHumidity(humidity);
 
-				_logger.LogInformation("Insert lights complete");
+                _logger.LogInformation("Update humidity complete");
 
-				stopwatch.Stop();
-				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
-				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
 
-				return result;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogInformation($"Insert lights error: {ex}");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Update humidity error: {ex}");
 
-				return new ApiResult<bool>
-				{
-					Result = false,
-					ApiCode = ApiCode.UnknownError,
-					ErrorMessage = ex.ToString()
-				};
-			}
-		}
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
 
-		[HttpPut]
-		[Route("light/update/{id}")]
-		public async Task<ApiResult<bool>> UpdateLight(int id, Light light)
-		{
-			try
-			{
-				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Update light");
+        [HttpPost]
+        [Route("light/insert")]
+        public async Task<ApiResult<bool>> InsertLights(IEnumerable<Light> lights)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Insert lights");
 
-				light.Id = id;
+                var result = await _plantingEnvironmentService.InsertLights(lights?.ToList());
 
-				var result = await _plantingEnvironmentService.UpdateLight(light);
+                _logger.LogInformation("Insert lights complete");
 
-				_logger.LogInformation("Update light complete");
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
 
-				stopwatch.Stop();
-				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
-				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Insert lights error: {ex}");
 
-				return result;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogInformation($"Update light error: {ex}");
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
 
-				return new ApiResult<bool>
-				{
-					Result = false,
-					ApiCode = ApiCode.UnknownError,
-					ErrorMessage = ex.ToString()
-				};
-			}
-		}
+        [HttpPut]
+        [Route("light/update/{id}")]
+        public async Task<ApiResult<bool>> UpdateLight(int id, Light light)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Update light");
 
-		[HttpPost]
-		[Route("temperature/insert")]
-		public async Task<ApiResult<bool>> InsertTemperatures(IEnumerable<Temperature> temperatures)
-		{
-			try
-			{
-				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Insert temperatures");
+                light.Id = id;
 
-				var result = await _plantingEnvironmentService.InsertTemperatures(temperatures?.ToList());
+                var result = await _plantingEnvironmentService.UpdateLight(light);
 
-				_logger.LogInformation("Insert temperatures complete");
+                _logger.LogInformation("Update light complete");
 
-				stopwatch.Stop();
-				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
-				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
 
-				return result;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogInformation($"Insert temperatures error: {ex}");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Update light error: {ex}");
 
-				return new ApiResult<bool>
-				{
-					Result = false,
-					ApiCode = ApiCode.UnknownError,
-					ErrorMessage = ex.ToString()
-				};
-			}
-		}
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
 
-		[HttpPut]
-		[Route("temperature/update/{id}")]
-		public async Task<ApiResult<bool>> UpdateTemperature(int id, Temperature temperature)
-		{
-			try
-			{
-				var stopwatch = Stopwatch.StartNew();
-				_logger.LogInformation("Update temperature");
+        [Authorize(Roles = Constants.UserRole.Admin)]
+        [HttpPost]
+        [Route("temperature/insert")]
+        public async Task<ApiResult<bool>> InsertTemperatures(IEnumerable<Temperature> temperatures)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Insert temperatures");
 
-				temperature.Id = id;
+                var result = await _plantingEnvironmentService.InsertTemperatures(temperatures?.ToList());
 
-				var result = await _plantingEnvironmentService.UpdateTemperature(temperature);
+                _logger.LogInformation("Insert temperatures complete");
 
-				_logger.LogInformation("Update temperature complete");
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
 
-				stopwatch.Stop();
-				result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
-				_logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Insert temperatures error: {ex}");
 
-				return result;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogInformation($"Update temperature error: {ex}");
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
 
-				return new ApiResult<bool>
-				{
-					Result = false,
-					ApiCode = ApiCode.UnknownError,
-					ErrorMessage = ex.ToString()
-				};
-			}
-		}
-	}
+        [Authorize(Roles = Constants.UserRole.Admin)]
+        [HttpPut]
+        [Route("temperature/update/{id}")]
+        public async Task<ApiResult<bool>> UpdateTemperature(int id, Temperature temperature)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Update temperature");
+
+                temperature.Id = id;
+
+                var result = await _plantingEnvironmentService.UpdateTemperature(temperature);
+
+                _logger.LogInformation("Update temperature complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Update temperature error: {ex}");
+
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+    }
 }
