@@ -59,7 +59,7 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpPut]
-        [Route("update/{id}")]
+        [Route("{id}/update")]
         public async Task<ApiResult<bool>> UpdatePlantingEnvironment(int id, PlantingEnvironment plantingEnvironment)
         {
             try
@@ -159,7 +159,7 @@ namespace GrowingPlants.Apis.Controllers
 
         [Authorize(Roles = Constants.UserRole.Admin)]
         [HttpPut]
-        [Route("humidity/update/{id}")]
+        [Route("humidity/{id}/update")]
         public async Task<ApiResult<bool>> UpdateHumidity(int id, Humidity humidity)
         {
             try
@@ -225,7 +225,7 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpPut]
-        [Route("light/update/{id}")]
+        [Route("light/{id}/update")]
         public async Task<ApiResult<bool>> UpdateLight(int id, Light light)
         {
             try
@@ -293,7 +293,7 @@ namespace GrowingPlants.Apis.Controllers
 
         [Authorize(Roles = Constants.UserRole.Admin)]
         [HttpPut]
-        [Route("temperature/update/{id}")]
+        [Route("temperature/{id}/update")]
         public async Task<ApiResult<bool>> UpdateTemperature(int id, Temperature temperature)
         {
             try

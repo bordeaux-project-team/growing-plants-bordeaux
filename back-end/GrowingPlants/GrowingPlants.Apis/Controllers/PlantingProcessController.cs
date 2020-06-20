@@ -57,7 +57,7 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpPut]
-        [Route("update/{id}")]
+        [Route("{id}/update")]
         public async Task<ApiResult<bool>> UpdatePlantingProcess(int id, PlantingProcess plantingProcess)
         {
             try
@@ -123,7 +123,7 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpPut]
-        [Route("ProcessStep/update/{id}")]
+        [Route("ProcessStep/{id}/update")]
         public async Task<ApiResult<bool>> UpdateProcessStep(int id, ProcessStep processStep)
         {
             try

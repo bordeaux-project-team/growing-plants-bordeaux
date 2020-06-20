@@ -60,7 +60,7 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpPut]
-        [Route("update/{id}")]
+        [Route("{id}/update")]
         public async Task<ApiResult<bool>> UpdateMeasurementUnit(int id, MeasurementUnit measurementUnit)
         {
             try

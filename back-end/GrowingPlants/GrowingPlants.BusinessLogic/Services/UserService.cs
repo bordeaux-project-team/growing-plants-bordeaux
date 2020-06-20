@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -27,6 +28,11 @@ namespace GrowingPlants.BusinessLogic.Services
             _unitOfWork = unitOfWork;
             _configuration = configuration;
             _logger = loggerFactory.CreateLogger(typeof(UserService));
+        }
+
+        public Task<ApiResult<List<User>>> GetAll()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -113,6 +119,31 @@ namespace GrowingPlants.BusinessLogic.Services
                 Result = user,
                 ApiCode = ApiCode.Success
             };
+        }
+
+        public Task<ApiResult<bool>> UpdateUser(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResult<bool>> UpdateUserStatus(int id, bool status)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResult<bool>> UpdateUserPassword(NewPassword newPassword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResult<User>> GoogleLogin(LoginCredential loginCredential)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResult<bool>> ForgotPassword()
+        {
+            throw new NotImplementedException();
         }
 
         private string GenerateToken(User user)
