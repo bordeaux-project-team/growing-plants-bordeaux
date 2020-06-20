@@ -26,6 +26,38 @@ namespace GrowingPlants.Apis.Controllers
             _logger = loggerFactory.CreateLogger(typeof(PlantingEnvironmentController));
         }
 
+        [HttpGet]
+        [Route("User/{userId}")]
+        public async Task<ApiResult<List<PlantingEnvironment>>> GetPlantingEnvironmentsByUser(int userId)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Get plantingEnvironments by user");
+
+                var result = await _plantingEnvironmentService.GetPlantingEnvironmentsByUser(userId);
+
+                _logger.LogInformation("Get plantingEnvironments by user complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Get plantingEnvironments by user error: {ex}");
+
+                return new ApiResult<List<PlantingEnvironment>>
+                {
+                    Result = null,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
         [HttpPost]
         [Route("insert")]
         public async Task<ApiResult<bool>> InsertPlantingEnvironments(PlantingEnvironment plantingEnvironment)
@@ -114,6 +146,70 @@ namespace GrowingPlants.Apis.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation($"Delete plantingEnvironment error: {ex}");
+
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
+        [HttpGet]
+        [Route("{id}/gardens")]
+        public async Task<ApiResult<List<Garden>>> GetGardensByEnvironmentId(int id)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Get gardens by plantingEnvironment Id");
+
+                var result = await _plantingEnvironmentService.GetGardensByEnvironmentId(id);
+
+                _logger.LogInformation("Get gardens by plantingEnvironment Id complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Get gardens by plantingEnvironment Id error: {ex}");
+
+                return new ApiResult<List<Garden>>
+                {
+                    Result = null,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
+        [HttpGet]
+        [Route("gardens/insert-update")]
+        public async Task<ApiResult<bool>> InsertUpdateGardens(List<Garden> gardens)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Insert or update gardens");
+
+                var result = await _plantingEnvironmentService.InsertUpdateGardens(gardens);
+
+                _logger.LogInformation("Insert or update gardens complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Insert or update gardens error: {ex}");
 
                 return new ApiResult<bool>
                 {

@@ -15,10 +15,16 @@ namespace GrowingPlants.BusinessLogic.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger _logger;
+
         public PlantingEnvironmentService(ILoggerFactory loggerFactory, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _logger = loggerFactory.CreateLogger(typeof(PlantingEnvironmentService));
+        }
+
+        public Task<ApiResult<List<PlantingEnvironment>>> GetPlantingEnvironmentsByUser(int userId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<ApiResult<bool>> InsertPlantingEnvironment(PlantingEnvironment plantingEnvironment)
@@ -123,6 +129,16 @@ namespace GrowingPlants.BusinessLogic.Services
                 Result = deleteResult,
                 ApiCode = ApiCode.Success
             };
+        }
+
+        public Task<ApiResult<List<Garden>>> GetGardensByEnvironmentId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResult<bool>> InsertUpdateGardens(List<Garden> gardens)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<ApiResult<bool>> InsertHumidityList(List<Humidity> humidityList)
