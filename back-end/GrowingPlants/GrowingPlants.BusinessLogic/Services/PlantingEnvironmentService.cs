@@ -179,6 +179,41 @@ namespace GrowingPlants.BusinessLogic.Services
                 };
             }
 
+            var toInsert = plantingSpots
+                .Where(x => existing.All(y => y.Position != x.Position))
+                .Select(x =>
+                {
+                    x.CreatedAt = DateTime.UtcNow;
+                    return x;
+                })
+                .ToList();
+
+            var toUpdate = new List<PlantingSpot>();
+
+            foreach (var existingSpot in existing)
+            {
+                var spot = plantingSpots.FirstOrDefault(x => x.Position == existingSpot.Position);
+                if (spot == null) continue;
+
+                existingSpot.TreeId = spot.TreeId;
+                existingSpot.Amount = spot.Amount;
+                existingSpot.UpdatedAt = DateTime.UtcNow;
+                toUpdate.Add(existingSpot);
+            }
+
+            var toDelete = existing.Where(x => plantingSpots.All(y => x.Position != y.Position)).ToList();
+            _logger.LogInformation($"To insert: {toInsert.Count} | to update: {toUpdate.Count} | to delete: {toDelete.Count}");
+
+            var toInsertTask = _unitOfWork.PlantingSpotRepository.Insert(toInsert);
+            var toUpdateTask = _unitOfWork.PlantingSpotRepository.Update(toUpdate);
+            var toDeleteTask = _unitOfWork.PlantingSpotRepository.Delete(toDelete);
+            await Task.WhenAll(toInsertTask, toUpdateTask, toDeleteTask);
+
+            return new ApiResult<bool>
+            {
+                Result = true,
+                ApiCode = ApiCode.Success
+            };
         }
 
         public async Task<ApiResult<bool>> InsertHumidityList(List<Humidity> humidityList)
