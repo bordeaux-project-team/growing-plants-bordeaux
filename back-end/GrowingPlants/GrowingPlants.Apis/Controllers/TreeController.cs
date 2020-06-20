@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GrowingPlants.Apis.Controllers
 {
-    [Authorize(Roles = Constants.UserRole.Admin)]
+    [Authorize]
     [ApiController]
     [Route("api/tree")]
     public class TreeController : ControllerBase
@@ -26,7 +26,71 @@ namespace GrowingPlants.Apis.Controllers
             _logger = loggerFactory.CreateLogger(typeof(TreeController));
         }
 
+        [HttpGet]
+        [Route("user/{userId}/planted-trees/limit/{limit}")]
+        public async Task<ApiResult<List<Tree>>> GetPlantedTrees(int userId, int limit)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Get planted trees");
 
+                var result = await _treeService.GetPlantedTrees(userId, limit);
+
+                _logger.LogInformation("Get planted trees complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Get planted trees error: {ex}");
+
+                return new ApiResult<List<Tree>>
+                {
+                    Result = null,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
+        [HttpPost]
+        [Route("search")]
+        public async Task<ApiResult<TreeSearch>> SearchTrees(TreeSearch treeSearch)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Search trees");
+
+                var result = await _treeService.SearchTrees(treeSearch);
+
+                _logger.LogInformation("Search trees complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Search trees error: {ex}");
+
+                return new ApiResult<TreeSearch>
+                {
+                    Result = null,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
+        [Authorize(Roles = Constants.UserRole.Admin)]
         [HttpPost]
         [Route("insert")]
         public async Task<ApiResult<bool>> InsertTrees(IEnumerable<Tree> trees)
@@ -59,6 +123,7 @@ namespace GrowingPlants.Apis.Controllers
             }
         }
 
+        [Authorize(Roles = Constants.UserRole.Admin)]
         [HttpPut]
         [Route("{id}/update")]
         public async Task<ApiResult<bool>> UpdateTree(int id, Tree tree)

@@ -136,5 +136,15 @@ namespace GrowingPlants.BusinessLogic.Services
                 ApiCode = ApiCode.Success
             };
         }
+
+        public Task<ApiResult<List<Tree>>> GetPlantedTrees(int userId, int limit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResult<TreeSearch>> SearchTrees(TreeSearch treeSearch)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
