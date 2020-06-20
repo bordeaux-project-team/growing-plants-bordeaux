@@ -2,7 +2,7 @@
 
 namespace GrowingPlants.DataAccess.IRepositories
 {
-	public interface IProcessStepRepository : IRepository<ProcessStep>
-	{
-	}
+    public interface IProcessStepRepository : IRepository<ProcessStep>
+    {
+    }
 }

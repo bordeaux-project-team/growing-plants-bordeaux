@@ -2,7 +2,7 @@
 
 namespace GrowingPlants.DataAccess.IRepositories
 {
-	public interface IMeasurementUnitRepository : IRepository<MeasurementUnit>
-	{
-	}
+    public interface IMeasurementUnitRepository : IRepository<MeasurementUnit>
+    {
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace GrowingPlants.DataAccess.IRepositories
 {
-	public interface IPlantingEnvironmentRepository : IRepository<PlantingEnvironment>
-	{
-	}
+    public interface IPlantingEnvironmentRepository : IRepository<PlantingEnvironment>
+    {
+    }
 }

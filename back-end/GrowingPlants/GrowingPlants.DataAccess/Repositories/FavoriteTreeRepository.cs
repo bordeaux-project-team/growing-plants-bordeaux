@@ -4,10 +4,10 @@ using GrowingPlants.Infrastructure.Models;
 
 namespace GrowingPlants.DataAccess.Repositories
 {
-	public class FavoriteTreeRepository : Repository<FavoriteTree>, IFavoriteTreeRepository
-	{
-		public FavoriteTreeRepository(GrowingPlantsContext context) : base(context)
-		{
-		}
-	}
+    public class FavoriteTreeRepository : Repository<FavoriteTree>, IFavoriteTreeRepository
+    {
+        public FavoriteTreeRepository(GrowingPlantsContext context) : base(context)
+        {
+        }
+    }
 }

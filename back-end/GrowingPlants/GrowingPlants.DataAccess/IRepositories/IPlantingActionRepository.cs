@@ -2,7 +2,7 @@
 
 namespace GrowingPlants.DataAccess.IRepositories
 {
-	public interface IPlantingActionRepository : IRepository<PlantingAction>
-	{
-	}
+    public interface IPlantingActionRepository : IRepository<PlantingAction>
+    {
+    }
 }

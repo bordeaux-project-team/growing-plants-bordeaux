@@ -2,7 +2,7 @@
 
 namespace GrowingPlants.DataAccess.IRepositories
 {
-	public interface ICountryRepository : IRepository<Country>
-	{
-	}
+    public interface ICountryRepository : IRepository<Country>
+    {
+    }
 }

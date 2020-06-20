@@ -2,7 +2,7 @@
 
 namespace GrowingPlants.DataAccess.IRepositories
 {
-	public interface IHumidityRepository : IRepository<Humidity>
-	{
-	}
+    public interface IHumidityRepository : IRepository<Humidity>
+    {
+    }
 }

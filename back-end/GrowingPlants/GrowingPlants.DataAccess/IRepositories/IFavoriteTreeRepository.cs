@@ -2,7 +2,7 @@
 
 namespace GrowingPlants.DataAccess.IRepositories
 {
-	public interface IFavoriteTreeRepository : IRepository<FavoriteTree>
-	{
-	}
+    public interface IFavoriteTreeRepository : IRepository<FavoriteTree>
+    {
+    }
 }

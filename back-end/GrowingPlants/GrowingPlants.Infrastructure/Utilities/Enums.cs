@@ -1,6 +1,6 @@
 ﻿namespace GrowingPlants.Infrastructure.Utilities
 {
-	public class Enums
-	{
-	}
+    public class Enums
+    {
+    }
 }

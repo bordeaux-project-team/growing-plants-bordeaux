@@ -4,9 +4,9 @@ using GrowingPlants.Infrastructure.Models;
 
 namespace GrowingPlants.DataAccess.Repositories
 {
-    public class RecurrenceRepository : Repository<Recurrence>, IRecurrenceRepository
+    public class GardenRepository : Repository<Garden>, IGardenRepository
     {
-        public RecurrenceRepository(GrowingPlantsContext context) : base(context)
+        public GardenRepository(GrowingPlantsContext context) : base(context)
         {
         }
     }

@@ -6,15 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GrowingPlants.DataAccess.Repositories
 {
-	public class UserRepository : Repository<User>, IUserRepository
-	{
-		public UserRepository(GrowingPlantsContext context) : base(context)
-		{
-		}
+    public class UserRepository : Repository<User>, IUserRepository
+    {
+        public UserRepository(GrowingPlantsContext context) : base(context)
+        {
+        }
 
-		public async Task<User> FindUserByEmail(string email)
-		{
-			return await Context.Users.FirstOrDefaultAsync(x => x.Email == email);
-		}
-	}
+        public async Task<User> FindUserByEmail(string email)
+        {
+            return await Context.Users.FirstOrDefaultAsync(x => x.Email == email);
+        }
+    }
 }

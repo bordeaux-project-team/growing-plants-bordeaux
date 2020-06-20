@@ -4,10 +4,10 @@ using GrowingPlants.Infrastructure.Models;
 
 namespace GrowingPlants.DataAccess.Repositories
 {
-	public class ProcessStepRepository : Repository<ProcessStep>, IProcessStepRepository
-	{
-		public ProcessStepRepository(GrowingPlantsContext context) : base(context)
-		{
-		}
-	}
+    public class ProcessStepRepository : Repository<ProcessStep>, IProcessStepRepository
+    {
+        public ProcessStepRepository(GrowingPlantsContext context) : base(context)
+        {
+        }
+    }
 }

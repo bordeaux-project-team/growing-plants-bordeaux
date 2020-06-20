@@ -2,7 +2,7 @@
 
 namespace GrowingPlants.DataAccess.IRepositories
 {
-    public interface INotificationRepository : IRepository<Notification>
+    public interface IGardenRepository : IRepository<Garden>
     {
     }
 }

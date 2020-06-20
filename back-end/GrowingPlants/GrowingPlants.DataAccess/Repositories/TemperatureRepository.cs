@@ -4,10 +4,10 @@ using GrowingPlants.Infrastructure.Models;
 
 namespace GrowingPlants.DataAccess.Repositories
 {
-	public class TemperatureRepository : Repository<Temperature>, ITemperatureRepository
-	{
-		public TemperatureRepository(GrowingPlantsContext context) : base(context)
-		{
-		}
-	}
+    public class TemperatureRepository : Repository<Temperature>, ITemperatureRepository
+    {
+        public TemperatureRepository(GrowingPlantsContext context) : base(context)
+        {
+        }
+    }
 }

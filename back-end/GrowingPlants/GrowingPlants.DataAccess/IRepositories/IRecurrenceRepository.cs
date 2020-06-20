@@ -2,7 +2,7 @@
 
 namespace GrowingPlants.DataAccess.IRepositories
 {
-	public interface IRecurrenceRepository : IRepository<Recurrence>
-	{
-	}
+    public interface IRecurrenceRepository : IRepository<Recurrence>
+    {
+    }
 }
