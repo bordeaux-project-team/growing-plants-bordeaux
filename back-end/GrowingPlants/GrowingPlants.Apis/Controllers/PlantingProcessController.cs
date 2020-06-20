@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace GrowingPlants.Apis.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/planting-process")]
     public class PlantingProcessController : ControllerBase
     {
         private readonly IPlantingProcessService _plantingProcessService;
@@ -91,7 +91,7 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpPost]
-        [Route("{processId}/ProcessStep/insert")]
+        [Route("{processId}/process-step/insert")]
         public async Task<ApiResult<bool>> InsertProcessSteps(int processId, IEnumerable<ProcessStep> processSteps)
         {
             try
@@ -123,7 +123,7 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpPut]
-        [Route("ProcessStep/{id}/update")]
+        [Route("process-step/{id}/update")]
         public async Task<ApiResult<bool>> UpdateProcessStep(int id, ProcessStep processStep)
         {
             try

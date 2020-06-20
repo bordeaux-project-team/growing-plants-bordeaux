@@ -8,7 +8,7 @@ namespace GrowingPlants.Apis.Controllers
 {
     [Authorize(Roles = Constants.UserRole.Admin)]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/country")]
     public class CountryController : ControllerBase
     {
         private readonly ICountryService _countryService;

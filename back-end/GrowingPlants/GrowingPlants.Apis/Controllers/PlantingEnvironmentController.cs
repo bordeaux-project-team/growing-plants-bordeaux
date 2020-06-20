@@ -14,7 +14,7 @@ namespace GrowingPlants.Apis.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/planting-environment")]
     public class PlantingEnvironmentController : ControllerBase
     {
         private readonly IPlantingEnvironmentService _plantingEnvironmentService;
@@ -27,7 +27,7 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpGet]
-        [Route("User/{userId}")]
+        [Route("user/{userId}")]
         public async Task<ApiResult<List<PlantingEnvironment>>> GetPlantingEnvironmentsByUser(int userId)
         {
             try
@@ -157,7 +157,7 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/plantingSpots")]
+        [Route("{id}/planting-spot")]
         public async Task<ApiResult<List<PlantingSpot>>> GetPlantingSpotsByEnvironmentId(int id)
         {
             try
@@ -189,7 +189,7 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/plantingSpots/insert-update")]
+        [Route("{id}/planting-spot/insert-update")]
         public async Task<ApiResult<bool>> InsertUpdatePlantingSpots(int environmentId, List<PlantingSpot> plantingSpots)
         {
             try

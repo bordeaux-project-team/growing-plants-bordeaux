@@ -14,7 +14,7 @@ namespace GrowingPlants.Apis.Controllers
 {
     [Authorize(Roles = Constants.UserRole.Admin)]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/tree")]
     public class TreeController : ControllerBase
     {
         private readonly ITreeService _treeService;

@@ -14,7 +14,7 @@ namespace GrowingPlants.Apis.Controllers
 {
     [Authorize(Roles = Constants.UserRole.Admin)]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/measurement-unit")]
     public class MeasurementUnitController : ControllerBase
     {
         private readonly IMeasurementUnitService _measurementUnitService;
