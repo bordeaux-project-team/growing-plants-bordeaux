@@ -7,5 +7,6 @@ namespace GrowingPlants.DataAccess.IRepositories
     public interface ITreeRepository : IRepository<Tree>
     {
         Task<IEnumerable<Tree>> GetAll();
+        Task<List<Tree>> SearchTrees(TreeSearch treeSearch);
     }
 }

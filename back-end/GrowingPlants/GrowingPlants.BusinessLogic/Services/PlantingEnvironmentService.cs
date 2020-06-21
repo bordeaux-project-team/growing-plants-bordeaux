@@ -98,7 +98,7 @@ namespace GrowingPlants.BusinessLogic.Services
             existing.Width = plantingEnvironment.Width;
             existing.LightId = plantingEnvironment.LightId;
             existing.Light = plantingEnvironment.Light;
-            existing.Type = plantingEnvironment.Type;
+            existing.EnvironmentType = plantingEnvironment.EnvironmentType;
             existing.UpdatedAt = DateTime.UtcNow;
 
             var result = await _unitOfWork.PlantingEnvironmentRepository.Update(existing);

@@ -9,7 +9,6 @@ namespace GrowingPlants.Infrastructure.Models
         public int? TemperatureId { get; set; }
         public int? WaterLevel { get; set; }
         public int PageNumber { get; set; }
-        public int TotalPages { get; set; }
         public TreeSearch NextPage { get; set; }
         public List<Tree> Trees { get; set; }
     }

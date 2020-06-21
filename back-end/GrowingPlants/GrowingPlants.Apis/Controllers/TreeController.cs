@@ -189,5 +189,74 @@ namespace GrowingPlants.Apis.Controllers
                 };
             }
         }
+
+        [Authorize(Roles = Constants.UserRole.Admin)]
+        [HttpPost]
+        [Route("plant-type/insert")]
+        public async Task<ApiResult<bool>> InsertPlantTypes(IEnumerable<PlantType> plantTypes)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Insert plantTypes");
+
+                var result = await _treeService.InsertPlantTypes(plantTypes?.ToList());
+
+                _logger.LogInformation("Insert plantTypes complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Insert plantTypes error: {ex}");
+
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
+        [Authorize(Roles = Constants.UserRole.Admin)]
+        [HttpPut]
+        [Route("plant-type/{id}/update")]
+        public async Task<ApiResult<bool>> UpdatePlantType(int id, PlantType plantType)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Update plantType");
+
+                plantType.Id = id;
+
+                var result = await _treeService.UpdatePlantType(plantType);
+
+                _logger.LogInformation("Update plantType complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Update plantType error: {ex}");
+
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
     }
 }
