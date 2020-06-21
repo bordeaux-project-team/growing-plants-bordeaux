@@ -1,4 +1,3 @@
-using System.Text;
 using GrowingPlants.BusinessLogic.IServices;
 using GrowingPlants.BusinessLogic.Services;
 using GrowingPlants.BusinessLogic.UnitOfWorks;
@@ -14,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Text;
 
 namespace GrowingPlants.Apis
 {

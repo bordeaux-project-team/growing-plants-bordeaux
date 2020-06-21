@@ -21,6 +21,7 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
         public IRecurrenceRepository RecurrenceRepository { get; set; }
         public INotificationRepository NotificationRepository { get; set; }
         public IPlantingSpotRepository PlantingSpotRepository { get; set; }
+        public IPlantTypeRepository PlantTypeRepository { get; set; }
 
         public UnitOfWork(GrowingPlantsContext context)
         {
@@ -39,6 +40,7 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
             RecurrenceRepository = new RecurrenceRepository(context);
             NotificationRepository = new NotificationRepository(context);
             PlantingSpotRepository = new PlantingSpotRepository(context);
+            PlantTypeRepository = new PlantTypeRepository(context);
         }
     }
 }

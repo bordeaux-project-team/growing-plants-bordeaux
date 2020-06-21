@@ -19,5 +19,6 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
         IRecurrenceRepository RecurrenceRepository { get; set; }
         INotificationRepository NotificationRepository { get; set; }
         IPlantingSpotRepository PlantingSpotRepository { get; set; }
+        IPlantTypeRepository PlantTypeRepository { get; set; }
     }
 }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using GrowingPlants.BusinessLogic.IServices;
+﻿using GrowingPlants.BusinessLogic.IServices;
 using GrowingPlants.BusinessLogic.UnitOfWorks;
 using GrowingPlants.Infrastructure.Models;
 using GrowingPlants.Infrastructure.Utilities;
@@ -13,6 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 using DateTime = System.DateTime;
 
 namespace GrowingPlants.BusinessLogic.Services
@@ -82,7 +82,7 @@ namespace GrowingPlants.BusinessLogic.Services
 
         public async Task<ApiResult<User>> Login(LoginCredential loginCredential)
         {
-            if (loginCredential == null || 
+            if (loginCredential == null ||
                 string.IsNullOrEmpty(loginCredential.Email) ||
                 string.IsNullOrEmpty(loginCredential.Password))
             {
@@ -154,7 +154,7 @@ namespace GrowingPlants.BusinessLogic.Services
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Role, user.Role)
                 }),

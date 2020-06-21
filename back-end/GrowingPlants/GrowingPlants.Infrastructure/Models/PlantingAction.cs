@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GrowingPlants.Infrastructure.Models
+﻿namespace GrowingPlants.Infrastructure.Models
 {
     public class PlantingAction : BaseModel
     {
@@ -9,6 +7,7 @@ namespace GrowingPlants.Infrastructure.Models
         public int? MeasurementUnitId { get; set; }
         public MeasurementUnit MeasurementUnit { get; set; }
         public string Description { get; set; }
-        public List<ProcessStep> ProcessSteps { get; set; }
+        public int? ProcessStepId { get; set; }
+        public ProcessStep ProcessStep { get; set; }
     }
 }

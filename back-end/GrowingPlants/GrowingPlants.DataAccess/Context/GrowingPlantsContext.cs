@@ -20,6 +20,7 @@ namespace GrowingPlants.DataAccess.Context
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Recurrence> Recurrences { get; set; }
         public DbSet<PlantingSpot> PlantingSpots { get; set; }
+        public DbSet<PlantType> PlantTypes { get; set; }
 
 
         public GrowingPlantsContext(DbContextOptions options) : base(options)
@@ -44,6 +45,13 @@ namespace GrowingPlants.DataAccess.Context
             NotificationBuilder(modelBuilder);
             RecurrenceBuilder(modelBuilder);
             PlantingSpotBuilder(modelBuilder);
+            PlantTypeBuilder(modelBuilder);
+        }
+
+        private static void PlantTypeBuilder(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PlantType>().ToTable("PlantType");
+            modelBuilder.Entity<PlantType>().Property(x => x.Id).ValueGeneratedOnAdd();
         }
 
         private static void PlantingSpotBuilder(ModelBuilder modelBuilder)

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using GrowingPlants.BusinessLogic.IServices;
+﻿using GrowingPlants.BusinessLogic.IServices;
 using GrowingPlants.BusinessLogic.UnitOfWorks;
 using GrowingPlants.Infrastructure.Models;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GrowingPlants.BusinessLogic.Services
 {

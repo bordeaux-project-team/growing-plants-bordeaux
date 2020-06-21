@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using GrowingPlants.Infrastructure.Models;
+﻿using GrowingPlants.Infrastructure.Models;
+using System.Threading.Tasks;
 
 namespace GrowingPlants.DataAccess.IRepositories
 {

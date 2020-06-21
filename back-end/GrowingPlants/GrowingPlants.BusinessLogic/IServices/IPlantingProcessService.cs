@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using GrowingPlants.Infrastructure.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using GrowingPlants.Infrastructure.Models;
 
 namespace GrowingPlants.BusinessLogic.IServices
 {

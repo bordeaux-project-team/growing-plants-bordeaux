@@ -14,7 +14,7 @@
         public int? HumidityId { get; set; }
         public Humidity Humidity { get; set; }
         public int ExposureTime { get; set; } // Number of hours
-        public string Type { get; set; }
+        public string EnvironmentType { get; set; }
         public int? UserId { get; set; }
         public User User { get; set; }
     }

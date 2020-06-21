@@ -19,7 +19,10 @@ namespace GrowingPlants.Infrastructure.Models
         public Temperature Temperature { get; set; }
         public int? HumidityId { get; set; }
         public Humidity Humidity { get; set; }
-        public string GardenType { get; set; }
+        public int? PlantTypeId { get; set; }
+        public PlantType PlantType { get; set; }
+        public int WaterLevel { get; set; }
+        public string EnvironmentType { get; set; }
         public string PlantingGuide { get; set; }
         public int ExposureTime { get; set; } // Number of hours
         public List<FavoriteTree> FavoriteTrees { get; set; }
