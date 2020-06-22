@@ -8,7 +8,8 @@ namespace GrowingPlants.Infrastructure.Models
         public string Description { get; set; }
         public string ComparisonWith { get; set; }
         public string ComparisonAgainst { get; set; }
-        public string Picture { get; set; }
+        public int? PictureId { get; set; }
+        public Picture Picture { get; set; }
         public int GerminationTime { get; set; } // Number of days
         public int VegetativeTime { get; set; } // Number of days
         public int FloweringTime { get; set; } // Number of days

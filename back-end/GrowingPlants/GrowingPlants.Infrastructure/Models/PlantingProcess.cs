@@ -14,6 +14,7 @@ namespace GrowingPlants.Infrastructure.Models
         public DateTime VegetativeDate { get; set; }
         public DateTime FloweringDate { get; set; }
         public DateTime HarvestDate { get; set; }
+        public Gallery Gallery { get; set; }
         public List<ProcessStep> ProcessSteps { get; set; }
     }
 }

@@ -246,19 +246,19 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpPatch]
-        [Route("{id}/update/password")]
-        public async Task<ApiResult<bool>> UpdateUserPassword(int id, NewPassword newPassword)
+        [Route("{id}/change-password")]
+        public async Task<ApiResult<bool>> ChangePassword(int id, NewPassword newPassword)
         {
             try
             {
                 var stopwatch = Stopwatch.StartNew();
 
-                _logger.LogInformation("Update user status");
+                _logger.LogInformation("Change password");
 
                 newPassword.UserId = id;
 
-                var result = await _userService.UpdateUserPassword(newPassword);
-                _logger.LogInformation("Update user status complete");
+                var result = await _userService.ChangePassword(newPassword);
+                _logger.LogInformation("Change password complete");
 
                 stopwatch.Stop();
                 result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
@@ -268,7 +268,7 @@ namespace GrowingPlants.Apis.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Update user status error: {ex}");
+                _logger.LogInformation($"Change password error: {ex}");
 
                 return new ApiResult<bool>
                 {

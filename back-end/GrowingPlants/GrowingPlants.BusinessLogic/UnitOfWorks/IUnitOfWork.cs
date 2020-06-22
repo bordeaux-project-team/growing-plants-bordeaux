@@ -20,5 +20,7 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
         INotificationRepository NotificationRepository { get; set; }
         IPlantingSpotRepository PlantingSpotRepository { get; set; }
         IPlantTypeRepository PlantTypeRepository { get; set; }
+        IGalleryRepository GalleryRepository { get; set; }
+        IPictureRepository PictureRepository { get; set; }
     }
 }

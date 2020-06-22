@@ -88,11 +88,14 @@ namespace GrowingPlants.BusinessLogic.Services
             existing.LightId = tree.LightId;
             existing.PlantTypeId = tree.PlantTypeId;
             existing.WaterLevel = tree.WaterLevel;
-            existing.Picture = tree.Picture;
             existing.PlantingGuide = tree.PlantingGuide;
             existing.VegetativeTime = tree.VegetativeTime;
             existing.TemperatureId = tree.TemperatureId;
             existing.UpdatedAt = DateTime.UtcNow;
+            existing.PictureId = tree.PictureId;
+
+            tree.Picture.ConvertToByteArray();
+            existing.Picture = tree.Picture;
 
             var result = await _unitOfWork.TreeRepository.Update(existing);
             return new ApiResult<bool>
@@ -151,6 +154,9 @@ namespace GrowingPlants.BusinessLogic.Services
                 };
             }
             _logger.LogInformation($"User {userId} - limit {limit}: {JsonConvert.SerializeObject(plantedTrees)}");
+
+            plantedTrees.ForEach(x => x.Picture.ConvertToBase64());
+
             return new ApiResult<List<Tree>>
             {
                 Result = plantedTrees,
@@ -180,6 +186,8 @@ namespace GrowingPlants.BusinessLogic.Services
                     ApiCode = ApiCode.NotFound,
                 };
             }
+
+            searchedTrees.ForEach(x => x.Picture.ConvertToBase64());
 
             var nextPage = new TreeSearch
             {

@@ -21,7 +21,8 @@ namespace GrowingPlants.DataAccess.Context
         public DbSet<Recurrence> Recurrences { get; set; }
         public DbSet<PlantingSpot> PlantingSpots { get; set; }
         public DbSet<PlantType> PlantTypes { get; set; }
-
+        public DbSet<Gallery> Galleries { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
 
         public GrowingPlantsContext(DbContextOptions options) : base(options)
         {
@@ -46,6 +47,20 @@ namespace GrowingPlants.DataAccess.Context
             RecurrenceBuilder(modelBuilder);
             PlantingSpotBuilder(modelBuilder);
             PlantTypeBuilder(modelBuilder);
+            GalleryBuilder(modelBuilder);
+            PictureBuilder(modelBuilder);
+        }
+
+        private static void GalleryBuilder(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Gallery>().ToTable("Gallery");
+            modelBuilder.Entity<Gallery>().Property(x => x.Id).ValueGeneratedOnAdd();
+        }
+
+        private static void PictureBuilder(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Picture>().ToTable("Picture");
+            modelBuilder.Entity<Picture>().Property(x => x.Id).ValueGeneratedOnAdd();
         }
 
         private static void PlantTypeBuilder(ModelBuilder modelBuilder)

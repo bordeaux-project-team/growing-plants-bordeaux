@@ -22,6 +22,8 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
         public INotificationRepository NotificationRepository { get; set; }
         public IPlantingSpotRepository PlantingSpotRepository { get; set; }
         public IPlantTypeRepository PlantTypeRepository { get; set; }
+        public IGalleryRepository GalleryRepository { get; set; }
+        public IPictureRepository PictureRepository { get; set; }
 
         public UnitOfWork(GrowingPlantsContext context)
         {
@@ -41,6 +43,8 @@ namespace GrowingPlants.BusinessLogic.UnitOfWorks
             NotificationRepository = new NotificationRepository(context);
             PlantingSpotRepository = new PlantingSpotRepository(context);
             PlantTypeRepository = new PlantTypeRepository(context);
+            GalleryRepository = new GalleryRepository(context);
+            PictureRepository = new PictureRepository(context);
         }
     }
 }

@@ -131,7 +131,7 @@ namespace GrowingPlants.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        public Task<ApiResult<bool>> UpdateUserPassword(NewPassword newPassword)
+        public Task<ApiResult<bool>> ChangePassword(NewPassword newPassword)
         {
             throw new NotImplementedException();
         }
