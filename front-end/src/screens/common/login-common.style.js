@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import commonStyles from '../../styles/common.style';
+import commonStyles from '../styles/common.style';
 
 const styles = StyleSheet.create({
   username: {

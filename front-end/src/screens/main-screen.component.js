@@ -2,6 +2,7 @@ import React from 'react';
 import {ImageBackground, StatusBar, View} from 'react-native';
 import styles from './main-screen.style';
 import LoginContainer from './login';
+import HomeContainer from './home';
 
 const MainScreen = props => {
   return (
@@ -13,6 +14,7 @@ const MainScreen = props => {
           imageStyle={styles.rect_imageStyle}
           source={require('../../src/assets/images/background-image.jpg')}>
           <LoginContainer />
+          {/*<HomeContainer />*/}
         </ImageBackground>
       </View>
     </View>

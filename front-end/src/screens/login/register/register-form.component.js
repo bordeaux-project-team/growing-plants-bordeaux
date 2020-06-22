@@ -1,9 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
 import styles from './register-form.style';
-import InputText from '../common/input-text.component';
-import loginInputStyles from '../common/login-common.style';
-import Button from '../common/button.component';
+import InputText from '../../common/input-text.component';
+import loginInputStyles from '../../common/login-common.style';
+import TouchButton from '../../common/button.component';
 
 const RegisterForm = props => {
   return (
@@ -29,7 +29,7 @@ const RegisterForm = props => {
         placeholder="Retype Your Password"
         textInputStyle={loginInputStyles.passwordInput}
       />
-      <Button
+      <TouchButton
         doPress={props.doLogin}
         buttonTypeStyle={loginInputStyles.mainButton}
         buttonTextStyle={loginInputStyles.mainButtonText}

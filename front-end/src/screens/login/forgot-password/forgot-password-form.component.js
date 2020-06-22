@@ -1,9 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
 import styles from './forgot-password.style';
-import loginInputStyles from '../common/login-common.style';
-import InputText from '../common/input-text.component';
-import Button from '../common/button.component';
+import loginInputStyles from '../../common/login-common.style';
+import InputText from '../../common/input-text.component';
+import TouchButton from '../../common/button.component';
 
 const ForgotPasswordForm = props => {
   return (
@@ -16,13 +16,13 @@ const ForgotPasswordForm = props => {
         textInputStyle={loginInputStyles.usernameInput}
       />
       <View style={styles.buttonRow}>
-        <Button
+        <TouchButton
           doPress={props.doLogin}
           buttonTypeStyle={styles.sendButton}
           buttonTextStyle={loginInputStyles.mainButtonText}
           buttonText="Send"
         />
-        <Button
+        <TouchButton
           doPress={props.doLogin}
           buttonTypeStyle={styles.cancelButton}
           buttonTextStyle={loginInputStyles.mainButtonText}
