@@ -1,9 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
 import styles from './forgot-password.style';
-import loginInputStyles from '../../common/login-common.style';
-import InputText from '../../common/input-text.component';
-import TouchButton from '../../common/button.component';
+import loginInputStyles from '../../common-elements/login-common.style';
+import InputText from '../../common-elements/input-text.component';
+import TouchButton from '../../common-elements/button.component';
 
 const ForgotPasswordForm = props => {
   return (
