@@ -2,7 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import styles from './register-form.style';
 import InputText from '../../common-elements/input-text.component';
-import loginInputStyles from '../../common-elements/login-common.style';
+import loginInputStyles from '../login-common.style';
 import TouchButton from '../../common-elements/button.component';
 
 const RegisterForm = props => {
