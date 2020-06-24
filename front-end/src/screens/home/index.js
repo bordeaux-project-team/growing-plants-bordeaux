@@ -5,11 +5,7 @@ import Calendar from './calendar/calendar.component';
 
 class HomeContainer extends Component {
   render() {
-    return (
-      <View style={styles.homeColumn}>
-        <Calendar />
-      </View>
-    );
+    return <View style={styles.homeColumn}>{<Calendar />}</View>;
   }
 }
 

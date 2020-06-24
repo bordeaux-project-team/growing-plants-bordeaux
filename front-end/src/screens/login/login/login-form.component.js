@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import styles from './login-form.style';
-import loginInputStyles from '../login-common.style';
+import loginInputStyles from '../../common-elements/login-common.style';
 import InputText from '../../common-elements/input-text.component';
 import TouchButton from '../../common-elements/button.component';
 
