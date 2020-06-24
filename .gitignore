@@ -360,3 +360,5 @@ MigrationBackup/
 *.InstallLog
 
 # End of https://www.gitignore.io/api/visualstudio
+/package-lock.json
+/.idea/
