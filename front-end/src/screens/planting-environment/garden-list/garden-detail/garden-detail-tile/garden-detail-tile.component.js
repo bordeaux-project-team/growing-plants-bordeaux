@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
 import styles from './garden-detail-tile.style';
-import {ListItem, Icon} from 'react-native-elements';
+import {ListItem} from 'react-native-elements';
 import {Text, View} from 'react-native';
-import Menu, {
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from 'react-native-popup-menu';
+import GardenDetailShowMoreMenu from './garden-detail-show-more-menu/garden-detail-show-more-menu.component';
 
 class GardenDetailTile extends Component {
   render() {
@@ -34,32 +30,17 @@ class GardenDetailTile extends Component {
               </Text>
             </View>
           }
-          rightTitle={this.getMenuView(
-            this.props.index,
-            this.props.info.isOpen,
-          )}
+          rightTitle={
+            <GardenDetailShowMoreMenu
+              index={this.props.index}
+              info={this.props.info}
+              onTriggerPress={this.props.onTriggerPress}
+              onBackdropPress={this.props.onBackdropPress}
+              onOptionSelect={this.props.onOptionSelect}
+            />
+          }
         />
       </View>
-    );
-  }
-
-  getMenuView(index, isOpen) {
-    return (
-      <Menu opened={isOpen}>
-        <MenuTrigger
-          onBackdropPress={() => this.props.onBackdropPress(index)}
-          onSelect={value => this.props.onOptionSelect(value, index)}>
-          <Icon
-            onPress={() => this.props.onTriggerPress(index)}
-            type="material"
-            name="more-vert"
-          />
-        </MenuTrigger>
-        <MenuOptions>
-          <MenuOption value={1} text="Edit" />
-          <MenuOption value={3} disabled={true} text="Remove" />
-        </MenuOptions>
-      </Menu>
     );
   }
 }

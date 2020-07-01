@@ -91,6 +91,9 @@ class GardenDetail extends Component {
         },
       ],
     };
+    this.onTriggerPress = this.onTriggerPress.bind(this);
+    this.onBackdropPress = this.onBackdropPress.bind(this);
+    this.onOptionSelect = this.onOptionSelect.bind(this);
   }
 
   onTriggerPress(index) {
