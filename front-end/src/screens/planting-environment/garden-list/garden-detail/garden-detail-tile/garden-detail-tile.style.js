@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
   },
   listItem: {
     backgroundColor: COLORS.backgroundGrey,
-    color: 'red',
   },
   gardenName: {
     color: 'green',
