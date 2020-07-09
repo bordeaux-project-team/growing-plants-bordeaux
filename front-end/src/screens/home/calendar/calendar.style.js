@@ -1,25 +1,27 @@
 import {StyleSheet} from 'react-native';
+import COLORS from '../../styles/color.style';
 
 const styles = StyleSheet.create({
   dateComponentView: {
-    flex: 1,
-    flexDirection: 'column',
     alignItems: 'center',
+    backgroundColor: COLORS.backgroundGrey,
+    borderWidth: 5,
+    borderColor: COLORS.borderGrey,
   },
   dateComponentYearText: {
-    color: '#fff',
+    color: 'black',
     fontSize: 20,
   },
   dateComponentDateTouchable: {
     flex: 1,
     flexDirection: 'column',
-    color: '#7d7c7b',
+    color: 'black',
     alignItems: 'center',
   },
   dateComponentDateView: {
-    flex: 1,
     flexDirection: 'row',
     marginTop: 10,
+    color: 'black',
   },
 });
 

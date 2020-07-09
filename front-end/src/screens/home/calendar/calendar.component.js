@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {Text, View, TouchableOpacity, Image} from 'react-native';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import styles from './calendar.style';
+import COLORS from '../../styles/color.style';
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export default class Calendar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       arrowCount: 0,
       weekObject: [],
@@ -16,7 +17,15 @@ export default class Calendar extends Component {
         day: null,
         date: null,
       },
+      currentDate: 0,
     };
+    this.dateCreator = this.dateCreator.bind(this);
+    this.handlePress = this.handlePress.bind(this);
+    this.handleArrowChange = this.handleArrowChange.bind(this);
+    this.handleMonthYearComponent = this.handleMonthYearComponent.bind(this);
+    this.handleDateComponentDisplay = this.handleDateComponentDisplay.bind(
+      this,
+    );
   }
   componentDidMount() {
     this.dateCreator();
@@ -37,15 +46,35 @@ export default class Calendar extends Component {
       let selectedWeekDaySet =
         day - todaysDateIndex + this.state.arrowCount * 7;
       let calenderDay = daysArray[day];
+      // day: Sun, Mon, Tue,...
+      // date: 1, 2, 3,...
       let dateObject = {
         day: calenderDay,
         date: moment()
           .add(selectedWeekDaySet, 'day')
           .format(this.props.dateFormat),
+        month: moment()
+          .add(selectedWeekDaySet, 'day')
+          .format('M'),
         monthYear: moment()
           .add(selectedWeekDaySet, 'day')
           .format('MMMM YYYY'),
+        isCurrentDate: false,
       };
+      const currentDate =
+        moment()
+          .toDate()
+          .getDate() + 1;
+      const currentMonth =
+        moment()
+          .toDate()
+          .getMonth() + 1;
+      if (
+        Number(dateObject.date) === currentDate &&
+        Number(dateObject.month) === currentMonth
+      ) {
+        dateObject.isCurrentDate = true;
+      }
       weekObject[this.state.arrowCount][day] = dateObject;
     }
     this.setState({weekObject});
@@ -62,15 +91,12 @@ export default class Calendar extends Component {
         day: date.day,
         date: date.date,
       };
-      this.setState(
-        {
-          selectedDate: {
-            day: date.day,
-            date: date.date,
-          },
+      this.setState({
+        selectedDate: {
+          day: date.day,
+          date: date.date,
         },
-        this.props.selected(dates),
-      );
+      });
     }
   };
 
@@ -95,6 +121,14 @@ export default class Calendar extends Component {
       let isPressed =
         this.state.selectedDate.day == date.day &&
         this.state.selectedDate.date == date.date;
+      const setDateColor = date =>
+        date.isCurrentDate
+          ? isPressed
+            ? this.props.pressedColor
+            : 'green'
+          : isPressed
+          ? this.props.pressedColor
+          : this.props.depressedColor;
       return (
         <TouchableOpacity
           key={index}
@@ -102,17 +136,13 @@ export default class Calendar extends Component {
           style={styles.dateComponentDateTouchable}>
           <Text
             style={{
-              color: isPressed
-                ? this.props.pressedColor
-                : this.props.depressedColor,
+              color: setDateColor(date),
             }}>
             {date.day}
           </Text>
           <Text
             style={{
-              color: isPressed
-                ? this.props.pressedColor
-                : this.props.depressedColor,
+              color: setDateColor(date),
             }}>
             {date.date}
           </Text>
@@ -149,8 +179,8 @@ export default class Calendar extends Component {
 Calendar.defaultProps = {
   iconSize: 30,
   dateFormat: 'D',
-  pressedColor: '#fff',
-  depressedColor: '#7d7c7b',
+  pressedColor: 'blue',
+  depressedColor: COLORS.textGrey,
 };
 
 Calendar.propTypes = {
@@ -158,5 +188,4 @@ Calendar.propTypes = {
   dateFormat: PropTypes.string,
   pressedColor: PropTypes.string,
   depressedColor: PropTypes.string,
-  selected: PropTypes.func,
 };

@@ -1,25 +1,39 @@
 import React from 'react';
-import {ImageBackground, StatusBar, View} from 'react-native';
-import styles from './main-screen.style';
-import LoginContainer from './login';
 import HomeContainer from './home';
 import PlantingEnvironmentContainer from './planting-environment';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
 
 const MainScreen = props => {
   return (
-    <View style={styles.root}>
-      <StatusBar barStyle="light-content" backgroundColor="rgba(0,0,0,0)" />
-      <View style={styles.background}>
-        <ImageBackground
-          style={styles.rect}
-          imageStyle={styles.rect_imageStyle}
-          source={require('../../src/assets/images/background-image.jpg')}>
-          {/*<LoginContainer />*/}
-          {/*<HomeContainer />*/}
-          <PlantingEnvironmentContainer />
-        </ImageBackground>
-      </View>
-    </View>
+    <Tab.Navigator
+      initialRouteName="Feed"
+      tabBarOptions={{
+        activeTintColor: '#42f44b',
+      }}>
+      <Tab.Screen
+        name="HomeStack"
+        component={HomeContainer}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="SettingsStack"
+        component={PlantingEnvironmentContainer}
+        options={{
+          tabBarLabel: 'Settings',
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons name="settings" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 };
 

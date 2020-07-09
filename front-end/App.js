@@ -8,7 +8,11 @@ const log = logger.createLogger();
 
 const App: () => React$Node = () => {
   log.debug('App.js');
-  return <NavigationContainer>{<MainScreenContainer />}</NavigationContainer>;
+  return (
+    <NavigationContainer>
+      <MainScreenContainer />
+    </NavigationContainer>
+  );
 };
 
 export default App;
