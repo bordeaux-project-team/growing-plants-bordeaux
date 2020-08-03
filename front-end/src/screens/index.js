@@ -3,6 +3,7 @@ import MainScreen from './main-screen.component';
 import BackgroundScreen from './common-screens/background-screen.component';
 import HomeContainer from './home';
 import StartScreen from './start-screen.component';
+import {NavigationContainer} from '@react-navigation/native';
 
 //check login already or not here when open app
 class MainScreenContainer extends Component {

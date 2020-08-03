@@ -3,18 +3,26 @@ import HomeContainer from './home';
 import PlantingEnvironmentContainer from './planting-environment';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import COLORS from './styles/color.style';
 
 const Tab = createBottomTabNavigator();
+
+const textColor = COLORS.textGrey;
+const textSize = 26;
+const activeBackgroundColor = COLORS.backgroundGrey;
+const inActiveBackgroundColor = COLORS.borderGrey;
 
 const MainScreen = props => {
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
+      initialRouteName="Footer"
       tabBarOptions={{
-        activeTintColor: '#42f44b',
+        activeTintColor: textColor,
+        activeBackgroundColor: activeBackgroundColor,
+        inActiveBackground: inActiveBackgroundColor,
       }}>
       <Tab.Screen
-        name="HomeStack"
+        name="Home"
         component={HomeContainer}
         options={{
           tabBarLabel: 'Home',
@@ -24,12 +32,12 @@ const MainScreen = props => {
         }}
       />
       <Tab.Screen
-        name="SettingsStack"
+        name="PlantingEnvironment"
         component={PlantingEnvironmentContainer}
         options={{
-          tabBarLabel: 'Settings',
+          tabBarLabel: 'Planting Environment',
           tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons name="settings" color={color} size={size} />
+            <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
         }}
       />
