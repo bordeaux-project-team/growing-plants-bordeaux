@@ -1,7 +1,11 @@
-﻿namespace GrowingPlants.Infrastructure.Models
+﻿using System;
+
+namespace GrowingPlants.Infrastructure.Models
 {
-	public class BaseModel
-	{
-		public int Id { get; set; }
-	}
+    public class BaseModel
+    {
+        public int Id { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+    }
 }
