@@ -4,9 +4,9 @@ import COLORS from '../../styles/color.style';
 const styles = StyleSheet.create({
   dateComponentView: {
     alignItems: 'center',
-    backgroundColor: COLORS.backgroundGrey,
+    backgroundColor: COLORS.commonBackground,
     borderWidth: 5,
-    borderColor: COLORS.borderGrey,
+    borderColor: COLORS.commonBorder,
   },
   dateComponentYearText: {
     color: 'black',

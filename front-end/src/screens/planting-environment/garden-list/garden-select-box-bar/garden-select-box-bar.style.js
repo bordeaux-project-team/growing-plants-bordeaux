@@ -8,13 +8,13 @@ const styles = StyleSheet.create({
   selectBoxContainer: {
     marginTop: 15,
     borderWidth: 5,
-    borderColor: COLORS.borderGrey,
+    borderColor: COLORS.commonBorder,
   },
   selectBoxStyle: {
     height: 40,
     width: 100,
-    backgroundColor: COLORS.backgroundGrey,
-    color: COLORS.textGrey,
+    backgroundColor: COLORS.commonBackground,
+    color: COLORS.commonText,
   },
 });
 

@@ -4,11 +4,11 @@ import COLORS from '../../../../styles/color.style';
 const styles = StyleSheet.create({
   tileContainer: {
     borderWidth: 5,
-    borderColor: COLORS.borderGrey,
+    borderColor: COLORS.commonBorder,
     marginBottom: 1,
   },
   listItem: {
-    backgroundColor: COLORS.backgroundGrey,
+    backgroundColor: COLORS.commonBackground,
   },
   gardenName: {
     color: 'green',

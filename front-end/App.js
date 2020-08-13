@@ -17,7 +17,14 @@ const App: () => React$Node = () => {
   log.debug('App.js');
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Main">
+      <Stack.Navigator
+        initialRouteName="Main"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: 'green',
+          },
+          headerTintColor: '#fff',
+        }}>
         <Stack.Screen name="Main" component={MainScreenContainer} />
         <Stack.Screen name="Home" component={HomeContainer} />
         <Stack.Screen name="Login" component={LoginContainer} />

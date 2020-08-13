@@ -7,8 +7,10 @@ const InputText = props => {
     <View style={props.inputStyle}>
       <Icon name={props.iconName} style={props.iconStyle} />
       <TextInput
+        onChangeText={props.onChangeText}
+        value={props.value}
         placeholder={props.placeholder}
-        placeholderTextColor="rgba(255,255,255,1)"
+        placeholderTextColor="#77C67E"
         secureTextEntry={false}
         style={props.textInputStyle}
       />

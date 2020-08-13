@@ -180,7 +180,7 @@ Calendar.defaultProps = {
   iconSize: 30,
   dateFormat: 'D',
   pressedColor: 'blue',
-  depressedColor: COLORS.textGrey,
+  depressedColor: COLORS.commonText,
 };
 
 Calendar.propTypes = {

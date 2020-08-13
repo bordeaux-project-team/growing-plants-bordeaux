@@ -6,24 +6,20 @@ import GardenDetail from './garden-detail/garden-detail.component';
 import ButtonAction from '../../common-elements/button-action.component';
 import styles from './garden-list.style';
 import BackgroundScreen from '../../common-screens/background-screen.component';
+import {useNavigation} from '@react-navigation/native';
 
-class GardenList extends Component {
-  render() {
-    return (
-      <BackgroundScreen>
-        <View style={styles.gardenListBackground}>
-          <GardenSearchBar />
-          <GardenSelectBoxBar />
-          <GardenDetail />
-          <ButtonAction doPress={this.redirectToGardenDetailInfo} />
-        </View>
-      </BackgroundScreen>
-    );
-  }
-
-  redirectToGardenDetailInfo = () => {
-    
-  }
+function GardenList() {
+  const navigation = useNavigation();
+  return (
+    <BackgroundScreen>
+      <View style={styles.gardenListBackground}>
+        <GardenSearchBar />
+        <GardenSelectBoxBar />
+        <GardenDetail />
+        <ButtonAction doPress={() => navigation.navigate('GardenDetailInfo')} />
+      </View>
+    </BackgroundScreen>
+  );
 }
 
 export default GardenList;

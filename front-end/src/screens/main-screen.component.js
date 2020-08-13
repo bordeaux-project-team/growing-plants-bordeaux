@@ -7,10 +7,10 @@ import COLORS from './styles/color.style';
 
 const Tab = createBottomTabNavigator();
 
-const textColor = COLORS.textGrey;
+const textColor = COLORS.commonText;
 const textSize = 26;
-const activeBackgroundColor = COLORS.backgroundGrey;
-const inActiveBackgroundColor = COLORS.borderGrey;
+const activeBackgroundColor = COLORS.commonBackground;
+const inActiveBackgroundColor = COLORS.commonBorder;
 
 const MainScreen = props => {
   return (

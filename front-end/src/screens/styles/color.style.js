@@ -1,7 +1,7 @@
 const COLORS = {
-  backgroundGrey: '#bdc6cf',
-  borderGrey: '#e1e8ee',
-  textGrey: '#8995a0',
+  commonBackground: '#BEFBAE',
+  commonBorder: '#03870E',
+  commonText: 'black',
 };
 
 export default COLORS;
