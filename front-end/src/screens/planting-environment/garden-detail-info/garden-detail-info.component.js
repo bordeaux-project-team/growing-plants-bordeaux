@@ -14,8 +14,8 @@ import {
 import AddNewLightDialog from './dialog/add-new-light-dialog.component';
 
 class GardenDetailInfo extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       search: '',
       selectedCountryItems: [],
