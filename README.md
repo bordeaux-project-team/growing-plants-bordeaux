@@ -12,4 +12,6 @@ With `Task :app:generateDebugResValues` issue:
 Run `cd android; ./gradlew clean`
 
 For localhost server: Need to run adb reverse to forward the port to emulator
-`adb reverse tcp:64160 tcp:64160`
+`adb reverse tcp:64160 tcp:64160` 
+
+Error with IIS Express when run `netsh http add iplisten ipaddress=::`
