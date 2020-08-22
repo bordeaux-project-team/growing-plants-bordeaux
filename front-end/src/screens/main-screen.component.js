@@ -4,6 +4,7 @@ import PlantingEnvironmentContainer from './planting-environment';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import COLORS from './styles/color.style';
+import PlantingProcessContainer from './planting-process';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,21 +22,31 @@ const MainScreen = props => {
         activeBackgroundColor: activeBackgroundColor,
         inActiveBackground: inActiveBackgroundColor,
       }}>
+      {/*<Tab.Screen*/}
+      {/*  name="Home"*/}
+      {/*  component={HomeContainer}*/}
+      {/*  options={{*/}
+      {/*    tabBarLabel: 'Home',*/}
+      {/*    tabBarIcon: ({color, size}) => (*/}
+      {/*      <MaterialCommunityIcons name="home" color={color} size={size} />*/}
+      {/*    ),*/}
+      {/*  }}*/}
+      {/*/>*/}
       <Tab.Screen
-        name="Home"
-        component={HomeContainer}
+        name="PlantingEnvironment"
+        component={PlantingEnvironmentContainer}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Planting Environment',
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name="PlantingEnvironment"
-        component={PlantingEnvironmentContainer}
+        name="PlantingProcess"
+        component={PlantingProcessContainer}
         options={{
-          tabBarLabel: 'Planting Environment',
+          tabBarLabel: 'PlantingProcess',
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),

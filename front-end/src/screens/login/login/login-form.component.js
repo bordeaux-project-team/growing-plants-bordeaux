@@ -1,49 +1,101 @@
-import React from 'react';
-import {View} from 'react-native';
+import React, {Component} from 'react';
+import {Alert, View} from 'react-native';
 import styles from './login-form.style';
 import loginInputStyles from '../../common-elements/login-common.style';
 import InputText from '../../common-elements/input-text.component';
 import TouchButton from '../../common-elements/button.component';
+import {doLogin} from '../../../services/user-service';
+import {useNavigation} from '@react-navigation/native';
 
-const LoginForm = props => {
-  return (
-    <View style={styles.form}>
-      <InputText
-        inputStyle={loginInputStyles.username}
-        iconName="user"
-        iconStyle={loginInputStyles.usernameIcon}
-        placeholder="Email"
-        textInputStyle={loginInputStyles.usernameInput}
-      />
-      <InputText
-        inputStyle={loginInputStyles.password}
-        iconName="lock"
-        iconStyle={loginInputStyles.passwordIcon}
-        placeholder="Password"
-        textInputStyle={loginInputStyles.passwordInput}
-      />
-      <TouchButton
-        doPress={props.doLogin}
-        buttonTypeStyle={loginInputStyles.mainButton}
-        buttonTextStyle={loginInputStyles.mainButtonText}
-        buttonText="Log in"
-      />
-      <View style={styles.footerTexts}>
-        <TouchButton
-          doPress={props.doLogin}
-          buttonTypeStyle={loginInputStyles.createAccountButton}
-          buttonTextStyle={loginInputStyles.createAccount}
-          buttonText="Create Account"
+class LoginForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+    };
+    this.doLogin = this.doLogin.bind(this);
+  }
+
+  setEmailState = email => {
+    this.setState({email});
+  };
+
+  setPasswordState = password => {
+    this.setState({password});
+  };
+
+  async doLogin() {
+    const email = this.state.email;
+    const password = this.state.password;
+    const {navigation} = this.props;
+    console.log(email);
+    console.log(password);
+    const loginResult = await doLogin(email, password);
+    if (loginResult.result) {
+      console.log('LoginForm > Login success');
+      navigation.navigate('MainScreen');
+    } else {
+      console.log('LoginForm > Login failed');
+      Alert.alert('Login Fail!', 'Please check your Email or Password', [
+        {
+          text: 'OK',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ]);
+    }
+  }
+
+  async doCreateAccount() {
+    console.log('test');
+  }
+
+  render() {
+    return (
+      <View style={styles.form}>
+        <InputText
+          onChangeText={email => this.setEmailState(email)}
+          inputStyle={loginInputStyles.username}
+          iconName="user"
+          iconStyle={loginInputStyles.usernameIcon}
+          placeholder="Email"
+          textInputStyle={loginInputStyles.usernameInput}
+        />
+        <InputText
+          onChangeText={password => this.setPasswordState(password)}
+          inputStyle={loginInputStyles.password}
+          iconName="lock"
+          iconStyle={loginInputStyles.passwordIcon}
+          placeholder="Password"
+          textInputStyle={loginInputStyles.passwordInput}
         />
         <TouchButton
-          doPress={props.doLogin}
-          buttonTypeStyle={loginInputStyles.forgotPasswordButton}
-          buttonTextStyle={loginInputStyles.forgotPassword}
-          buttonText="Forgot Password?"
+          doPress={this.doLogin}
+          buttonTypeStyle={loginInputStyles.mainButton}
+          buttonTextStyle={loginInputStyles.mainButtonText}
+          buttonText="Log in"
         />
+        <View style={styles.footerTexts}>
+          <TouchButton
+            doPress={this.doCreateAccount}
+            buttonTypeStyle={loginInputStyles.createAccountButton}
+            buttonTextStyle={loginInputStyles.createAccount}
+            buttonText="Create Account"
+          />
+          <TouchButton
+            doPress={this.props.doLogin}
+            buttonTypeStyle={loginInputStyles.forgotPasswordButton}
+            buttonTextStyle={loginInputStyles.forgotPassword}
+            buttonText="Forgot Password?"
+          />
+        </View>
       </View>
-    </View>
-  );
-};
+    );
+  }
+}
 
-export default LoginForm;
+export default props => {
+  const navigation = useNavigation();
+  return <LoginForm {...props} navigation={navigation} />;
+};

@@ -12,22 +12,11 @@ class LoginContainer extends Component {
     return (
       <View style={styles.plantingWithHntaColumn}>
         <Text style={styles.plantingWithHnta}>PLANTING WITH HNTA</Text>
-        <LoginForm doLogin={this.doLogin} />
+        <LoginForm />
         {/*<RegisterForm />*/}
         {/* <ForgotPasswordForm /> */}
       </View>
     );
-  }
-
-  async doLogin() {
-    const email = 'abc@gmail.com';
-    const passwrod = 'admin1234';
-    const loginResult = await doLogin(email, passwrod);
-    if (loginResult.result) {
-      console.log("Login success");
-    } else {
-      console.log("Login failed");
-    }
   }
 }
 

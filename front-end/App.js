@@ -8,6 +8,8 @@ import GardenDetailInfo from './src/screens/planting-environment/garden-detail-i
 import LoginContainer from './src/screens/login';
 import PlantingEnvironmentContainer from './src/screens/planting-environment';
 import {NavigationContainer} from '@react-navigation/native';
+import PlantingProcessContainer from './src/screens/planting-process';
+import MainScreen from './src/screens/main-screen.component';
 
 const log = logger.createLogger();
 
@@ -24,8 +26,10 @@ const App: () => React$Node = () => {
             backgroundColor: 'green',
           },
           headerTintColor: '#fff',
+          headerLeft: null,
         }}>
         <Stack.Screen name="Main" component={MainScreenContainer} />
+        <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="Home" component={HomeContainer} />
         <Stack.Screen name="Login" component={LoginContainer} />
         <Stack.Screen
@@ -33,6 +37,10 @@ const App: () => React$Node = () => {
           component={PlantingEnvironmentContainer}
         />
         <Stack.Screen name="GardenDetailInfo" component={GardenDetailInfo} />
+        <Stack.Screen
+          name="GardenPlanting"
+          component={PlantingProcessContainer}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
