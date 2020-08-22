@@ -12,19 +12,22 @@ class LoginContainer extends Component {
     return (
       <View style={styles.plantingWithHntaColumn}>
         <Text style={styles.plantingWithHnta}>PLANTING WITH HNTA</Text>
-        {/*<LoginForm doLogin={this.doLogin} />*/}
+        <LoginForm doLogin={this.doLogin} />
         {/*<RegisterForm />*/}
-        <ForgotPasswordForm />
+        {/* <ForgotPasswordForm /> */}
       </View>
     );
   }
 
   async doLogin() {
-    await doLogin('john.wick@gmail.com', 'TheJohnWick!1234');
-    const token = await AsyncStorage.getItem('token');
-    const user = JSON.parse(await AsyncStorage.getItem('user'));
-    console.log(`Token: ${token}`);
-    console.log(`User: ${JSON.stringify(user)}`);
+    const email = 'abc@gmail.com';
+    const passwrod = 'admin1234';
+    const loginResult = await doLogin(email, passwrod);
+    if (loginResult.result) {
+      console.log("Login success");
+    } else {
+      console.log("Login failed");
+    }
   }
 }
 

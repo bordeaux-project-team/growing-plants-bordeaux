@@ -8,7 +8,7 @@ import {NavigationContainer} from '@react-navigation/native';
 //check login already or not here when open app
 class MainScreenContainer extends Component {
   render() {
-    return <MainScreen />;
+    return <StartScreen />;
   }
 }
 

@@ -6,12 +6,6 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-const headersAuth = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
-  Authorization: '',
-};
-
 const getToken = async () => {
   try {
     return await AsyncStorage.getItem('token');
@@ -28,7 +22,7 @@ const fetchPost = async (endPoint, data, auth) => {
       header = headersAuth;
       header.Authorization = await getToken();
     }
-    const url = `${apiUrl}${endPoint}`;
+    const url = `${apiUrl}/${endPoint}`;
     return await fetch(url, {
       method: 'POST',
       headers: header,
