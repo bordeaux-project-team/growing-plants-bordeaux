@@ -26,16 +26,16 @@ namespace GrowingPlants.Apis.Controllers
 
         [HttpPost]
         [Route("insert")]
-        public async Task<ApiResult<bool>> InsertPlantingProcesses(IEnumerable<PlantingProcess> plantingProcesses)
+        public async Task<ApiResult<bool>> InsertPlantingProcess(PlantingProcess plantingProcess)
         {
             try
             {
                 var stopwatch = Stopwatch.StartNew();
-                _logger.LogInformation("Insert plantingProcesses");
+                _logger.LogInformation("Insert plantingProcess");
 
-                var result = await _plantingProcessService.InsertPlantingProcesses(plantingProcesses?.ToList());
+                var result = await _plantingProcessService.InsertPlantingProcess(plantingProcess);
 
-                _logger.LogInformation("Insert plantingProcesses complete");
+                _logger.LogInformation("Insert plantingProcess complete");
 
                 stopwatch.Stop();
                 result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
@@ -45,7 +45,7 @@ namespace GrowingPlants.Apis.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Insert plantingProcesses error: {ex}");
+                _logger.LogInformation($"Insert plantingProcess error: {ex}");
 
                 return new ApiResult<bool>
                 {
@@ -146,6 +146,38 @@ namespace GrowingPlants.Apis.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation($"Update processStep error: {ex}");
+
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
+        [HttpPost]
+        [Route("planting-action/insert")]
+        public async Task<ApiResult<bool>> InsertPlantingAction(PlantingAction plantingAction)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Insert plantingAction");
+
+                var result = await _plantingProcessService.InsertPlantingAction(plantingAction);
+
+                _logger.LogInformation("Insert plantingAction complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Insert plantingAction error: {ex}");
 
                 return new ApiResult<bool>
                 {

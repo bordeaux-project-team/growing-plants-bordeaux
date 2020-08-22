@@ -11,7 +11,5 @@ namespace GrowingPlants.Infrastructure.Models
         public string Description { get; set; }
         public int Amount { get; set; }
         public List<PlantingAction> PlantingActions { get; set; }
-        public List<Recurrence> Recurrences { get; set; }
-        public List<Notification> Notifications { get; set; }
     }
 }

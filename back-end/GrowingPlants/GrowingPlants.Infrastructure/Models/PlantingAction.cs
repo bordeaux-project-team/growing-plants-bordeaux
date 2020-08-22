@@ -1,9 +1,12 @@
-﻿namespace GrowingPlants.Infrastructure.Models
+﻿using System;
+
+namespace GrowingPlants.Infrastructure.Models
 {
     public class PlantingAction : BaseModel
     {
         public string Name { get; set; }
-        public string Icon { get; set; }
+        public DateTime ActionTime { get; set; }
+        public double Amount { get; set; }
         public int? MeasurementUnitId { get; set; }
         public MeasurementUnit MeasurementUnit { get; set; }
         public string Description { get; set; }
