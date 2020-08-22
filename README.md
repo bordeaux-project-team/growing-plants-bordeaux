@@ -4,8 +4,8 @@ Step 0: Follow this link to set up environment for React Native: https://reactna
 Step 1: Clone project  
 Step 2: Open Terminal in the project folder or Use Terminal of IDE after open the project  
 Step 3: `npm install`  
-Step 4: `npx react-native start`  
-Step 5: Open emulator  
+Step 4: Open emulator 
+Step 5: `npx react-native start`  
 Step 6: `npx react-native run-android`  
 
 With `Task :app:generateDebugResValues` issue:  
