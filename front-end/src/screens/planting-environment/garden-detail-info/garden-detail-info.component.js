@@ -12,38 +12,52 @@ import {
   DialogTitle,
 } from 'react-native-dialog-component';
 import AddNewLightDialog from './dialog/add-new-light-dialog.component';
+import {insertPlantingEnvironment} from '../../../services/planting-environments-service';
 
 class GardenDetailInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
       search: '',
-      selectedCountryItems: [],
-      selectedTemperatureItems: [],
-      selectedHumidityItems: [],
+      selectedCountryItems: null,
+      selectedTemperatureItems: null,
+      selectedHumidityItems: null,
       isOutdoorType: false,
-      selectedExposureTime: [],
-      selectedWidthDataItems: [],
-      selectedLengthDataItems: [],
+      selectedExposureTime: null,
+      selectedWidthDataItems: null,
+      selectedLengthDataItems: null,
       lightRange: 0,
       wattage: 0,
       colorTemperature: 0,
-      selectedLightTypeItems: [],
+      selectedLightTypeItems: null,
+      light: null,
+      lightText: 'Add a new light',
     };
   }
 
   widthDataItems = [
-    {value: '0', label: 'Select Width'},
-    {value: '1', label: '1ft'},
-    {value: '2', label: '2ft'},
-    {value: '3', label: '3ft'},
+    {value: null, label: 'Select Width'},
+    {value: 1, label: '1ft'},
+    {value: 2, label: '2ft'},
+    {value: 3, label: '3ft'},
+    {value: 4, label: '4ft'},
+    {value: 5, label: '5ft'},
+    {value: 6, label: '6ft'},
   ];
   lengthDataItems = [
-    {value: '0', label: 'Select Length'},
-    {value: '1', label: '1ft'},
-    {value: '2', label: '2ft'},
-    {value: '3', label: '3ft'},
+    {value: null, label: 'Select Length'},
+    {value: 1, label: '1ft'},
+    {value: 2, label: '2ft'},
+    {value: 3, label: '3ft'},
+    {value: 4, label: '4ft'},
+    {value: 5, label: '5ft'},
+    {value: 6, label: '6ft'},
   ];
+
+  setNameState = name => {
+    this.setState({name: name});
+  };
 
   onValueChangeWidth = selectedWidthDataItems => {
     this.setState({selectedWidthDataItems});
@@ -53,34 +67,30 @@ class GardenDetailInfo extends Component {
   };
 
   countryItems = [
-    {value: '0', label: 'Select Country'},
-    {value: '1', label: 'America'},
-    {value: '2', label: 'Argentina'},
-    {value: '3', label: 'Armenia'},
-    {value: '4', label: 'Australia'},
-    {value: '5', label: 'Austria'},
-    {value: '6', label: 'Azerbaijan'},
-    {value: '7', label: 'Argentina'},
-    {value: '8', label: 'Belarus'},
-    {value: '9', label: 'Belgium'},
-    {value: '10', label: 'Brazil'},
+    {value: null, label: 'Select Country'},
+    {value: 'america', label: 'America'},
+    {value: 'argentina', label: 'Argentina'},
+    {value: 'australia', label: 'Australia'},
+    {value: 'england', label: 'England'},
+    {value: 'france', label: 'France'},
+    {value: 'vietnam', label: 'Vietnam'},
   ];
 
   temperatureItems = [
-    {value: '0', label: 'Select Temperature'},
-    {value: '1', label: '10C'},
-    {value: '2', label: '20C'},
-    {value: '3', label: '30C'},
-    {value: '4', label: '40C'},
+    {value: null, label: 'Select Temperature'},
+    {value: 10, label: '10C'},
+    {value: 20, label: '20C'},
+    {value: 30, label: '30C'},
+    {value: 40, label: '40C'},
   ];
 
   humidityItems = [
-    {value: '0', label: 'Select Humidity'},
-    {value: '1', label: '10%'},
-    {value: '2', label: '20%'},
-    {value: '3', label: '30%'},
-    {value: '4', label: '40%'},
-    {value: '5', label: '50%'},
+    {value: null, label: 'Select Humidity'},
+    {value: 10, label: '10%'},
+    {value: 20, label: '20%'},
+    {value: 30, label: '30%'},
+    {value: 40, label: '40%'},
+    {value: 50, label: '50%'},
   ];
 
   onSelectedCountryItemsChange = selectedCountryItems => {
@@ -109,31 +119,31 @@ class GardenDetailInfo extends Component {
   };
 
   exposureTimeItems = [
-    {value: '0', label: '0h'},
-    {value: '1', label: '1h'},
-    {value: '2', label: '2h'},
-    {value: '3', label: '3h'},
-    {value: '4', label: '4h'},
-    {value: '5', label: '5h'},
-    {value: '6', label: '6h'},
-    {value: '7', label: '7h'},
-    {value: '8', label: '8h'},
-    {value: '9', label: '9h'},
-    {value: '10', label: '10h'},
-    {value: '11', label: '11h'},
-    {value: '12', label: '12h'},
-    {value: '13', label: '13h'},
-    {value: '14', label: '14h'},
-    {value: '15', label: '15h'},
-    {value: '16', label: '16h'},
-    {value: '17', label: '17h'},
-    {value: '18', label: '18h'},
-    {value: '19', label: '19h'},
-    {value: '20', label: '20h'},
-    {value: '21', label: '21h'},
-    {value: '22', label: '22h'},
-    {value: '23', label: '23h'},
-    {value: '24', label: '24h'},
+    {value: 0, label: '0h'},
+    {value: 1, label: '1h'},
+    {value: 2, label: '2h'},
+    {value: 3, label: '3h'},
+    {value: 4, label: '4h'},
+    {value: 5, label: '5h'},
+    {value: 6, label: '6h'},
+    {value: 7, label: '7h'},
+    {value: 8, label: '8h'},
+    {value: 9, label: '9h'},
+    {value: 10, label: '10h'},
+    {value: 11, label: '11h'},
+    {value: 12, label: '12h'},
+    {value: 13, label: '13h'},
+    {value: 14, label: '14h'},
+    {value: 15, label: '15h'},
+    {value: 16, label: '16h'},
+    {value: 17, label: '17h'},
+    {value: 18, label: '18h'},
+    {value: 19, label: '19h'},
+    {value: 20, label: '20h'},
+    {value: 21, label: '21h'},
+    {value: 22, label: '22h'},
+    {value: 23, label: '23h'},
+    {value: 24, label: '24h'},
   ];
 
   onSliderChange = low => {
@@ -141,8 +151,22 @@ class GardenDetailInfo extends Component {
     console.log(low);
   };
 
-  doCreate = () => {
+  doCreate = async () => {
     console.log('doCreate');
+    const plantingEnvironment = {
+      name: this.state.name,
+      width: this.state.selectedWidthDataItems,
+      length: this.state.selectedLengthDataItems,
+      countryId: this.state.selectedCountryItems,
+      lightId: this.state.light,
+      temperatureId: this.state.selectedTemperatureItems,
+      humidityId: this.state.selectedHumidityItems,
+      exposureTime: this.state.selectedExposureTime,
+      environmentType: this.state.isOutdoorType ? 'outdoor' : 'indoor',
+    };
+    console.log(plantingEnvironment);
+    const insertResult = await insertPlantingEnvironment(plantingEnvironment);
+    console.log(insertResult);
   };
 
   doCancel = () => {
@@ -150,12 +174,12 @@ class GardenDetailInfo extends Component {
   };
 
   lightTypeItems = [
-    {value: '0', label: 'Type'},
-    {value: '1', label: 'LED'},
-    {value: '2', label: 'LEC'},
-    {value: '3', label: 'HPS'},
-    {value: '4', label: 'CFL'},
-    {value: '5', label: 'T5'},
+    {value: null, label: 'Type'},
+    {value: 'led', label: 'LED'},
+    {value: 'lec', label: 'LEC'},
+    {value: 'hps', label: 'HPS'},
+    {value: 'cfl', label: 'CFL'},
+    {value: 't5', label: 'T5'},
   ];
 
   setSelectedLightTypeItemsState = selectedLightTypeItems => {
@@ -171,9 +195,15 @@ class GardenDetailInfo extends Component {
   };
 
   doNewLightAdd = () => {
-    console.log(this.state.selectedLightTypeItems);
-    console.log(this.state.wattage);
-    console.log(this.state.colorTemperature);
+    const light = {
+      lightType: this.state.selectedLightTypeItems,
+      wattage: this.state.wattage,
+      colorTemperature: this.state.colorTemperature,
+    };
+    this.setState({
+      light: JSON.stringify(light),
+      lightText: 'Added',
+    });
   };
 
   render() {
@@ -186,6 +216,7 @@ class GardenDetailInfo extends Component {
       selectedWidthDataItems,
       selectedLengthDataItems,
       selectedLightTypeItems,
+      lightText,
     } = this.state;
 
     return (
@@ -203,11 +234,13 @@ class GardenDetailInfo extends Component {
             setWattageState={this.setWattageState}
             setColorTemperatureState={this.setColorTemperatureState}
             doNewLightAdd={this.doNewLightAdd}
+            lightText={lightText}
           />
         </DialogComponent>
         <ScrollView style={styles.gardenDetailInfoBackground}>
           <View>
             <InputText
+              onChangeText={name => this.setNameState(name)}
               inputStyle={styles.gardenNameInput}
               placeholder="Garden Name"
               textInputStyle={styles.gardenNameTextInput}
@@ -277,7 +310,7 @@ class GardenDetailInfo extends Component {
               doPress={this.doAddNewLight}
               buttonTypeStyle={styles.addNewLightButton}
               buttonTextStyle={styles.addNewLightButtonText}
-              buttonText="Add a New Light"
+              buttonText={lightText}
             />
             <View style={styles.exposureTime}>
               <Text style={styles.exposureTimeText}>Exposure Time</Text>

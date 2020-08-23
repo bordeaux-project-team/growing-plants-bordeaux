@@ -35,7 +35,7 @@ const AddNewLightDialog = props => {
           doPress={props.doNewLightAdd}
           buttonTypeStyle={styles.addButton}
           buttonTextStyle={loginInputStyles.mainButtonText}
-          buttonText="Add"
+          buttonText={props.lightText}
         />
       </View>
     </View>
