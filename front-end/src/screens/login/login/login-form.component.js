@@ -4,7 +4,8 @@ import styles from './login-form.style';
 import loginInputStyles from '../../common-elements/login-common.style';
 import InputText from '../../common-elements/input-text.component';
 import TouchButton from '../../common-elements/button.component';
-import {doLogin} from '../../../services/user-service';
+import {doLogin, registerAccount} from '../../../services/user-service';
+import {insertPlantingProcess} from '../../../services/planting-process-service';
 import {useNavigation} from '@react-navigation/native';
 
 class LoginForm extends Component {
@@ -48,7 +49,19 @@ class LoginForm extends Component {
   }
 
   async doCreateAccount() {
-    console.log('test');
+    await doLogin("john.wick@gmail.com", "TheJohnWick!1234");
+    const result = await insertPlantingProcess(null);
+    console.log(result);
+    if (result.status === 401) {
+      // navigate to StartScreen
+      console.log("Unauthorized");
+    } else if (result.status === 200) {
+      const actualResult = await result.json();
+      console.log(actualResult);
+    } else {
+      // Other error!
+      console.log("Đã có lỗi xảy ra! Xin vui lòng thử lại")
+    }
   }
 
   render() {

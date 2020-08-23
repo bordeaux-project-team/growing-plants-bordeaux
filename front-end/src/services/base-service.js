@@ -15,12 +15,27 @@ const getToken = async () => {
   }
 }
 
+const fetchGet = async (endPoint, auth) => {
+  try {
+    const header = headers;
+    if (auth) {
+      header.Authorization = `Bearer ${await getToken()}`;
+    }
+    const url = `${apiUrl}/${endPoint}`;
+    return await fetch(url, {
+      headers: header
+    });
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+}
+
 const fetchPost = async (endPoint, data, auth) => {
   try {
-    let header = headers;
+    const header = headers;
     if (auth) {
-      header = headersAuth;
-      header.Authorization = await getToken();
+      header.Authorization = `Bearer ${await getToken()}`;
     }
     const url = `${apiUrl}/${endPoint}`;
     return await fetch(url, {
@@ -34,4 +49,4 @@ const fetchPost = async (endPoint, data, auth) => {
   }
 };
 
-export {fetchPost};
+export {fetchPost, fetchGet};

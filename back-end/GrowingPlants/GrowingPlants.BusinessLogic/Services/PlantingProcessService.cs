@@ -60,6 +60,15 @@ namespace GrowingPlants.BusinessLogic.Services
             };
         }
 
+        public async Task<ApiResult<List<PlantingProcess>>> GetPlantingProcessesByUser(int userId)
+        {
+            return new ApiResult<List<PlantingProcess>>
+            {
+                ApiCode = ApiCode.Success,
+                Result = await _unitOfWork.PlantingProcessRepository.GetByUserId(userId)
+            };
+        }
+
         public async Task<ApiResult<bool>> InsertPlantingAction(PlantingAction plantingAction)
         {
             if (plantingAction == null)

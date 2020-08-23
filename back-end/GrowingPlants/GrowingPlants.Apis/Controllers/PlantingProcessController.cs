@@ -8,9 +8,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GrowingPlants.Apis.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/planting-process")]
     public class PlantingProcessController : ControllerBase
@@ -50,6 +52,38 @@ namespace GrowingPlants.Apis.Controllers
                 return new ApiResult<bool>
                 {
                     Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
+        [HttpGet]
+        [Route("user/{userId}")]
+        public async Task<ApiResult<List<PlantingProcess>>> GetPlantingProcessesByUser(int userId)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation($"Get plantingProcess by userId: {userId}");
+
+                var result = await _plantingProcessService.GetPlantingProcessesByUser(userId);
+
+                _logger.LogInformation("Get plantingProcess complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Get plantingProcesses error - {userId}: {ex}");
+
+                return new ApiResult<List<PlantingProcess>>
+                {
+                    Result = null,
                     ApiCode = ApiCode.UnknownError,
                     ErrorMessage = ex.ToString()
                 };

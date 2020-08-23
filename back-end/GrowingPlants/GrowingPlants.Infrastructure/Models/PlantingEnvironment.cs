@@ -1,4 +1,6 @@
-﻿namespace GrowingPlants.Infrastructure.Models
+﻿using System.Collections.Generic;
+
+namespace GrowingPlants.Infrastructure.Models
 {
     public class PlantingEnvironment : BaseModel
     {
@@ -17,5 +19,6 @@
         public string EnvironmentType { get; set; }
         public int? UserId { get; set; }
         public User User { get; set; }
+        public List<PlantingSpot> PlantingSpots { get; set; }
     }
 }

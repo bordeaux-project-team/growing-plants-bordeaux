@@ -157,15 +157,15 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/planting-spot")]
-        public async Task<ApiResult<List<PlantingSpot>>> GetPlantingSpotsByEnvironmentId(int id)
+        [Route("{environmentId}/planting-spot")]
+        public async Task<ApiResult<List<PlantingSpot>>> GetPlantingSpotsByEnvironmentId(int environmentId)
         {
             try
             {
                 var stopwatch = Stopwatch.StartNew();
                 _logger.LogInformation("Get plantingSpots by plantingEnvironment Id");
 
-                var result = await _plantingEnvironmentService.GetPlantingSpotsByEnvironmentId(id);
+                var result = await _plantingEnvironmentService.GetPlantingSpotsByEnvironmentId(environmentId);
 
                 _logger.LogInformation("Get plantingSpots by plantingEnvironment Id complete");
 
@@ -188,16 +188,16 @@ namespace GrowingPlants.Apis.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("{id}/planting-spot/insert-update")]
-        public async Task<ApiResult<bool>> InsertUpdatePlantingSpots(int environmentId, List<PlantingSpot> plantingSpots)
+        [HttpPost]
+        [Route("{environmentId}/planting-spot/insert-update")]
+        public async Task<ApiResult<bool>> InsertUpdatePlantingSpots(int environmentId, IEnumerable<PlantingSpot> plantingSpots)
         {
             try
             {
                 var stopwatch = Stopwatch.StartNew();
                 _logger.LogInformation("Insert or update plantingSpots");
 
-                var result = await _plantingEnvironmentService.InsertUpdatePlantingSpots(environmentId, plantingSpots);
+                var result = await _plantingEnvironmentService.InsertUpdatePlantingSpots(environmentId, plantingSpots?.ToList());
 
                 _logger.LogInformation("Insert or update plantingSpots complete");
 

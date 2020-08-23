@@ -13,4 +13,19 @@ const doLogin = async (email, password) => {
   return loginResult;
 };
 
-export {doLogin}
+
+export const registerModel = {
+  firstName: 'test',
+  lastName: 'test',
+  dateOfBirth: '1996-09-30', // YYYY-MM-DD
+  gender: true,
+  email: 'test@gmail.com',
+  password: 'abc!1234'
+};
+
+const registerAccount = async (register) => {
+  let response = await fetchPost(`api/user/register-account`, register, false);
+  return await response.json();
+}
+
+export {doLogin, registerAccount}
