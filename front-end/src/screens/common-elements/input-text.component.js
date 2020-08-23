@@ -11,11 +11,15 @@ const InputText = props => {
         value={props.value}
         placeholder={props.placeholder}
         placeholderTextColor="#77C67E"
-        secureTextEntry={false}
+        secureTextEntry={props.secureTextEntry}
         style={props.textInputStyle}
       />
     </View>
   );
+};
+
+InputText.defaultProps = {
+  secureTextEntry: false,
 };
 
 export default InputText;

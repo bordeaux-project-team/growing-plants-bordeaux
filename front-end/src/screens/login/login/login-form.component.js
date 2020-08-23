@@ -63,6 +63,7 @@ class LoginForm extends Component {
           textInputStyle={loginInputStyles.usernameInput}
         />
         <InputText
+          secureTextEntry={true}
           onChangeText={password => this.setPasswordState(password)}
           inputStyle={loginInputStyles.password}
           iconName="lock"
