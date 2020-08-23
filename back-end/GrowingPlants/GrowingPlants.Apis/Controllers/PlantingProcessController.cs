@@ -8,9 +8,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GrowingPlants.Apis.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/planting-process")]
     public class PlantingProcessController : ControllerBase
