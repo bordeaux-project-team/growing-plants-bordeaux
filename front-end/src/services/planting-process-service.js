@@ -1,5 +1,5 @@
-import {fetchPost} from "./base-service";
-
+import {fetchPost, fetchGet} from "./base-service";
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const plantingProcessModel = {
   treeId: 1, // required
@@ -27,4 +27,9 @@ const insertPlantingAction = async (plantingAction) => {
   return await fetchPost(`api/planting-process/planting-action/insert`, plantingAction, true);
 }
 
-export {insertPlantingProcess, insertPlantingAction}
+const getPlantingProcessesByUser = async () => {
+  const userId = JSON.parse(await AsyncStorage.getItem("user")).id;
+  return await fetchGet(`api/planting-process/user/${userId}`, true);
+}
+
+export {insertPlantingProcess, insertPlantingAction, getPlantingProcessesByUser}
