@@ -49,4 +49,4 @@ const fetchPost = async (endPoint, data, auth) => {
   }
 };
 
-export {fetchPost};
+export {fetchPost, fetchGet};
