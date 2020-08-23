@@ -14,8 +14,7 @@ const doLogin = async (email, password) => {
 };
 
 
-// For registerAccount
-const registerModel = {
+export const registerModel = {
   firstName: 'test',
   lastName: 'test',
   dateOfBirth: '1996-09-30', // YYYY-MM-DD
