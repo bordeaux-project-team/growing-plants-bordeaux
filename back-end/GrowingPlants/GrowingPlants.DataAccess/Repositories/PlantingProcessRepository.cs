@@ -14,6 +14,15 @@ namespace GrowingPlants.DataAccess.Repositories
         {
         }
 
+        public async Task<List<PlantingProcess>> GetByUserId(int userId)
+        {
+            return await Context.PlantingProcesses
+                .Where(x => x.UserId == userId)
+                .Include(x => x.ProcessSteps)
+                .ThenInclude(x => x.PlantingActions)
+                .ToListAsync();
+        }
+
         public async Task<List<Tree>> GetPlantedListTrees(int userId, int limit)
         {
             return await Context.PlantingProcesses

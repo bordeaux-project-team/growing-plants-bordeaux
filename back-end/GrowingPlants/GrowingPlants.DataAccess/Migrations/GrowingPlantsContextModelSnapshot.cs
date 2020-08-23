@@ -671,14 +671,14 @@ namespace GrowingPlants.DataAccess.Migrations
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.Humidity", b =>
                 {
                     b.HasOne("GrowingPlants.Infrastructure.Models.MeasurementUnit", "MeasurementUnit")
-                        .WithMany("HumidityList")
+                        .WithMany()
                         .HasForeignKey("MeasurementUnitId");
                 });
 
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.Light", b =>
                 {
                     b.HasOne("GrowingPlants.Infrastructure.Models.MeasurementUnit", "MeasurementUnit")
-                        .WithMany("Lights")
+                        .WithMany()
                         .HasForeignKey("MeasurementUnitId");
                 });
 
@@ -692,7 +692,7 @@ namespace GrowingPlants.DataAccess.Migrations
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.PlantingAction", b =>
                 {
                     b.HasOne("GrowingPlants.Infrastructure.Models.MeasurementUnit", "MeasurementUnit")
-                        .WithMany("PlantingActions")
+                        .WithMany()
                         .HasForeignKey("MeasurementUnitId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.ProcessStep", "ProcessStep")
@@ -707,15 +707,15 @@ namespace GrowingPlants.DataAccess.Migrations
                         .HasForeignKey("CountryId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.Humidity", "Humidity")
-                        .WithMany("PlantingEnvironments")
+                        .WithMany()
                         .HasForeignKey("HumidityId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.Light", "Light")
-                        .WithMany("PlantingEnvironments")
+                        .WithMany()
                         .HasForeignKey("LightId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.Temperature", "Temperature")
-                        .WithMany("PlantingEnvironments")
+                        .WithMany()
                         .HasForeignKey("TemperatureId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.User", "User")
@@ -762,18 +762,18 @@ namespace GrowingPlants.DataAccess.Migrations
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.Temperature", b =>
                 {
                     b.HasOne("GrowingPlants.Infrastructure.Models.MeasurementUnit", "MeasurementUnit")
-                        .WithMany("Temperatures")
+                        .WithMany()
                         .HasForeignKey("MeasurementUnitId");
                 });
 
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.Tree", b =>
                 {
                     b.HasOne("GrowingPlants.Infrastructure.Models.Humidity", "Humidity")
-                        .WithMany("Trees")
+                        .WithMany()
                         .HasForeignKey("HumidityId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.Light", "Light")
-                        .WithMany("Trees")
+                        .WithMany()
                         .HasForeignKey("LightId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.Picture", "Picture")
@@ -785,7 +785,7 @@ namespace GrowingPlants.DataAccess.Migrations
                         .HasForeignKey("PlantTypeId");
 
                     b.HasOne("GrowingPlants.Infrastructure.Models.Temperature", "Temperature")
-                        .WithMany("Trees")
+                        .WithMany()
                         .HasForeignKey("TemperatureId");
                 });
 #pragma warning restore 612, 618

@@ -58,6 +58,38 @@ namespace GrowingPlants.Apis.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("user/{userId}")]
+        public async Task<ApiResult<List<PlantingProcess>>> GetPlantingProcessesByUser(int userId)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation($"Get plantingProcess by userId: {userId}");
+
+                var result = await _plantingProcessService.GetPlantingProcessesByUser(userId);
+
+                _logger.LogInformation("Get plantingProcess complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Get plantingProcesses error - {userId}: {ex}");
+
+                return new ApiResult<List<PlantingProcess>>
+                {
+                    Result = null,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
         [HttpPut]
         [Route("{id}/update")]
         public async Task<ApiResult<bool>> UpdatePlantingProcess(int id, PlantingProcess plantingProcess)

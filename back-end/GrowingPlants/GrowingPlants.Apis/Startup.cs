@@ -53,6 +53,11 @@ namespace GrowingPlants.Apis
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
+
             var secretKey = Encoding.ASCII.GetBytes(Configuration["Secret"]);
             services.AddAuthentication(x =>
             {
