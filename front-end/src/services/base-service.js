@@ -13,7 +13,7 @@ const getToken = async () => {
     console.log(err);
     return null;
   }
-}
+};
 
 const fetchGet = async (endPoint, auth) => {
   try {
@@ -23,13 +23,13 @@ const fetchGet = async (endPoint, auth) => {
     }
     const url = `${apiUrl}/${endPoint}`;
     return await fetch(url, {
-      headers: header
+      headers: header,
     });
   } catch (err) {
     console.log(err);
     return err;
   }
-}
+};
 
 const fetchPost = async (endPoint, data, auth) => {
   try {
