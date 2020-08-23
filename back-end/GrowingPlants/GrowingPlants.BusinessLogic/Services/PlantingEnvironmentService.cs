@@ -22,9 +22,13 @@ namespace GrowingPlants.BusinessLogic.Services
             _logger = loggerFactory.CreateLogger(typeof(PlantingEnvironmentService));
         }
 
-        public Task<ApiResult<List<PlantingEnvironment>>> GetPlantingEnvironmentsByUser(int userId)
+        public async Task<ApiResult<List<PlantingEnvironment>>> GetPlantingEnvironmentsByUser(int userId)
         {
-            throw new NotImplementedException();
+            return new ApiResult<List<PlantingEnvironment>>
+            {
+                ApiCode = ApiCode.Success,
+                Result = await _unitOfWork.PlantingEnvironmentRepository.GetByUserId(userId)
+            };
         }
 
         public async Task<ApiResult<bool>> InsertPlantingEnvironment(PlantingEnvironment plantingEnvironment)
@@ -169,16 +173,6 @@ namespace GrowingPlants.BusinessLogic.Services
             _logger.LogInformation($"Insert or update plantingSpots for {environmentId} - {JsonConvert.SerializeObject(plantingSpots)}");
             var existing = await _unitOfWork.PlantingSpotRepository.GetPlantingSpotsByEnvironmentId(environmentId);
 
-            if (existing == null || !existing.Any())
-            {
-                return new ApiResult<bool>
-                {
-                    ApiCode = ApiCode.NotFound,
-                    Result = false,
-                    ErrorMessage = $"PlantingSpots not found with environment id: {environmentId}"
-                };
-            }
-
             var toInsert = plantingSpots
                 .Where(x => existing.All(y => y.Position != x.Position))
                 .Select(x =>
@@ -190,24 +184,26 @@ namespace GrowingPlants.BusinessLogic.Services
 
             var toUpdate = new List<PlantingSpot>();
 
-            foreach (var existingSpot in existing)
+            if (existing != null && existing.Any())
             {
-                var spot = plantingSpots.FirstOrDefault(x => x.Position == existingSpot.Position);
-                if (spot == null) continue;
+                foreach (var existingSpot in existing)
+                {
+                    var spot = plantingSpots.FirstOrDefault(x => x.Position == existingSpot.Position);
+                    if (spot == null) continue;
 
-                existingSpot.TreeId = spot.TreeId;
-                existingSpot.Amount = spot.Amount;
-                existingSpot.UpdatedAt = DateTime.UtcNow;
-                toUpdate.Add(existingSpot);
+                    existingSpot.TreeId = spot.TreeId;
+                    existingSpot.Amount = spot.Amount;
+                    existingSpot.UpdatedAt = DateTime.UtcNow;
+                    toUpdate.Add(existingSpot);
+                }
             }
 
-            var toDelete = existing.Where(x => plantingSpots.All(y => x.Position != y.Position)).ToList();
+            var toDelete = existing?.Where(x => plantingSpots.All(y => x.Position != y.Position)).ToList() ?? new List<PlantingSpot>();
             _logger.LogInformation($"To insert: {toInsert.Count} | to update: {toUpdate.Count} | to delete: {toDelete.Count}");
 
-            var toInsertTask = _unitOfWork.PlantingSpotRepository.Insert(toInsert);
-            var toUpdateTask = _unitOfWork.PlantingSpotRepository.Update(toUpdate);
-            var toDeleteTask = _unitOfWork.PlantingSpotRepository.Delete(toDelete);
-            await Task.WhenAll(toInsertTask, toUpdateTask, toDeleteTask);
+            var toInsertTask = await _unitOfWork.PlantingSpotRepository.Insert(toInsert);
+            var toUpdateTask = await _unitOfWork.PlantingSpotRepository.Update(toUpdate);
+            var toDeleteTask = await _unitOfWork.PlantingSpotRepository.Delete(toDelete);
 
             return new ApiResult<bool>
             {

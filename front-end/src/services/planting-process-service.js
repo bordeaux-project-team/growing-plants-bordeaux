@@ -12,6 +12,9 @@ export const plantingProcessModel = {
 }
 
 const insertPlantingProcess = async (plantingProcess) => {
+  const userId = JSON.parse(await AsyncStorage.getItem("user")).id;
+  if (!userId) return null;
+  plantingProcess.userId = userId;
   return await fetchPost(`api/planting-process/insert`, plantingProcess, true);
 };
 
@@ -29,6 +32,7 @@ const insertPlantingAction = async (plantingAction) => {
 
 const getPlantingProcessesByUser = async () => {
   const userId = JSON.parse(await AsyncStorage.getItem("user")).id;
+  if (!userId) return null;
   return await fetchGet(`api/planting-process/user/${userId}`, true);
 }
 
