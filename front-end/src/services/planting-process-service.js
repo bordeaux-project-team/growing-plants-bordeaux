@@ -17,12 +17,14 @@ const insertPlantingProcess = async (plantingProcess) => {
 
 
 export const plantingActionModel = {
-  processStepId: 0, // required
-  measurementUnitId: 0,
-
+  processStepId: 1, // required
+  measurementUnitId: null,
+  description: 'Fuck IEI and Bộc đô',
+  actionTime: '2020-08-23T17:30', // Need only time part (HH:mm)
+  amount: 100
 }
 const insertPlantingAction = async (plantingAction) => {
-  return await fetchPost(`api/planting-process/insert`, plantingActionModel, true);
+  return await fetchPost(`api/planting-process/planting-action/insert`, plantingAction, true);
 }
 
 export {insertPlantingProcess, insertPlantingAction}
