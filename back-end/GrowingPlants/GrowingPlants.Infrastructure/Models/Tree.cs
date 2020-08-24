@@ -14,14 +14,10 @@ namespace GrowingPlants.Infrastructure.Models
         public int VegetativeTime { get; set; } // Number of days
         public int FloweringTime { get; set; } // Number of days
         public int HarvestTime { get; set; } // Number of days
-        public int? LightId { get; set; }
-        public Light Light { get; set; }
-        public int? TemperatureId { get; set; }
-        public Temperature Temperature { get; set; }
-        public int? HumidityId { get; set; }
-        public Humidity Humidity { get; set; }
-        public int? PlantTypeId { get; set; }
-        public PlantType PlantType { get; set; }
+        public string Light { get; set; }
+        public string Temperature { get; set; }
+        public string Humidity { get; set; }
+        public string PlantType { get; set; }
         public int WaterLevel { get; set; }
         public string EnvironmentType { get; set; }
         public string PlantingGuide { get; set; }

@@ -39,15 +39,15 @@ namespace GrowingPlants.DataAccess.Repositories
             }
 
             var treesByTemperatureId = Context.Trees.AsQueryable();
-            if (treeSearch.TemperatureId != null)
+            if (!string.IsNullOrEmpty(treeSearch.Temperature))
             {
-                treesByTemperatureId = treesByTemperatureId.Where(x => x.TemperatureId == treeSearch.TemperatureId);
+                treesByTemperatureId = treesByTemperatureId.Where(x => x.Temperature == treeSearch.Temperature);
             }
 
             var treesByPlantTypeId = Context.Trees.AsQueryable();
-            if (treeSearch.PlantTypeId != null)
+            if (!string.IsNullOrEmpty(treeSearch.PlantType))
             {
-                treesByPlantTypeId = treesByPlantTypeId.Where(x => x.PlantTypeId == treeSearch.PlantTypeId);
+                treesByPlantTypeId = treesByPlantTypeId.Where(x => x.PlantType == treeSearch.PlantType);
             }
 
             return await treesByText
