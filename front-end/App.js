@@ -10,6 +10,7 @@ import PlantingEnvironmentContainer from './src/screens/planting-environment';
 import {NavigationContainer} from '@react-navigation/native';
 import PlantingProcessContainer from './src/screens/planting-process';
 import MainScreen from './src/screens/main-screen.component';
+import StartScreen from './src/screens/start-screen.component';
 
 const log = logger.createLogger();
 
@@ -30,6 +31,7 @@ const App: () => React$Node = () => {
         }}>
         <Stack.Screen name="Main" component={MainScreenContainer} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
+        <Stack.Screen name="StartScreen" component={StartScreen} />
         <Stack.Screen name="Home" component={HomeContainer} />
         <Stack.Screen name="Login" component={LoginContainer} />
         <Stack.Screen

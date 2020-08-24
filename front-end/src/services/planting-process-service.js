@@ -23,10 +23,11 @@ const insertPlantingProcess = async plantingProcess => {
 export const plantingActionModel = {
   processStepId: 1, // required
   measurementUnitId: null,
-  description: 'Fuck IEI and Bộc đô',
+  description: 'Describe somethings',
   actionTime: '2020-08-23T17:30', // Need only time part (HH:mm)
   amount: 100,
 };
+
 const insertPlantingAction = async plantingAction => {
   return await fetchPost(
     'api/planting-process/planting-action/insert',

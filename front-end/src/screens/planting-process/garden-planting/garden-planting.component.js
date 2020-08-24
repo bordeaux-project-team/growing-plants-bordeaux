@@ -3,35 +3,23 @@ import {Text, View} from 'react-native';
 import styles from './garden-planting.style';
 import Grid from 'react-native-grid-component';
 import BackgroundScreen from '../../common-screens/background-screen.component';
+import {getPlantingEnvironmentByUser} from '../../../services/planting-environments-service';
 
 class GardenPlanting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gardenWidth: 6,
-      numberOfPlants: [
-        '10',
-        '20',
-        '30',
-        '10',
-        '20',
-        '10',
-        '20',
-        '30',
-        '10',
-        '20',
-        '10',
-        '20',
-        '30',
-        '10',
-        '20',
-        '10',
-        '20',
-        '30',
-        '10',
-        '20',
-      ],
+      planingProcess: undefined,
+      gardenWidth: 5,
+      gardenLength: 10,
+      numberOfPlants: Array(20),
     };
+  }
+
+  componentDidMount() {
+    getPlantingEnvironmentByUser().then(data =>
+      console.log('aaaaaaaaaaaaa', data),
+    );
   }
 
   _renderItem = (data, i) => (

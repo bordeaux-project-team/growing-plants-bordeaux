@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import MainScreen from './main-screen.component';
-import BackgroundScreen from './common-screens/background-screen.component';
-import HomeContainer from './home';
 import StartScreen from './start-screen.component';
-import {NavigationContainer} from '@react-navigation/native';
 import {AsyncStorage} from 'react-native';
 
 //check login already or not here when open app
