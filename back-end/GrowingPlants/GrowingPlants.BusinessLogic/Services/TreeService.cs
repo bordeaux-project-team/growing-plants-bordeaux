@@ -84,13 +84,13 @@ namespace GrowingPlants.BusinessLogic.Services
             existing.EnvironmentType = tree.EnvironmentType;
             existing.GerminationTime = tree.GerminationTime;
             existing.HarvestTime = tree.HarvestTime;
-            existing.HumidityId = tree.HumidityId;
-            existing.LightId = tree.LightId;
-            existing.PlantTypeId = tree.PlantTypeId;
+            existing.Humidity = tree.Humidity;
+            existing.Light = tree.Light;
+            existing.PlantType = tree.PlantType;
             existing.WaterLevel = tree.WaterLevel;
             existing.PlantingGuide = tree.PlantingGuide;
             existing.VegetativeTime = tree.VegetativeTime;
-            existing.TemperatureId = tree.TemperatureId;
+            existing.Temperature = tree.Temperature;
             existing.UpdatedAt = DateTime.UtcNow;
             existing.PictureId = tree.PictureId;
 
@@ -192,10 +192,10 @@ namespace GrowingPlants.BusinessLogic.Services
             var nextPage = new TreeSearch
             {
                 Text = treeSearch.Text,
-                PlantTypeId = treeSearch.PlantTypeId,
+                PlantType = treeSearch.PlantType,
                 WaterLevel = treeSearch.WaterLevel,
                 PageNumber = treeSearch.PageNumber + 1,
-                TemperatureId = treeSearch.TemperatureId
+                Temperature = treeSearch.Temperature
             };
             treeSearch.NextPage = nextPage;
             treeSearch.Trees = searchedTrees;

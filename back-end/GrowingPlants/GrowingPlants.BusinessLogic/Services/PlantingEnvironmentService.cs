@@ -94,13 +94,13 @@ namespace GrowingPlants.BusinessLogic.Services
             }
 
             existing.Name = plantingEnvironment.Name;
-            existing.CountryId = plantingEnvironment.CountryId;
-            existing.HumidityId = plantingEnvironment.HumidityId;
-            existing.TemperatureId = plantingEnvironment.TemperatureId;
+            existing.Country = plantingEnvironment.Country;
+            existing.Humidity = plantingEnvironment.Humidity;
+            existing.Temperature = plantingEnvironment.Temperature;
             existing.ExposureTime = plantingEnvironment.ExposureTime;
             existing.Length = plantingEnvironment.Length;
             existing.Width = plantingEnvironment.Width;
-            existing.LightId = plantingEnvironment.LightId;
+            existing.Light = plantingEnvironment.Light;
             existing.Light = plantingEnvironment.Light;
             existing.EnvironmentType = plantingEnvironment.EnvironmentType;
             existing.UpdatedAt = DateTime.UtcNow;

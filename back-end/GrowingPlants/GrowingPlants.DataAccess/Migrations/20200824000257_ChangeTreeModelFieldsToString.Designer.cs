@@ -4,14 +4,16 @@ using GrowingPlants.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrowingPlants.DataAccess.Migrations
 {
     [DbContext(typeof(GrowingPlantsContext))]
-    partial class GrowingPlantsContextModelSnapshot : ModelSnapshot
+    [Migration("20200824000257_ChangeTreeModelFieldsToString")]
+    partial class ChangeTreeModelFieldsToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,8 +279,8 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MeasurementUnit")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("MeasurementUnitId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -290,6 +292,8 @@ namespace GrowingPlants.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MeasurementUnitId");
 
                     b.HasIndex("ProcessStepId");
 
@@ -678,6 +682,10 @@ namespace GrowingPlants.DataAccess.Migrations
 
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.PlantingAction", b =>
                 {
+                    b.HasOne("GrowingPlants.Infrastructure.Models.MeasurementUnit", "MeasurementUnit")
+                        .WithMany()
+                        .HasForeignKey("MeasurementUnitId");
+
                     b.HasOne("GrowingPlants.Infrastructure.Models.ProcessStep", "ProcessStep")
                         .WithMany("PlantingActions")
                         .HasForeignKey("ProcessStepId");

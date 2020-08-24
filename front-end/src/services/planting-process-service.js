@@ -22,7 +22,7 @@ const insertPlantingProcess = async plantingProcess => {
 
 export const plantingActionModel = {
   processStepId: 1, // required
-  measurementUnitId: null,
+  measurementUnitId: '2ft',
   description: 'Describe somethings',
   actionTime: '2020-08-23T17:30', // Need only time part (HH:mm)
   amount: 100,

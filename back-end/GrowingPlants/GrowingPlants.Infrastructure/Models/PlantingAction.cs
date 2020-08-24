@@ -7,8 +7,7 @@ namespace GrowingPlants.Infrastructure.Models
         public string Name { get; set; }
         public DateTime ActionTime { get; set; }
         public double Amount { get; set; }
-        public int? MeasurementUnitId { get; set; }
-        public MeasurementUnit MeasurementUnit { get; set; }
+        public string MeasurementUnit { get; set; }
         public string Description { get; set; }
         public int? ProcessStepId { get; set; }
         public ProcessStep ProcessStep { get; set; }

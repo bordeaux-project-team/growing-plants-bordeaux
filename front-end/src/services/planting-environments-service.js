@@ -5,12 +5,12 @@ export const plantingEnvironmentModel = {
   name: '',
   width: 5,
   length: 10,
-  countryId: null,
-  lightId: null,
-  temperatureId: null,
-  humidityId: null,
+  country: 'Việt Nam',
+  light: '50',
+  temperature: '30 degree',
+  humidity: '7',
   exposureTime: 5,
-  environmentType: '',
+  environmentType: 'Outdoor',
   userId: 1, // required
 };
 

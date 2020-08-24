@@ -4,14 +4,16 @@ using GrowingPlants.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrowingPlants.DataAccess.Migrations
 {
     [DbContext(typeof(GrowingPlantsContext))]
-    partial class GrowingPlantsContextModelSnapshot : ModelSnapshot
+    [Migration("20200823235634_ChangePlantingEnvironmentModelFieldsToString")]
+    partial class ChangePlantingEnvironmentModelFieldsToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,8 +279,8 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MeasurementUnit")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("MeasurementUnitId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -290,6 +292,8 @@ namespace GrowingPlants.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MeasurementUnitId");
 
                     b.HasIndex("ProcessStepId");
 
@@ -555,11 +559,11 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.Property<int>("HarvestTime")
                         .HasColumnType("int");
 
-                    b.Property<string>("Humidity")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("HumidityId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Light")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("LightId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -567,14 +571,14 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.Property<int?>("PictureId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PlantType")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("PlantTypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PlantingGuide")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Temperature")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("TemperatureId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -587,7 +591,15 @@ namespace GrowingPlants.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("HumidityId");
+
+                    b.HasIndex("LightId");
+
                     b.HasIndex("PictureId");
+
+                    b.HasIndex("PlantTypeId");
+
+                    b.HasIndex("TemperatureId");
 
                     b.ToTable("Tree");
                 });
@@ -678,6 +690,10 @@ namespace GrowingPlants.DataAccess.Migrations
 
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.PlantingAction", b =>
                 {
+                    b.HasOne("GrowingPlants.Infrastructure.Models.MeasurementUnit", "MeasurementUnit")
+                        .WithMany()
+                        .HasForeignKey("MeasurementUnitId");
+
                     b.HasOne("GrowingPlants.Infrastructure.Models.ProcessStep", "ProcessStep")
                         .WithMany("PlantingActions")
                         .HasForeignKey("ProcessStepId");
@@ -739,9 +755,25 @@ namespace GrowingPlants.DataAccess.Migrations
 
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.Tree", b =>
                 {
+                    b.HasOne("GrowingPlants.Infrastructure.Models.Humidity", "Humidity")
+                        .WithMany()
+                        .HasForeignKey("HumidityId");
+
+                    b.HasOne("GrowingPlants.Infrastructure.Models.Light", "Light")
+                        .WithMany()
+                        .HasForeignKey("LightId");
+
                     b.HasOne("GrowingPlants.Infrastructure.Models.Picture", "Picture")
                         .WithMany()
                         .HasForeignKey("PictureId");
+
+                    b.HasOne("GrowingPlants.Infrastructure.Models.PlantType", "PlantType")
+                        .WithMany()
+                        .HasForeignKey("PlantTypeId");
+
+                    b.HasOne("GrowingPlants.Infrastructure.Models.Temperature", "Temperature")
+                        .WithMany()
+                        .HasForeignKey("TemperatureId");
                 });
 #pragma warning restore 612, 618
         }
