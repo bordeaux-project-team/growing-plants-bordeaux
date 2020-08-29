@@ -1,5 +1,5 @@
 {
   "name": "BordeauxGrowingPlants",
   "displayName": "BordeauxGrowingPlants",
-  "apiUrl": "http://52.163.200.27"
+  "apiUrl": "http://localhost:64160"
 }
