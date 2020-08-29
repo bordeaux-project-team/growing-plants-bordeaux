@@ -23,3 +23,17 @@ Step 4: For localhost server: Need to run adb reverse to forward the port to emu
 `cd %ANDROID_HOME%\platform-tools`  
 `adb reverse tcp:64160 tcp:64160`   
 (For Windows, remember remove 'adb' in Task Management > Processes before turn off PC)
+
+**Run with the real server:**     
+Do not open the emulator before below steps   
+Step 1: Run adb   
+`cd %ANDROID_HOME%\platform-tools`  
+`adb kill-server` (if needed or stuck port)   
+`adb start-server`    
+Step 2: Open emulator   
+Step 3: Connect ADB   
+`adb tcpip 49172`   
+`adb connect 52.163.200.27:49172`   
+Step 4: Start front-end   
+`npx react-native start`  
+`npx react-native run-android`  
