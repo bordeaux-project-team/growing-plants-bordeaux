@@ -1,0 +1,73 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'master'
+
+steps:
+
+- task: DotNetCoreCLI@2
+
+  displayName: Restore
+
+  inputs:
+
+    command: restore
+
+    projects: |
+      back-end/GrowingPlants/GrowingPlants.Apis/**/*.csproj
+      back-end/GrowingPlants/GrowingPlants.BusinessLogic/**/*.csproj
+      back-end/GrowingPlants/GrowingPlants.DataAccess/**/*.csproj
+      back-end/GrowingPlants/GrowingPlants.Infrastructure/**/*.csproj
+      back-end/GrowingPlants/GrowingPlants.Tests/**/*.csproj
+
+- task: DotNetCoreCLI@2
+
+  displayName: Build
+
+  inputs:
+
+    projects: |
+      back-end/GrowingPlants/GrowingPlants.Apis/**/*.csproj
+
+- task: DotNetCoreCLI@2
+
+  displayName: Test
+
+  inputs:
+
+    command: test
+
+    projects: |
+      back-end/GrowingPlants/GrowingPlants.Tests/**/*.csproj
+
+- task: DotNetCoreCLI@2
+
+  displayName: Publish
+
+  inputs:
+
+    command: publish
+
+    publishWebProjects: True
+
+    arguments: '--output $(build.artifactstagingdirectory)'
+
+    zipAfterPublish: True
+
+- task: PublishBuildArtifacts@1
+
+  displayName: 'Publish Artifact'
+
+  inputs:
+
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+
+    ArtifactName: GrowingPlants
+
+  condition: succeededOrFailed()
