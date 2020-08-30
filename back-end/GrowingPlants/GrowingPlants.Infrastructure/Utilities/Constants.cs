@@ -10,7 +10,7 @@
 
         public struct TreeSearchPagination
         {
-            public const int RecordsPerPage = 10;
+            public const int RecordsPerPage = 5;
         }
     }
 }
