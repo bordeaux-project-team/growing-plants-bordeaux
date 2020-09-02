@@ -34,10 +34,8 @@ class LoginForm extends Component {
     const {navigation} = this.props;
     const loginResult = await doLogin(email, password);
     if (loginResult.result) {
-      console.log('LoginForm > Login success');
       navigation.navigate('MainScreen');
     } else {
-      console.log('LoginForm > Login failed');
       Alert.alert('Login Fail!', 'Please check your Email or Password', [
         {
           text: 'OK',

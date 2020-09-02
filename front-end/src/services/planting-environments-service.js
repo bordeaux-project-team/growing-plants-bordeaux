@@ -1,11 +1,11 @@
-import {fetchPost, fetchGet} from './base-service';
+import {fetchPost, fetchGet, fetchPut, fetchDelete} from './base-service';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export const plantingEnvironmentModel = {
   name: '',
   width: 5,
   length: 10,
-  country: 'Việt Nam',
+  country: 'Vietnam',
   light: '50',
   temperature: '30 degree',
   humidity: '7',
@@ -27,6 +27,22 @@ const insertPlantingEnvironment = async plantingEnvironment => {
   );
 };
 
+const updatePlantingEnvironment = async (
+  plantingEnvironmentId,
+  plantingEnvironment,
+) => {
+  const userId = JSON.parse(await AsyncStorage.getItem('user')).id;
+  if (!userId || !plantingEnvironmentId) {
+    return null;
+  }
+  plantingEnvironment.userId = userId;
+  return await fetchPut(
+    `api/planting-environment/${plantingEnvironmentId}/update`,
+    plantingEnvironment,
+    true,
+  );
+};
+
 export const plantingSpotModel = {
   treeId: null, // required
   position: 20, // a number from 1 -> area = width * length of environment
@@ -43,16 +59,35 @@ const insertPlantingSpot = async (envId, plantingSpot) => {
   );
 };
 
+const getPlantingSpotsByPlantingEnvironmentId = async envId => {
+  const plantingSpots = await fetchPut(
+    `api/planting-environment/${envId}/planting-spot`,
+    true,
+  );
+  return plantingSpots.json();
+};
+
 const getPlantingEnvironmentByUser = async () => {
   const userId = JSON.parse(await AsyncStorage.getItem('user')).id;
   if (!userId) {
     return null;
   }
-  return await fetchGet(`api/planting-environment/user/${userId}`, true);
+  const plantingEnvironment = await fetchGet(
+    `api/planting-environment/user/${userId}`,
+    true,
+  );
+  return plantingEnvironment.json();
+};
+
+const deletePlantingEnvironment = async envId => {
+  return await fetchDelete(`api/planting-environment/${envId}`, true);
 };
 
 export {
   insertPlantingEnvironment,
+  updatePlantingEnvironment,
   getPlantingEnvironmentByUser,
+  deletePlantingEnvironment,
+  getPlantingSpotsByPlantingEnvironmentId,
   insertPlantingSpot,
 };

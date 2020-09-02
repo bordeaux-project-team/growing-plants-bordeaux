@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import BackgroundScreen from '../../common-screens/background-screen.component';
 import InputText from '../../common-elements/input-text.component';
-import styles from './garden-detail-info.style';
+import styles from './garden-detail-info-edit.style';
 import {Alert, ScrollView, Switch, Text, View} from 'react-native';
 import SelectBox from '../../common-elements/select-box.component';
 import TouchButton from '../../common-elements/button.component';
@@ -11,31 +11,38 @@ import {
   SlideAnimation,
   DialogTitle,
 } from 'react-native-dialog-component';
-import AddNewLightDialog from './dialog/add-new-light-dialog.component';
-import {insertPlantingEnvironment} from '../../../services/planting-environments-service';
+import AddNewLightDialog from './dialog-edit/add-new-light-dialog-edit.component';
+import {updatePlantingEnvironment} from '../../../services/planting-environments-service';
 import {useNavigation} from '@react-navigation/native';
 
-class GardenDetailInfo extends Component {
+class GardenDetailInfoEdit extends Component {
   constructor(props) {
     super(props);
+    const gardenInfo = props.route ? props.route.params.gardenInfo : {};
+    const light = gardenInfo ? gardenInfo.light : null;
     this.state = {
-      name: '',
+      id: gardenInfo ? gardenInfo.id : null,
+      name: gardenInfo ? gardenInfo.name : '',
       search: '',
-      selectedCountryItems: null,
-      selectedTemperatureItems: null,
-      selectedHumidityItems: null,
-      isOutdoorType: false,
-      selectedExposureTime: null,
-      selectedWidthDataItems: null,
-      selectedLengthDataItems: null,
-      lightRange: 0,
-      wattage: 0,
-      colorTemperature: 0,
-      selectedLightTypeItems: null,
-      light: null,
-      lightText: 'Add a new light',
+      selectedCountryItems: gardenInfo ? gardenInfo.country : null,
+      selectedTemperatureItems: gardenInfo ? gardenInfo.temperature : null,
+      selectedHumidityItems: gardenInfo ? gardenInfo.humidity : null,
+      isOutdoorType: gardenInfo
+        ? gardenInfo.environmentType === 'outdoor'
+          ? true
+          : false
+        : false,
+      selectedExposureTime: gardenInfo ? gardenInfo.exposureTime : null,
+      selectedWidthDataItems: gardenInfo ? gardenInfo.width : null,
+      selectedLengthDataItems: gardenInfo ? gardenInfo.length : null,
+      lightRange: light ? light.lightRange : 0,
+      wattage: light ? light.wattage : 0,
+      colorTemperature: light ? light.colorTemperature : 0,
+      selectedLightTypeItems: light ? light.lightType : null,
+      light: light,
+      lightText: 'Edit light',
     };
-    this.doCreate = this.doCreate.bind(this);
+    this.doEdit = this.doEdit.bind(this);
     this.doCancel = this.doCancel.bind(this);
   }
 
@@ -162,23 +169,25 @@ class GardenDetailInfo extends Component {
     this.setState({lightRange: low});
   };
 
-  doCreate = async () => {
+  doEdit = async () => {
     const {navigation} = this.props;
+    const plantingEnvironmentId = this.state.id;
     const plantingEnvironmentModel = {
       name: this.state.name,
       width: this.state.selectedWidthDataItems,
       length: this.state.selectedLengthDataItems,
       country: this.state.selectedCountryItems,
-      light: this.state.light,
-      temperature: this.state.selectedTemperatureItems.toString(),
-      humidity: this.state.selectedHumidityItems.toString(),
+      light: JSON.stringify(this.state.light),
+      temperature: this.state.selectedTemperatureItems,
+      humidity: this.state.selectedHumidityItems,
       exposureTime: this.state.selectedExposureTime,
       environmentType: this.state.isOutdoorType ? 'outdoor' : 'indoor',
     };
-    const insertResult = await insertPlantingEnvironment(
+    const updateResult = await updatePlantingEnvironment(
+      plantingEnvironmentId,
       plantingEnvironmentModel,
     );
-    if (insertResult.status === 200) {
+    if (updateResult.status === 200) {
       navigation.navigate('PlantingEnvironment');
     } else {
       Alert.alert('There was an error!', 'Please try again', [
@@ -222,6 +231,7 @@ class GardenDetailInfo extends Component {
       lightType: this.state.selectedLightTypeItems,
       wattage: this.state.wattage,
       colorTemperature: this.state.colorTemperature,
+      lightRange: this.state.lightRange,
     };
     this.setState({
       light: JSON.stringify(light),
@@ -231,6 +241,7 @@ class GardenDetailInfo extends Component {
 
   render() {
     const {
+      name,
       selectedCountryItems,
       selectedTemperatureItems,
       selectedHumidityItems,
@@ -240,12 +251,15 @@ class GardenDetailInfo extends Component {
       selectedLengthDataItems,
       selectedLightTypeItems,
       lightText,
+      wattage,
+      colorTemperature,
+      lightRange,
     } = this.state;
 
     return (
       <BackgroundScreen>
         <DialogComponent
-          title={<DialogTitle title="New Light" />}
+          title={<DialogTitle title="Edit Light" />}
           ref={dialogComponent => {
             this.dialogComponent = dialogComponent;
           }}
@@ -258,6 +272,8 @@ class GardenDetailInfo extends Component {
             setColorTemperatureState={this.setColorTemperatureState}
             doNewLightAdd={this.doNewLightAdd}
             lightText={lightText}
+            wattage={wattage}
+            colorTemperature={colorTemperature}
           />
         </DialogComponent>
         <ScrollView style={styles.gardenDetailInfoBackground}>
@@ -267,6 +283,7 @@ class GardenDetailInfo extends Component {
               inputStyle={styles.gardenNameInput}
               placeholder="Garden Name"
               textInputStyle={styles.gardenNameTextInput}
+              value={name}
             />
           </View>
 
@@ -352,15 +369,16 @@ class GardenDetailInfo extends Component {
               min={0}
               max={100}
               onValueChanged={this.onSliderChange}
+              initialLowValue={lightRange}
             />
           </View>
 
           <View style={styles.buttonContainer}>
             <TouchButton
-              doPress={this.doCreate}
+              doPress={this.doEdit}
               buttonTypeStyle={styles.createButton}
               buttonTextStyle={styles.cancelButtonText}
-              buttonText="Create"
+              buttonText="Edit"
             />
             <TouchButton
               doPress={this.doCancel}
@@ -377,5 +395,5 @@ class GardenDetailInfo extends Component {
 
 export default props => {
   const navigation = useNavigation();
-  return <GardenDetailInfo {...props} navigation={navigation} />;
+  return <GardenDetailInfoEdit {...props} navigation={navigation} />;
 };

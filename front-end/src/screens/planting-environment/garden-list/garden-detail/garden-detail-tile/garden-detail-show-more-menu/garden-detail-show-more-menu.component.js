@@ -6,13 +6,39 @@ import Menu, {
 } from 'react-native-popup-menu';
 import {Icon} from 'react-native-elements';
 import styles from './garden-detail-show-more-menu.style';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {deletePlantingEnvironment} from '../../../../../../services/planting-environments-service';
 
 const GardenDetailShowMoreMenu = props => {
+  const navigation = useNavigation();
+
+  const editButton = () => {
+    navigation.navigate('GardenDetailInfoEdit', {
+      gardenInfo: props.gardenInfo,
+    });
+  };
+
+  const removeButton = async () => {
+    const plantingEnvironmentId = props.gardenInfo.id;
+    const deleteResult = await deletePlantingEnvironment(plantingEnvironmentId);
+    if (deleteResult.status === 200) {
+      navigation.navigate('MainScreen');
+    } else {
+      Alert.alert('Remove Fail!', 'There is a error', [
+        {
+          text: 'OK',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ]);
+    }
+  };
+
   return (
     <View style={styles.menuContainer}>
       <Menu
-        opened={props.info.isOpen}
+        opened={props.gardenInfo.isOpen}
         onBackdropPress={() => props.onBackdropPress(props.index)}>
         <MenuTrigger
           onSelect={value => props.onOptionSelect(value, props.index)}>
@@ -23,8 +49,8 @@ const GardenDetailShowMoreMenu = props => {
           />
         </MenuTrigger>
         <MenuOptions optionsContainerStyle={styles.optionStyle}>
-          <MenuOption value={1} text="Edit" />
-          <MenuOption value={3} disabled={true} text="Remove" />
+          <MenuOption onSelect={editButton} text="Edit" />
+          <MenuOption onSelect={removeButton} text="Remove" />
         </MenuOptions>
       </Menu>
     </View>

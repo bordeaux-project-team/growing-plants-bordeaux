@@ -5,6 +5,7 @@ import {MainScreenContainer} from './src/screens';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeContainer from './src/screens/home';
 import GardenDetailInfo from './src/screens/planting-environment/garden-detail-info/garden-detail-info.component';
+import GardenDetailInfoEdit from './src/screens/planting-environment/garden-detail-info-edit/garden-detail-info-edit.component';
 import LoginContainer from './src/screens/login';
 import PlantingEnvironmentContainer from './src/screens/planting-environment';
 import {NavigationContainer} from '@react-navigation/native';
@@ -40,7 +41,11 @@ const App: () => React$Node = () => {
         />
         <Stack.Screen name="GardenDetailInfo" component={GardenDetailInfo} />
         <Stack.Screen
-          name="GardenPlanting"
+          name="GardenDetailInfoEdit"
+          component={GardenDetailInfoEdit}
+        />
+        <Stack.Screen
+          name="PlantingProcess"
           component={PlantingProcessContainer}
         />
       </Stack.Navigator>
