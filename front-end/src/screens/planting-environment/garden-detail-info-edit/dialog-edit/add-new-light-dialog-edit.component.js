@@ -1,6 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
-import styles from './add-new-light-dialog.style';
+import styles from './add-new-light-dialog-edit.style';
 import loginInputStyles from '../../../common-elements/login-common.style';
 import InputText from '../../../common-elements/input-text.component';
 import TouchButton from '../../../common-elements/button.component';
@@ -21,6 +21,7 @@ const AddNewLightDialog = props => {
         inputStyle={styles.inputText}
         placeholder="Wattage"
         textInputStyle={loginInputStyles.usernameInput}
+        value={props.wattage}
       />
       <InputText
         onChangeText={colorTemperature =>
@@ -29,6 +30,7 @@ const AddNewLightDialog = props => {
         inputStyle={styles.inputText}
         placeholder="Color Temperature (Kelvins)"
         textInputStyle={loginInputStyles.usernameInput}
+        value={props.colorTemperature}
       />
       <View style={styles.buttonRow}>
         <TouchButton

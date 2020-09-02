@@ -4,9 +4,9 @@ import styles from './login-form.style';
 import loginInputStyles from '../../common-elements/login-common.style';
 import InputText from '../../common-elements/input-text.component';
 import TouchButton from '../../common-elements/button.component';
-import {doLogin, registerAccount} from '../../../services/user-service';
-import {insertPlantingProcess} from '../../../services/planting-process-service';
+import {doLogin} from '../../../services/user-service';
 import {useNavigation} from '@react-navigation/native';
+import LOGIN_SCREEN from '../login-screen.const';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -16,6 +16,8 @@ class LoginForm extends Component {
       password: '',
     };
     this.doLogin = this.doLogin.bind(this);
+    this._navigateToRegister = this._navigateToRegister.bind(this);
+    this._navigateToForgotPassword = this._navigateToForgotPassword.bind(this);
   }
 
   setEmailState = email => {
@@ -30,14 +32,10 @@ class LoginForm extends Component {
     const email = this.state.email;
     const password = this.state.password;
     const {navigation} = this.props;
-    console.log(email);
-    console.log(password);
     const loginResult = await doLogin(email, password);
     if (loginResult.result) {
-      console.log('LoginForm > Login success');
       navigation.navigate('MainScreen');
     } else {
-      console.log('LoginForm > Login failed');
       Alert.alert('Login Fail!', 'Please check your Email or Password', [
         {
           text: 'OK',
@@ -48,20 +46,18 @@ class LoginForm extends Component {
     }
   }
 
-  async doCreateAccount() {
-    await doLogin("john.wick@gmail.com", "TheJohnWick!1234");
-    const result = await insertPlantingProcess(null);
-    console.log(result);
-    if (result.status === 401) {
-      // navigate to StartScreen
-      console.log("Unauthorized");
-    } else if (result.status === 200) {
-      const actualResult = await result.json();
-      console.log(actualResult);
-    } else {
-      // Other error!
-      console.log("Đã có lỗi xảy ra! Xin vui lòng thử lại")
-    }
+  _navigateToRegister() {
+    const {navigation} = this.props;
+    navigation.navigate('StartScreen', {
+      screenType: LOGIN_SCREEN.register,
+    });
+  }
+
+  _navigateToForgotPassword() {
+    const {navigation} = this.props;
+    navigation.navigate('StartScreen', {
+      screenType: LOGIN_SCREEN.forgot,
+    });
   }
 
   render() {
@@ -92,13 +88,13 @@ class LoginForm extends Component {
         />
         <View style={styles.footerTexts}>
           <TouchButton
-            doPress={this.doCreateAccount}
+            doPress={this._navigateToRegister}
             buttonTypeStyle={loginInputStyles.createAccountButton}
             buttonTextStyle={loginInputStyles.createAccount}
             buttonText="Create Account"
           />
           <TouchButton
-            doPress={this.props.doLogin}
+            doPress={this._navigateToForgotPassword}
             buttonTypeStyle={loginInputStyles.forgotPasswordButton}
             buttonTextStyle={loginInputStyles.forgotPassword}
             buttonText="Forgot Password?"

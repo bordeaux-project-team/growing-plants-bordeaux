@@ -13,8 +13,13 @@ const InputSlider = props => {
       selectionColor="#3df"
       blankColor="#f618"
       onValueChanged={props.onValueChanged}
+      initialLowValue={props.initialLowValue}
     />
   );
+};
+
+InputSlider.defaultProps = {
+  initialLowValue: 0,
 };
 
 export default InputSlider;

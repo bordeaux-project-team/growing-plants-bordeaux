@@ -42,16 +42,16 @@ const MainScreen = props => {
           ),
         }}
       />
-      <Tab.Screen
-        name="PlantingProcess"
-        component={PlantingProcessContainer}
-        options={{
-          tabBarLabel: 'PlantingProcess',
-          tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-        }}
-      />
+      {/*<Tab.Screen*/}
+      {/*  name="PlantingProcess"*/}
+      {/*  component={PlantingProcessContainer}*/}
+      {/*  options={{*/}
+      {/*    tabBarLabel: 'PlantingProcess',*/}
+      {/*    tabBarIcon: ({color, size}) => (*/}
+      {/*      <MaterialCommunityIcons name="home" color={color} size={size} />*/}
+      {/*    ),*/}
+      {/*  }}*/}
+      {/*/>*/}
     </Tab.Navigator>
   );
 };
