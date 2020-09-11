@@ -10,6 +10,7 @@ import styles from './garden-planting.style';
 import Grid from 'react-native-grid-component';
 import BackgroundScreen from '../../common-screens/background-screen.component';
 import {getPlantingSpotsByPlantingEnvironmentId} from '../../../services/planting-environments-service';
+import {useNavigation} from '@react-navigation/native';
 
 class GardenPlanting extends Component {
   constructor(props) {
@@ -79,7 +80,8 @@ class GardenPlanting extends Component {
   );
 
   _onSelectPlantingSpot = plantingSpot => {
-    console.log('aaaaaaaaaaaaaa work', plantingSpot);
+    const {navigation} = this.props;
+    navigation.navigate('TreeInformation');
   };
 
   render() {
@@ -109,4 +111,7 @@ class GardenPlanting extends Component {
   }
 }
 
-export default GardenPlanting;
+export default props => {
+  const navigation = useNavigation();
+  return <GardenPlanting {...props} navigation={navigation} />;
+};

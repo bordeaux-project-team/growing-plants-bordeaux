@@ -12,6 +12,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import PlantingProcessContainer from './src/screens/planting-process';
 import MainScreen from './src/screens/main-screen.component';
 import StartScreen from './src/screens/start-screen.component';
+import TreeInformationContainer from './src/screens/tree-infomation';
+import TreeDetailInfo from './src/screens/tree-infomation/tree-detail-info/tree-detail-info.component';
+import PlantNewTree from './src/screens/planting-process/plant-new-tree/plant-new-tree.component';
+import PlantingProcessOverview from './src/screens/planting-process/planting-process-overview/planting-process-overview.component';
+import NewAction from './src/screens/planting-process/new-action/new-action.component';
 
 const log = logger.createLogger();
 
@@ -48,6 +53,17 @@ const App: () => React$Node = () => {
           name="PlantingProcess"
           component={PlantingProcessContainer}
         />
+        <Stack.Screen
+          name="TreeInformation"
+          component={TreeInformationContainer}
+        />
+        <Stack.Screen name="TreeDetailInfo" component={TreeDetailInfo} />
+        <Stack.Screen name="PlantNewTree" component={PlantNewTree} />
+        <Stack.Screen
+          name="PlantingProcessOverview"
+          component={PlantingProcessOverview}
+        />
+        <Stack.Screen name="NewAction" component={NewAction} />
       </Stack.Navigator>
     </NavigationContainer>
   );

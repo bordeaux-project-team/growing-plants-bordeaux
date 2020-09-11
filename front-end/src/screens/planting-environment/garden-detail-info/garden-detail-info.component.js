@@ -85,7 +85,6 @@ class GardenDetailInfo extends Component {
     {value: '20', label: '20C'},
     {value: '30', label: '30C'},
     {value: '40', label: '40C'},
-    {value: '40', label: '40C'},
     {value: '50', label: '50C'},
     {value: '60', label: '60C'},
     {value: '70', label: '70C'},
