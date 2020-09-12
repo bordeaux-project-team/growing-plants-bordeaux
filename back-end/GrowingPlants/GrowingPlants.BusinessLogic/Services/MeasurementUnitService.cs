@@ -63,7 +63,7 @@ namespace GrowingPlants.BusinessLogic.Services
 
             _logger.LogInformation($"MeasurementUnit to update: {JsonConvert.SerializeObject(measurementUnit)}");
 
-            var existing = await _unitOfWork.MeasurementUnitRepository.GetById(measurementUnit.Id);
+            var existing = await _unitOfWork.MeasurementUnitRepository.GetFirstOrDefault(x => x.Id == measurementUnit.Id);
             if (existing == null)
             {
                 _logger.LogError($"MeasurementUnit not found with id: {measurementUnit.Id}");

@@ -81,7 +81,7 @@ namespace GrowingPlants.BusinessLogic.Services
 
             _logger.LogInformation($"plantingEnvironment to update: {JsonConvert.SerializeObject(plantingEnvironment)}");
 
-            var existing = await _unitOfWork.PlantingEnvironmentRepository.GetById(plantingEnvironment.Id);
+            var existing = await _unitOfWork.PlantingEnvironmentRepository.GetFirstOrDefault(x => x.Id == plantingEnvironment.Id);
             if (existing == null)
             {
                 _logger.LogError($"plantingEnvironment not found with id: {plantingEnvironment.Id}");
@@ -115,7 +115,7 @@ namespace GrowingPlants.BusinessLogic.Services
 
         public async Task<ApiResult<bool>> DeletePlantingEnvironment(int id)
         {
-            var toDelete = await _unitOfWork.PlantingEnvironmentRepository.GetById(id);
+            var toDelete = await _unitOfWork.PlantingEnvironmentRepository.GetFirstOrDefault(x => x.Id == id);
             if (toDelete == null)
             {
                 _logger.LogError($"plantingEnvironment not found with id: {id}");
@@ -253,7 +253,7 @@ namespace GrowingPlants.BusinessLogic.Services
 
             _logger.LogInformation($"Humidity to update: {JsonConvert.SerializeObject(humidity)}");
 
-            var existing = await _unitOfWork.HumidityRepository.GetById(humidity.Id);
+            var existing = await _unitOfWork.HumidityRepository.GetFirstOrDefault(x => x.Id == humidity.Id);
             if (existing == null)
             {
                 _logger.LogError($"Humidity not found with id: {humidity.Id}");
@@ -320,7 +320,7 @@ namespace GrowingPlants.BusinessLogic.Services
 
             _logger.LogInformation($"Light to update: {JsonConvert.SerializeObject(light)}");
 
-            var existing = await _unitOfWork.LightRepository.GetById(light.Id);
+            var existing = await _unitOfWork.LightRepository.GetFirstOrDefault(x => x.Id == light.Id);
             if (existing == null)
             {
                 _logger.LogError($"Light not found with id: {light.Id}");
@@ -387,7 +387,7 @@ namespace GrowingPlants.BusinessLogic.Services
 
             _logger.LogInformation($"Temperature to update: {JsonConvert.SerializeObject(temperature)}");
 
-            var existing = await _unitOfWork.TemperatureRepository.GetById(temperature.Id);
+            var existing = await _unitOfWork.TemperatureRepository.GetFirstOrDefault(x => x.Id == temperature.Id);
             if (existing == null)
             {
                 _logger.LogError($"Temperature not found with id: {temperature.Id}");

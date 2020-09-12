@@ -26,35 +26,28 @@ namespace GrowingPlants.DataAccess.Repositories
 
         public async Task<List<Tree>> SearchTrees(TreeSearch treeSearch)
         {
-            var treesByText = Context.Trees.AsQueryable();
+            var treeRepo = GetQueryable();
             if (!string.IsNullOrEmpty(treeSearch.Text))
             {
-                treesByText = treesByText.Where(x => x.Name.Contains(treeSearch.Text));
+                treeRepo = treeRepo.Where(x => x.Name.Contains(treeSearch.Text));
             }
 
-            var treesByWaterLevel = Context.Trees.AsQueryable();
             if (treeSearch.WaterLevel != null)
             {
-                treesByWaterLevel = treesByWaterLevel.Where(x => x.WaterLevel == treeSearch.WaterLevel);
+                treeRepo = treeRepo.Where(x => x.WaterLevel == treeSearch.WaterLevel);
             }
 
-            var treesByTemperatureId = Context.Trees.AsQueryable();
             if (!string.IsNullOrEmpty(treeSearch.Temperature))
             {
-                treesByTemperatureId = treesByTemperatureId.Where(x => x.Temperature == treeSearch.Temperature);
+                treeRepo = treeRepo.Where(x => x.Temperature == treeSearch.Temperature);
             }
 
-            var treesByPlantTypeId = Context.Trees.AsQueryable();
             if (!string.IsNullOrEmpty(treeSearch.PlantType))
             {
-                treesByPlantTypeId = treesByPlantTypeId.Where(x => x.PlantType == treeSearch.PlantType);
+                treeRepo = treeRepo.Where(x => x.PlantType == treeSearch.PlantType);
             }
 
-            return await treesByText
-                .Concat(treesByWaterLevel)
-                .Concat(treesByTemperatureId)
-                .Concat(treesByPlantTypeId)
-                .Distinct()
+            return await treeRepo
                 .OrderBy(x => x.Name)
                 .Skip((treeSearch.PageNumber - 1) * Constants.TreeSearchPagination.RecordsPerPage)
                 .Take(Constants.TreeSearchPagination.RecordsPerPage)

@@ -1,8 +1,11 @@
-﻿using GrowingPlants.DataAccess.Context;
+﻿using System;
+using GrowingPlants.DataAccess.Context;
 using GrowingPlants.DataAccess.IRepositories;
 using GrowingPlants.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace GrowingPlants.DataAccess.Repositories
@@ -16,9 +19,19 @@ namespace GrowingPlants.DataAccess.Repositories
             Context = context;
         }
 
-        public async Task<TEntity> GetById(int id)
+        public IQueryable<TEntity> GetQueryable()
         {
-            return await Context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
+            return Context.Set<TEntity>().AsQueryable();
+        }
+
+        public async Task<TEntity> GetFirstOrDefault(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+        }
+
+        public async Task<IEnumerable<TEntity>> GetList(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await Context.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
         public async Task<bool> Insert(TEntity entity)

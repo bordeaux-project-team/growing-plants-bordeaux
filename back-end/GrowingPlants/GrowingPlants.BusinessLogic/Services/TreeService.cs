@@ -63,7 +63,7 @@ namespace GrowingPlants.BusinessLogic.Services
 
             _logger.LogInformation($"Tree to update: {JsonConvert.SerializeObject(tree)}");
 
-            var existing = await _unitOfWork.TreeRepository.GetById(tree.Id);
+            var existing = await _unitOfWork.TreeRepository.GetFirstOrDefault(x => x.Id == tree.Id);
             if (existing == null)
             {
                 _logger.LogError($"Tree not found with id: {tree.Id}");
@@ -118,7 +118,7 @@ namespace GrowingPlants.BusinessLogic.Services
                 };
             }
 
-            var existing = await _unitOfWork.FavoriteTreeRepository.GetById(favoriteTree.Id);
+            var existing = await _unitOfWork.FavoriteTreeRepository.GetFirstOrDefault(x => x.Id == favoriteTree.Id);
             if (existing == null)
             {
                 _logger.LogInformation($"FavoriteTree to insert: {JsonConvert.SerializeObject(favoriteTree)}");
@@ -248,7 +248,7 @@ namespace GrowingPlants.BusinessLogic.Services
 
             _logger.LogInformation($"PlantType to update: {JsonConvert.SerializeObject(plantType)}");
 
-            var existing = await _unitOfWork.PlantTypeRepository.GetById(plantType.Id);
+            var existing = await _unitOfWork.PlantTypeRepository.GetFirstOrDefault(x => x.Id == plantType.Id);
             if (existing == null)
             {
                 _logger.LogError($"PlantType not found with id: {plantType.Id}");
