@@ -4,14 +4,16 @@ using GrowingPlants.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrowingPlants.DataAccess.Migrations
 {
     [DbContext(typeof(GrowingPlantsContext))]
-    partial class GrowingPlantsContextModelSnapshot : ModelSnapshot
+    [Migration("20200912031927_AddStatusToPlantingAction")]
+    partial class AddStatusToPlantingAction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -373,9 +375,6 @@ namespace GrowingPlants.DataAccess.Migrations
                     b.Property<DateTime>("HarvestDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("PlantingSpotId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -392,8 +391,6 @@ namespace GrowingPlants.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PlantingSpotId");
 
                     b.HasIndex("TreeId");
 
@@ -916,10 +913,6 @@ namespace GrowingPlants.DataAccess.Migrations
 
             modelBuilder.Entity("GrowingPlants.Infrastructure.Models.PlantingProcess", b =>
                 {
-                    b.HasOne("GrowingPlants.Infrastructure.Models.PlantingSpot", "PlantingSpot")
-                        .WithMany()
-                        .HasForeignKey("PlantingSpotId");
-
                     b.HasOne("GrowingPlants.Infrastructure.Models.Tree", "Tree")
                         .WithMany("PlantingProcesses")
                         .HasForeignKey("TreeId");

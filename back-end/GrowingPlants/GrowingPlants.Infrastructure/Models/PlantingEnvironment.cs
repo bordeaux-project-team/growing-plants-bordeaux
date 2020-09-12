@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace GrowingPlants.Infrastructure.Models
 {
@@ -14,7 +15,9 @@ namespace GrowingPlants.Infrastructure.Models
         public int ExposureTime { get; set; } // Number of hours
         public string EnvironmentType { get; set; }
         public int? UserId { get; set; }
+        [JsonIgnore]
         public User User { get; set; }
+        [JsonIgnore]
         public List<PlantingSpot> PlantingSpots { get; set; }
     }
 }

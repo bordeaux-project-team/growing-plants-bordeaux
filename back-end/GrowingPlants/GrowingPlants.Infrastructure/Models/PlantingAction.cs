@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace GrowingPlants.Infrastructure.Models
 {
@@ -9,7 +10,9 @@ namespace GrowingPlants.Infrastructure.Models
         public double Amount { get; set; }
         public string MeasurementUnit { get; set; }
         public string Description { get; set; }
+        public int Status { get; set; }
         public int? ProcessStepId { get; set; }
+        [JsonIgnore]
         public ProcessStep ProcessStep { get; set; }
     }
 }

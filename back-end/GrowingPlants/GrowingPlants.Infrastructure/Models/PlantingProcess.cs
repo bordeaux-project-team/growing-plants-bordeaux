@@ -19,6 +19,10 @@ namespace GrowingPlants.Infrastructure.Models
         public DateTime HarvestDate { get; set; }
         [JsonIgnore]
         public Gallery Gallery { get; set; }
+        public int? PlantingSpotId { get; set; }
+        [JsonIgnore]
+        public PlantingSpot PlantingSpot { get; set; }
+        [JsonIgnore]
         public List<ProcessStep> ProcessSteps { get; set; }
     }
 }

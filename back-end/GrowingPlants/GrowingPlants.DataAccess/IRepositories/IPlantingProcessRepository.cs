@@ -8,5 +8,6 @@ namespace GrowingPlants.DataAccess.IRepositories
     {
         Task<List<Tree>> GetPlantedListTrees(int userId, int limit);
         Task<List<PlantingProcess>> GetByUserId(int userId);
+        Task<PlantingProcess> GetBySpotId(int spotId);
     }
 }

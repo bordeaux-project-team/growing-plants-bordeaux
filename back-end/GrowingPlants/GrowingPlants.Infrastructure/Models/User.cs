@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace GrowingPlants.Infrastructure.Models
 {
@@ -19,7 +20,9 @@ namespace GrowingPlants.Infrastructure.Models
         [NotMapped]
         public string Token { get; set; }
 
+        [JsonIgnore]
         public List<FavoriteTree> FavoriteTrees { get; set; }
+        [JsonIgnore]
         public List<PlantingProcess> PlantingProcesses { get; set; }
     }
 }

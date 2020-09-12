@@ -59,15 +59,15 @@ namespace GrowingPlants.Apis.Controllers
         }
 
         [HttpGet]
-        [Route("user/{userId}")]
-        public async Task<ApiResult<List<PlantingProcess>>> GetPlantingProcessesByUser(int userId)
+        [Route("planting-spot/{spotId}")]
+        public async Task<ApiResult<PlantingProcess>> GetPlantingProcessAtSpot(int spotId)
         {
             try
             {
                 var stopwatch = Stopwatch.StartNew();
-                _logger.LogInformation($"Get plantingProcess by userId: {userId}");
+                _logger.LogInformation($"Get plantingProcess by spotId: {spotId}");
 
-                var result = await _plantingProcessService.GetPlantingProcessesByUser(userId);
+                var result = await _plantingProcessService.GetPlantingProcessAtSpot(spotId);
 
                 _logger.LogInformation("Get plantingProcess complete");
 
@@ -79,9 +79,9 @@ namespace GrowingPlants.Apis.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Get plantingProcesses error - {userId}: {ex}");
+                _logger.LogInformation($"Get plantingProcesses error - {spotId}: {ex}");
 
-                return new ApiResult<List<PlantingProcess>>
+                return new ApiResult<PlantingProcess>
                 {
                     Result = null,
                     ApiCode = ApiCode.UnknownError,
@@ -212,6 +212,72 @@ namespace GrowingPlants.Apis.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation($"Insert plantingAction error: {ex}");
+
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
+        [HttpPut]
+        [Route("planting-action/{id}/update")]
+        public async Task<ApiResult<bool>> UpdatePlantingAction(int id, PlantingAction plantingAction)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Update plantingAction");
+
+                plantingAction.Id = id;
+
+                var result = await _plantingProcessService.UpdatePlantingAction(plantingAction);
+
+                _logger.LogInformation("Update plantingAction complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Update plantingAction error: {ex}");
+
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
+        [HttpDelete]
+        [Route("planting-action/{id}/delete")]
+        public async Task<ApiResult<bool>> DeletePlantingAction(int id)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Delete plantingAction");
+
+                var result = await _plantingProcessService.DeletePlantingAction(id);
+
+                _logger.LogInformation("Delete plantingAction complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Delete plantingAction error: {ex}");
 
                 return new ApiResult<bool>
                 {

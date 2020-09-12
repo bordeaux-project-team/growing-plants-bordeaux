@@ -175,7 +175,7 @@ namespace GrowingPlants.DataAccess.Context
                     ComparisonAgainst = "Unknown",
                     ComparisonWith = "Unknown",
                     PlantType = "Tree",
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = new DateTime(2020, 8, 30, 9, 49, 0),
                 },
                 new Tree
                 {
@@ -196,7 +196,7 @@ namespace GrowingPlants.DataAccess.Context
                     ComparisonAgainst = "Unknown",
                     ComparisonWith = "Unknown",
                     PlantType = "Fruit",
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = new DateTime(2020, 8, 30, 9, 49, 0),
                 },
                 new Tree
                 {
@@ -217,7 +217,7 @@ namespace GrowingPlants.DataAccess.Context
                     ComparisonAgainst = "Unknown",
                     ComparisonWith = "Unknown",
                     PlantType = "Fruit",
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = new DateTime(2020, 8, 30, 9, 49, 0),
                 },
                 new Tree
                 {
@@ -238,7 +238,7 @@ namespace GrowingPlants.DataAccess.Context
                     ComparisonAgainst = "Unknown",
                     ComparisonWith = "Unknown",
                     PlantType = "Fruit",
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = new DateTime(2020, 8, 30, 9, 49, 0),
                 },
                 new Tree
                 {
@@ -259,7 +259,7 @@ namespace GrowingPlants.DataAccess.Context
                     ComparisonAgainst = "Unknown",
                     ComparisonWith = "Unknown",
                     PlantType = "Fruit",
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = new DateTime(2020, 8, 30, 9, 49, 0),
                 },
                 new Tree
                 {
@@ -280,7 +280,7 @@ namespace GrowingPlants.DataAccess.Context
                     ComparisonAgainst = "Unknown",
                     ComparisonWith = "Unknown",
                     PlantType = "Herb",
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = new DateTime(2020, 8, 30, 9, 49, 0),
                 },
                 new Tree
                 {
@@ -301,7 +301,7 @@ namespace GrowingPlants.DataAccess.Context
                     ComparisonAgainst = "Unknown",
                     ComparisonWith = "Unknown",
                     PlantType = "Herb",
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = new DateTime(2020, 8, 30, 9, 49, 0),
                 },
                 new Tree
                 {
@@ -322,7 +322,7 @@ namespace GrowingPlants.DataAccess.Context
                     ComparisonAgainst = "Unknown",
                     ComparisonWith = "Unknown",
                     PlantType = "Herb",
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = new DateTime(2020, 8, 30, 9, 49, 0),
                 },
                 new Tree
                 {
@@ -343,7 +343,7 @@ namespace GrowingPlants.DataAccess.Context
                     ComparisonAgainst = "Unknown",
                     ComparisonWith = "Unknown",
                     PlantType = "Herb",
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = new DateTime(2020, 8, 30, 9, 49, 0),
                 },
                 new Tree
                 {
@@ -364,7 +364,7 @@ namespace GrowingPlants.DataAccess.Context
                     ComparisonAgainst = "Unknown",
                     ComparisonWith = "Unknown",
                     PlantType = "Tree",
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = new DateTime(2020, 8, 30, 9, 49, 0),
                 }
             });
         }

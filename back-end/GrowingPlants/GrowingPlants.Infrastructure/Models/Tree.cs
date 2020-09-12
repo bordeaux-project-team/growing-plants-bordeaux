@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace GrowingPlants.Infrastructure.Models
 {
@@ -9,6 +10,7 @@ namespace GrowingPlants.Infrastructure.Models
         public string ComparisonWith { get; set; }
         public string ComparisonAgainst { get; set; }
         public int? PictureId { get; set; }
+        [JsonIgnore]
         public Picture Picture { get; set; }
         public int GerminationTime { get; set; } // Number of days
         public int VegetativeTime { get; set; } // Number of days
@@ -22,7 +24,9 @@ namespace GrowingPlants.Infrastructure.Models
         public string EnvironmentType { get; set; }
         public string PlantingGuide { get; set; }
         public int ExposureTime { get; set; } // Number of hours
+        [JsonIgnore]
         public List<FavoriteTree> FavoriteTrees { get; set; }
+        [JsonIgnore]
         public List<PlantingProcess> PlantingProcesses { get; set; }
     }
 }

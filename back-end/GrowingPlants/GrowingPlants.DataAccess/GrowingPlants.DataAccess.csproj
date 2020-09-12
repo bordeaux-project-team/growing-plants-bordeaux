@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200615053818_AddTreeLightMeasurementTemperatureAndHumidity.cs" />
     <Compile Remove="Migrations\20200615053818_AddTreeLightMeasurementTemperatureAndHumidity.Designer.cs" />
+    <Compile Remove="Migrations\20200912031729_AddStatusToPlantingAction.cs" />
+    <Compile Remove="Migrations\20200912031729_AddStatusToPlantingAction.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

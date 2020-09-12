@@ -33,5 +33,14 @@ namespace GrowingPlants.DataAccess.Repositories
                 .Select(x => x.Tree)
                 .ToListAsync();
         }
+
+        public async Task<PlantingProcess> GetBySpotId(int spotId)
+        {
+            return await Context.PlantingProcesses
+                .Where(x => x.PlantingSpotId == spotId)
+                .Include(x => x.ProcessSteps)
+                .ThenInclude(x => x.PlantingActions)
+                .FirstOrDefaultAsync();
+        }
     }
 }

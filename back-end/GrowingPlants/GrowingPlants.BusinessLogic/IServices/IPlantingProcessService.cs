@@ -12,6 +12,8 @@ namespace GrowingPlants.BusinessLogic.IServices
         Task<ApiResult<bool>> InsertProcessSteps(int processId, List<ProcessStep> processSteps);
         Task<ApiResult<bool>> UpdateProcessStep(ProcessStep processStep);
         Task<ApiResult<bool>> InsertPlantingAction(PlantingAction plantingAction);
-        Task<ApiResult<List<PlantingProcess>>> GetPlantingProcessesByUser(int userId);
+        Task<ApiResult<bool>> UpdatePlantingAction(PlantingAction plantingAction);
+        Task<ApiResult<bool>> DeletePlantingAction(int id);
+        Task<ApiResult<PlantingProcess>> GetPlantingProcessAtSpot(int userId);
     }
 }
