@@ -17,7 +17,6 @@ namespace GrowingPlants.Infrastructure.Models
         public int? UserId { get; set; }
         [JsonIgnore]
         public User User { get; set; }
-        [JsonIgnore]
         public List<PlantingSpot> PlantingSpots { get; set; }
     }
 }
