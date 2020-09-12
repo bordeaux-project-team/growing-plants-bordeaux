@@ -12,7 +12,6 @@ namespace GrowingPlants.Infrastructure.Models
         public DateTime StartDate { get; set; }
         public string Description { get; set; }
         public int Amount { get; set; }
-        [JsonIgnore]
         public List<PlantingAction> PlantingActions { get; set; }
     }
 }

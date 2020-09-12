@@ -22,7 +22,6 @@ namespace GrowingPlants.Infrastructure.Models
         public int? PlantingSpotId { get; set; }
         [JsonIgnore]
         public PlantingSpot PlantingSpot { get; set; }
-        [JsonIgnore]
         public List<ProcessStep> ProcessSteps { get; set; }
     }
 }
