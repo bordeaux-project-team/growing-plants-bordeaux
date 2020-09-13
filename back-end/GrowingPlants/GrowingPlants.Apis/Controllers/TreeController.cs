@@ -90,6 +90,38 @@ namespace GrowingPlants.Apis.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ApiResult<Tree>> GetTree(int id)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("GetTree");
+
+                var result = await _treeService.GetTree(id);
+
+                _logger.LogInformation("GetTree complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"GetTree error: {ex}");
+
+                return new ApiResult<Tree>
+                {
+                    Result = null,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
         [Authorize(Roles = Constants.UserRole.Admin)]
         [HttpPost]
         [Route("insert")]

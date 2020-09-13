@@ -18,6 +18,7 @@ namespace GrowingPlants.DataAccess.Repositories
         {
             return await Context
                 .PlantingSpots
+                .Include(x => x.Tree)
                 .Where(x => x.PlantingEnvironmentId != null && x.PlantingEnvironmentId.Value == id)
                 .ToListAsync();
         }

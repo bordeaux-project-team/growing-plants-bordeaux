@@ -13,5 +13,6 @@ namespace GrowingPlants.BusinessLogic.IServices
         Task<ApiResult<TreeSearch>> SearchTrees(TreeSearch treeSearch);
         Task<ApiResult<bool>> InsertPlantTypes(List<PlantType> plantTypes);
         Task<ApiResult<bool>> UpdatePlantType(PlantType plantType);
+        Task<ApiResult<Tree>> GetTree(int id);
     }
 }

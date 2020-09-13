@@ -22,6 +22,15 @@ namespace GrowingPlants.BusinessLogic.Services
             _logger = loggerFactory.CreateLogger(typeof(TreeService));
         }
 
+        public async Task<ApiResult<Tree>> GetTree(int id)
+        {
+            return new ApiResult<Tree>
+            {
+                ApiCode = ApiCode.Success,
+                Result = await _unitOfWork.TreeRepository.GetFirstOrDefault(x => x.Id == id)
+            };
+        }
+
         public async Task<ApiResult<bool>> InsertTrees(List<Tree> trees)
         {
             if (trees == null || !trees.Any())
