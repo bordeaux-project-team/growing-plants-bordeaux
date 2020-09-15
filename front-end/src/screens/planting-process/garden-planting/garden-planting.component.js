@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   Text,
@@ -9,81 +10,124 @@ import {
 import styles from './garden-planting.style';
 import Grid from 'react-native-grid-component';
 import BackgroundScreen from '../../common-screens/background-screen.component';
-import {getPlantingSpotsByPlantingEnvironmentId} from '../../../services/planting-environments-service';
+import {StackActions, useNavigation} from '@react-navigation/native';
+import {Avatar, ListItem} from 'react-native-elements';
+import {getPlantingSpotById} from '../../../services/planting-process-service';
+import {getTreeById} from '../../../services/tree-service';
 
 class GardenPlanting extends Component {
   constructor(props) {
     super(props);
+    const plantingEnvironment = props.plantingEnvironment
+      ? props.plantingEnvironment
+      : null;
     this.state = {
       planingProcess: undefined,
       gardenWidth: 0,
       gardenLength: 0,
-      plantingEnvironment: props.plantingEnvironment,
-      plantingSpots: [],
-      exitedPlatingSpots: [],
+      plantingEnvironment,
+      plantingSpots: plantingEnvironment
+        ? plantingEnvironment.plantingSpots
+        : [],
+      isSpotClicked: false,
+      selectedTreeInSpot: {},
+      selectedPlantingSpotModel: {},
     };
   }
 
-  componentDidMount() {
-    this._getPlantingSpots();
-  }
-
-  _getPlantingSpots = () => {
-    const {plantingEnvironment} = this.state;
-    const gardenWidth = plantingEnvironment ? plantingEnvironment.width : 0;
-    const gardenLength = plantingEnvironment ? plantingEnvironment.length : 0;
-    const gardenId = plantingEnvironment ? plantingEnvironment.id : null;
-    const numberOfSpots = gardenWidth * gardenLength;
-    let initialSpots = new Array(numberOfSpots);
-    let exitedPlatingSpots = [];
-    getPlantingSpotsByPlantingEnvironmentId(gardenId).then(
-      plantingSpotsData => {
-        exitedPlatingSpots = plantingSpotsData.result
-          ? plantingSpotsData.result
-          : [];
-      },
-    );
-    for (let i = 0; i < numberOfSpots; i++) {
-      const plantingSpotModel = {
-        treeId: null, // required
-        position: i, // index of spots
-        amount: 0,
-        plantingEnvironmentId: gardenId, // required
-      };
-      initialSpots[i] = plantingSpotModel;
-    }
-    for (let j = 0; j < exitedPlatingSpots.length; j++) {
-      const exitedPlatingSpot = exitedPlatingSpots[j];
-      const position = exitedPlatingSpot.position;
-      const plantingSpotModel = {
-        treeId: exitedPlatingSpot.treeId, // required
-        position: position, // index of spots
-        amount: exitedPlatingSpot.amount,
-        plantingEnvironmentId: gardenId, // required
-      };
-      initialSpots[position] = exitedPlatingSpot;
-    }
-    this.setState({plantingSpots: initialSpots});
-    this.setState({exitedPlatingSpots});
-  };
-
   _renderItem = (plantingSpot, i) => (
     <TouchableOpacity
-      style={styles.item}
+      style={
+        plantingSpot && plantingSpot.amount > 0 ? styles.grownItem : styles.item
+      }
       key={i}
       onPress={() => this._onSelectPlantingSpot(plantingSpot)}>
       <Text style={styles.itemText}>
-        {plantingSpot ? plantingSpot.amount : 0}
+        {plantingSpot && plantingSpot.amount > 0 ? plantingSpot.amount : ''}
       </Text>
     </TouchableOpacity>
   );
 
-  _onSelectPlantingSpot = plantingSpot => {
-    console.log('aaaaaaaaaaaaaa work', plantingSpot);
+  _onSelectPlantingSpot = async selectedPlantingSpotModel => {
+    const {navigation} = this.props;
+    const {plantingSpots, plantingEnvironment} = this.state;
+    if (selectedPlantingSpotModel.amount <= 0) {
+      navigation.dispatch(
+        StackActions.replace('TreeInformation', {
+          plantingSpots,
+          selectedPlantingSpotModel,
+          plantingEnvironment,
+        }),
+      );
+    } else {
+      await this._createTreeInfoInSpotTile(selectedPlantingSpotModel);
+    }
+  };
+
+  _createTreeInfoInSpotTile = async selectedPlantingSpotModel => {
+    const plantingSpotResponse = await getPlantingSpotById(
+      selectedPlantingSpotModel.id,
+    );
+    let selectedTreeInSpot = {};
+    if (plantingSpotResponse && plantingSpotResponse.result) {
+      if (plantingSpotResponse.result.tree) {
+        selectedTreeInSpot = plantingSpotResponse.result.tree;
+        this.setState({selectedTreeInSpot});
+      } else {
+        const treeId = plantingSpotResponse.result.treeId;
+        const getTreeResponse = await getTreeById(treeId);
+        this.setState({selectedTreeInSpot: getTreeResponse.result});
+      }
+    }
+    this.setState({selectedPlantingSpotModel});
+    this.setState({isSpotClicked: true});
+  };
+
+  _getEmptySpot = () => {
+    let numberOfEmptySpot = 0;
+    const {plantingSpots} = this.state;
+    if (plantingSpots) {
+      plantingSpots.forEach(plantingSpot => {
+        if (plantingSpot.amount === 0) {
+          numberOfEmptySpot++;
+        }
+      });
+    }
+    return numberOfEmptySpot;
+  };
+
+  _navigateToPlantingProcessOverview = () => {
+    const {navigation} = this.props;
+    const {
+      selectedPlantingSpotModel,
+      selectedTreeInSpot,
+      plantingSpots,
+      plantingEnvironment,
+    } = this.state;
+    navigation.dispatch(
+      StackActions.replace('PlantingProcessOverview', {
+        plantingSpotModel: selectedPlantingSpotModel,
+        treeInfo: selectedTreeInSpot,
+        plantingSpots,
+        plantingEnvironment,
+      }),
+    );
+  };
+
+  _doBackGardenList = () => {
+    const {navigation} = this.props;
+    navigation.dispatch(StackActions.replace('PlantingEnvironment'));
   };
 
   render() {
-    const {gardenWidth, plantingSpots, exitedPlatingSpots} = this.state;
+    const {
+      gardenWidth,
+      plantingSpots,
+      isSpotClicked,
+      selectedTreeInSpot,
+      selectedPlantingSpotModel,
+    } = this.state;
+    const pictureURL = selectedTreeInSpot.picture;
     return (
       <BackgroundScreen>
         <SafeAreaView style={styles.gridContainer}>
@@ -96,17 +140,53 @@ class GardenPlanting extends Component {
             />
           </ScrollView>
         </SafeAreaView>
+
+        <View>
+          <Button
+            onPress={this._doBackGardenList}
+            title="Back to Garden List"
+          />
+        </View>
+
         <View style={styles.emptyCount}>
           <Text style={styles.emptyText}>
-            {`${plantingSpots.length - exitedPlatingSpots.length} Empty Spots`}
+            {`${this._getEmptySpot()} Empty Spots`}
           </Text>
         </View>
-        <View style={styles.treeInfo}>
-          <Text style={styles.emptyText}>hello</Text>
-        </View>
+
+        {isSpotClicked && (
+          <TouchableOpacity
+            onPress={() => this._navigateToPlantingProcessOverview()}>
+            <View style={styles.treeInfo}>
+              <ListItem containerStyle={styles.container}>
+                <Avatar
+                  rounded
+                  size="small"
+                  containerStyle={styles.avatarItem}
+                  source={
+                    pictureURL
+                      ? {uri: pictureURL}
+                      : require('../../../assets/images/unknown-garden.png')
+                  }
+                />
+                <ListItem.Content>
+                  <ListItem.Title style={styles.treeName}>
+                    {selectedTreeInSpot.name}
+                  </ListItem.Title>
+                  <ListItem.Subtitle>
+                    Amount: {selectedPlantingSpotModel.amount}
+                  </ListItem.Subtitle>
+                </ListItem.Content>
+              </ListItem>
+            </View>
+          </TouchableOpacity>
+        )}
       </BackgroundScreen>
     );
   }
 }
 
-export default GardenPlanting;
+export default props => {
+  const navigation = useNavigation();
+  return <GardenPlanting {...props} navigation={navigation} />;
+};

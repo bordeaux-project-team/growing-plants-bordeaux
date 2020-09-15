@@ -5,7 +5,7 @@ import loginInputStyles from '../../common-elements/login-common.style';
 import InputText from '../../common-elements/input-text.component';
 import TouchButton from '../../common-elements/button.component';
 import {doLogin} from '../../../services/user-service';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 import LOGIN_SCREEN from '../login-screen.const';
 
 class LoginForm extends Component {
@@ -34,7 +34,7 @@ class LoginForm extends Component {
     const {navigation} = this.props;
     const loginResult = await doLogin(email, password);
     if (loginResult.result) {
-      navigation.navigate('MainScreen');
+      navigation.dispatch(StackActions.replace('PlantingEnvironment'));
     } else {
       Alert.alert('Login Fail!', 'Please check your Email or Password', [
         {

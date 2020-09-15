@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
-import MainScreen from './main-screen.component';
 import StartScreen from './start-screen.component';
 import {AsyncStorage} from 'react-native';
+import PlantingEnvironmentContainer from './planting-environment';
 
 //check login already or not here when open app
 class MainScreenContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: '',
+      savedToken: '',
     };
   }
 
-  componentDidMount() {
-    this._retrieveToken();
+  async componentDidMount() {
+    await this._retrieveToken().then(savedToken => this.setState({savedToken}));
   }
 
   _retrieveToken = async () => {
@@ -23,13 +23,14 @@ class MainScreenContainer extends Component {
     } catch (error) {
       console.log('MainScreenContainer > error get token', error);
     }
-    this.setState({token: savedToken});
+    return savedToken;
   };
 
   render() {
-    const {token} = this.state;
-    console.log('MainScreenContainer > token', token);
-    return token ? <MainScreen /> : <StartScreen />;
+    const {savedToken} = this.state;
+    console.log('MainScreenContainer > token', savedToken);
+    // return token ? <MainScreen /> : <StartScreen />;
+    return savedToken ? <PlantingEnvironmentContainer /> : <StartScreen />;
   }
 }
 

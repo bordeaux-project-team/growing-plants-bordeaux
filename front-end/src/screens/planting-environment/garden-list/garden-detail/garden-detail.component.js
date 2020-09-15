@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styles from './garden-detail.style';
-import {SafeAreaView, ScrollView} from 'react-native';
+import {Text, View} from 'react-native';
 import GardenDetailTile from './garden-detail-tile/garden-detail-tile.component';
 import {MenuProvider} from 'react-native-popup-menu';
 import {getPlantingEnvironmentByUser} from '../../../../services/planting-environments-service';
@@ -72,10 +72,10 @@ class GardenDetail extends Component {
   render() {
     const {gardenInfos} = this.state;
     return (
-      <SafeAreaView style={styles.detailContainer}>
-        <ScrollView>
-          <MenuProvider>
-            {gardenInfos.map((gardenInfo, index) => (
+      <View style={styles.detailContainer}>
+        <MenuProvider>
+          {gardenInfos && gardenInfos.length > 0 ? (
+            gardenInfos.map((gardenInfo, index) => (
               <GardenDetailTile
                 key={index}
                 index={index}
@@ -84,10 +84,14 @@ class GardenDetail extends Component {
                 onBackdropPress={this.onBackdropPress}
                 onOptionSelect={this.onOptionSelect}
               />
-            ))}
-          </MenuProvider>
-        </ScrollView>
-      </SafeAreaView>
+            ))
+          ) : (
+            <Text style={styles.emptyGardenMessage}>
+              There is no garden here! Click the button to add one!
+            </Text>
+          )}
+        </MenuProvider>
+      </View>
     );
   }
 }

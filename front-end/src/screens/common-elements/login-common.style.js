@@ -42,19 +42,26 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   createAccountButton: {
-    width: 104,
-    height: 14,
-    alignSelf: 'flex-end',
+    height: 60,
+    borderRadius: 5,
+    justifyContent: 'center',
+    flex: 1,
+    marginRight: 2,
   },
   createAccount: {
     color: 'rgba(255,255,255,1)',
+    alignSelf: 'center',
   },
   forgotPasswordButton: {
+    height: 60,
+    borderRadius: 5,
+    justifyContent: 'center',
     flex: 1,
+    marginLeft: 2,
   },
   forgotPassword: {
     color: 'rgba(255,255,255,1)',
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
   },
   mainButton: {
     height: 59,

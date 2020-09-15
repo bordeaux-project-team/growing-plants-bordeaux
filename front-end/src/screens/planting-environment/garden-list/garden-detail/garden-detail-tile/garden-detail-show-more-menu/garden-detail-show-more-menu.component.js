@@ -7,23 +7,25 @@ import Menu, {
 import {Icon} from 'react-native-elements';
 import styles from './garden-detail-show-more-menu.style';
 import {Alert, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 import {deletePlantingEnvironment} from '../../../../../../services/planting-environments-service';
 
 const GardenDetailShowMoreMenu = props => {
   const navigation = useNavigation();
 
   const editButton = () => {
-    navigation.navigate('GardenDetailInfoEdit', {
-      gardenInfo: props.gardenInfo,
-    });
+    navigation.dispatch(
+      StackActions.replace('GardenDetailInfoEdit', {
+        gardenInfo: props.gardenInfo,
+      }),
+    );
   };
 
   const removeButton = async () => {
     const plantingEnvironmentId = props.gardenInfo.id;
     const deleteResult = await deletePlantingEnvironment(plantingEnvironmentId);
     if (deleteResult.status === 200) {
-      navigation.navigate('MainScreen');
+      navigation.dispatch(StackActions.replace('PlantingEnvironment'));
     } else {
       Alert.alert('Remove Fail!', 'There is a error', [
         {

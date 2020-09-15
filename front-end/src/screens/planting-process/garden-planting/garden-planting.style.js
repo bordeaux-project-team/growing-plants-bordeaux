@@ -1,37 +1,50 @@
 import {StyleSheet} from 'react-native';
+import CONSTANTS from '../../styles/constant.style';
 
 const styles = StyleSheet.create({
   item: {
     flex: 1,
     height: 35,
     margin: 5,
-    backgroundColor: '#9B6300',
+    backgroundColor: '#bab419',
+  },
+  grownItem: {
+    flex: 1,
+    height: 35,
+    margin: 5,
+    backgroundColor: '#e7d3bb',
   },
   itemText: {
     textAlign: 'center',
   },
-  gridContainer: {},
+  gridContainer: {
+    height: '70%',
+  },
   list: {
     flex: 1,
     margin: 25,
   },
   emptyCount: {
     backgroundColor: '#035e7b',
-    height: '8%',
     width: '100%',
     padding: 12,
-    paddingLeft: 30,
-    position: 'absolute',
-    bottom: 150,
+    paddingLeft: CONSTANTS.commonMainMargin,
   },
   emptyText: {
     color: 'white',
   },
   treeInfo: {
-    height: 150,
     width: '100%',
-    position: 'absolute',
-    bottom: 0,
+  },
+  container: {
+    backgroundColor: '#a5f3dd',
+  },
+  avatarItem: {
+    margin: 20,
+    textAlign: 'center',
+  },
+  treeName: {
+    fontWeight: 'bold',
   },
 });
 

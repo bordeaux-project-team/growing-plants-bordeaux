@@ -1,12 +1,13 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../../styles/color.style';
+import CONSTANTS from '../../../styles/constant.style';
 
 const styles = StyleSheet.create({
   conditionContainer: {
     flexDirection: 'row',
   },
   selectBoxContainer: {
-    marginTop: 15,
+    marginTop: CONSTANTS.commonDetailMargin,
     borderWidth: 5,
     borderColor: COLORS.commonBorder,
   },

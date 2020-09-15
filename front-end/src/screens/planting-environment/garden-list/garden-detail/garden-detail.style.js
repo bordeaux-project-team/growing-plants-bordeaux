@@ -1,8 +1,13 @@
 import {StyleSheet} from 'react-native';
+import CONSTANTS from '../../../styles/constant.style';
 
 const styles = StyleSheet.create({
   detailContainer: {
-    marginTop: 15,
+    marginTop: CONSTANTS.commonDetailMargin,
+  },
+  emptyGardenMessage: {
+    textAlign: 'center',
+    color: 'blue',
   },
 });
 

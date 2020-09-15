@@ -1,11 +1,22 @@
 import {StyleSheet} from 'react-native';
+import CONSTANTS from '../../styles/constant.style';
 
 const styles = StyleSheet.create({
   gardenListBackground: {
     flex: 1,
-    marginTop: 41,
-    marginLeft: 41,
-    marginRight: 41,
+    margin: CONSTANTS.commonMainMargin,
+  },
+  gardenTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white',
+  },
+  logOutButtonContainer: {
+    marginTop: 15,
+  },
+  logOutButton: {
+    backgroundColor: '#1E6738',
   },
 });
 

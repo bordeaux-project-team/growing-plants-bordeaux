@@ -13,7 +13,7 @@ import {
 } from 'react-native-dialog-component';
 import AddNewLightDialog from './dialog/add-new-light-dialog.component';
 import {insertPlantingEnvironment} from '../../../services/planting-environments-service';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 class GardenDetailInfo extends Component {
   constructor(props) {
@@ -84,7 +84,6 @@ class GardenDetailInfo extends Component {
     {value: '10', label: '10C'},
     {value: '20', label: '20C'},
     {value: '30', label: '30C'},
-    {value: '40', label: '40C'},
     {value: '40', label: '40C'},
     {value: '50', label: '50C'},
     {value: '60', label: '60C'},
@@ -164,22 +163,27 @@ class GardenDetailInfo extends Component {
 
   doCreate = async () => {
     const {navigation} = this.props;
+    const gardenWidth = this.state.selectedWidthDataItems;
+    const gardenLength = this.state.selectedLengthDataItems;
+    const numberOfSpots = gardenWidth * gardenLength;
+    const plantingSpots = this._generateEmptyPlantingSpots(numberOfSpots);
     const plantingEnvironmentModel = {
       name: this.state.name,
-      width: this.state.selectedWidthDataItems,
-      length: this.state.selectedLengthDataItems,
+      width: gardenWidth,
+      length: gardenLength,
       country: this.state.selectedCountryItems,
       light: this.state.light,
       temperature: this.state.selectedTemperatureItems.toString(),
       humidity: this.state.selectedHumidityItems.toString(),
       exposureTime: this.state.selectedExposureTime,
       environmentType: this.state.isOutdoorType ? 'outdoor' : 'indoor',
+      plantingSpots,
     };
     const insertResult = await insertPlantingEnvironment(
       plantingEnvironmentModel,
     );
     if (insertResult.status === 200) {
-      navigation.navigate('PlantingEnvironment');
+      navigation.dispatch(StackActions.replace('PlantingEnvironment'));
     } else {
       Alert.alert('There was an error!', 'Please try again', [
         {
@@ -191,9 +195,21 @@ class GardenDetailInfo extends Component {
     }
   };
 
+  _generateEmptyPlantingSpots = numberOfSpots => {
+    let plantingSpots = new Array(numberOfSpots);
+    for (let position = 0; position < numberOfSpots; position++) {
+      const plantingSpotModel = {
+        position: position, // index of spots
+        amount: 0,
+      };
+      plantingSpots[position] = plantingSpotModel;
+    }
+    return plantingSpots;
+  };
+
   doCancel = () => {
     const {navigation} = this.props;
-    navigation.goBack();
+    navigation.dispatch(StackActions.replace('PlantingEnvironment'));
   };
 
   lightTypeItems = [

@@ -1,5 +1,6 @@
 import {apiUrl} from '../../app.json';
 import AsyncStorage from '@react-native-community/async-storage';
+import Toast from 'react-native-simple-toast';
 
 const headers = {
   Accept: 'application/json',
@@ -22,6 +23,7 @@ const fetchGet = async (endPoint, auth) => {
       header.Authorization = `Bearer ${await getToken()}`;
     }
     const url = `${apiUrl}/${endPoint}`;
+    //Toast.show('fetchGet: ' + url, Toast.LONG);
     return await fetch(url, {
       headers: header,
     });
@@ -38,6 +40,7 @@ const fetchPost = async (endPoint, data, auth) => {
       header.Authorization = `Bearer ${await getToken()}`;
     }
     const url = `${apiUrl}/${endPoint}`;
+    //Toast.show('fetchPost: ' + url, Toast.LONG);
     return await fetch(url, {
       method: 'POST',
       headers: header,
