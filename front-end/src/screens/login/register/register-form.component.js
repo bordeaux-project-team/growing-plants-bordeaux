@@ -103,7 +103,7 @@ class RegisterForm extends Component {
           doPress={this.doCreateAccount}
           buttonTypeStyle={loginInputStyles.mainButton}
           buttonTextStyle={loginInputStyles.mainButtonText}
-          buttonText="Sigh Up"
+          buttonText="Sign Up"
         />
       </View>
     );
