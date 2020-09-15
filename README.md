@@ -1,4 +1,9 @@
 # Project of Universite de Bordeaux
+Student Name    
+PO/SM: **Ly Bao Huy**   
+Front-end Developer: **Trinh Ngoc The Anh**    
+Back-end Developer: **Nguyen Ngoc Nhan**    
+Quality Assurance: **Mai Tien Thanh**   
 
 **Run the front-end:**  
 Step 0: Follow this link to set up environment for React Native: https://reactnative.dev/docs/environment-setup  
