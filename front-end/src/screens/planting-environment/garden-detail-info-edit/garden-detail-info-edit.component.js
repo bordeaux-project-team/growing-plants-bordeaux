@@ -13,7 +13,7 @@ import {
 } from 'react-native-dialog-component';
 import AddNewLightDialog from './dialog-edit/add-new-light-dialog-edit.component';
 import {updatePlantingEnvironment} from '../../../services/planting-environments-service';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 class GardenDetailInfoEdit extends Component {
   constructor(props) {
@@ -39,6 +39,7 @@ class GardenDetailInfoEdit extends Component {
       wattage: light ? light.wattage : 0,
       colorTemperature: light ? light.colorTemperature : 0,
       selectedLightTypeItems: light ? light.lightType : null,
+      plantingSpots: gardenInfo ? gardenInfo.plantingSpots : [],
       light: light,
       lightText: 'Edit light',
     };
@@ -182,13 +183,14 @@ class GardenDetailInfoEdit extends Component {
       humidity: this.state.selectedHumidityItems,
       exposureTime: this.state.selectedExposureTime,
       environmentType: this.state.isOutdoorType ? 'outdoor' : 'indoor',
+      plantingSpots: this.state.plantingSpots,
     };
     const updateResult = await updatePlantingEnvironment(
       plantingEnvironmentId,
       plantingEnvironmentModel,
     );
     if (updateResult.status === 200) {
-      navigation.navigate('PlantingEnvironment');
+      navigation.dispatch(StackActions.replace('PlantingEnvironment'));
     } else {
       Alert.alert('There was an error!', 'Please try again', [
         {
@@ -202,7 +204,7 @@ class GardenDetailInfoEdit extends Component {
 
   doCancel = () => {
     const {navigation} = this.props;
-    navigation.goBack();
+    navigation.dispatch(StackActions.replace('PlantingEnvironment'));
   };
 
   lightTypeItems = [

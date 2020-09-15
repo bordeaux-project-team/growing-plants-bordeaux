@@ -58,10 +58,9 @@ class CalendarProcess extends Component {
           .format('MMMM YYYY'),
         isCurrentDate: false,
       };
-      const currentDate =
-        moment()
-          .toDate()
-          .getDate() + 1;
+      const currentDate = moment()
+        .toDate()
+        .getDate();
       const currentMonth =
         moment()
           .toDate()
@@ -91,7 +90,7 @@ class CalendarProcess extends Component {
         },
       });
     }
-    console.log('aaaaaaaaaaaaa', dateData);
+    this.props.onPressDate(dateData);
   };
 
   handleMonthYearComponent = () => {
@@ -105,18 +104,32 @@ class CalendarProcess extends Component {
   };
 
   handleDateComponentDisplay = () => {
+    let currentDate = 0;
     return this.state.weekObject[0].map((date, index) => {
       let isPressed =
         this.state.selectedDate.day == date.day &&
         this.state.selectedDate.date == date.date;
-      const setDateColor = date =>
-        date.isCurrentDate
-          ? isPressed
-            ? this.props.pressedColor
-            : 'green'
-          : isPressed
-          ? this.props.pressedColor
-          : this.props.depressedColor;
+      const setDateColor = date => {
+        if (date.isCurrentDate) {
+          currentDate = date.date;
+          this.setState({currentDate});
+          if (isPressed) {
+            return this.props.pressedColor;
+          } else {
+            return 'green';
+          }
+        } else {
+          if (isPressed) {
+            return this.props.pressedColor;
+          } else {
+            if (date.date < currentDate) {
+              return 'gray';
+            } else {
+              return this.props.depressedColor;
+            }
+          }
+        }
+      };
       return (
         <TouchableOpacity
           key={index}

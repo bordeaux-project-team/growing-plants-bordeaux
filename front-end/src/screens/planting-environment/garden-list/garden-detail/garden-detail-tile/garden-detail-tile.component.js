@@ -3,7 +3,7 @@ import styles from './garden-detail-tile.style';
 import {ListItem} from 'react-native-elements';
 import {Text, TouchableOpacity, View} from 'react-native';
 import GardenDetailShowMoreMenu from './garden-detail-show-more-menu/garden-detail-show-more-menu.component';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 class GardenDetailTile extends Component {
   constructor(props) {
@@ -12,9 +12,11 @@ class GardenDetailTile extends Component {
 
   _navigateToPlantingProcess() {
     const {navigation, gardenInfo} = this.props;
-    navigation.navigate('PlantingProcess', {
-      plantingEnvironment: gardenInfo,
-    });
+    navigation.dispatch(
+      StackActions.replace('PlantingProcess', {
+        plantingEnvironment: gardenInfo,
+      }),
+    );
   }
 
   render() {

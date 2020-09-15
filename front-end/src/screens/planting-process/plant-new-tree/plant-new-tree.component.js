@@ -7,8 +7,9 @@ import InputText from '../../common-elements/input-text.component';
 import Timeline from 'react-native-timeline-flatlist';
 import InputDate from '../../common-elements/input-date.component';
 import TouchButton from '../../common-elements/button.component';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 import {insertPlantingProcess} from '../../../services/planting-process-service';
+import {insertOrUpdatePlantingSpot} from '../../../services/planting-environments-service';
 
 class PlantNewTree extends Component {
   constructor(props) {
@@ -17,6 +18,11 @@ class PlantNewTree extends Component {
     this.state = {
       amountOfTree: 0,
       startDate: currentDate,
+      plantingSpots: props.route ? props.route.params.plantingSpots : {},
+      plantingSpotModel: props.route
+        ? props.route.params.plantingSpotModel
+        : {},
+      treeInfo: props.route ? props.route.params.treeInfo : {},
     };
   }
 
@@ -25,7 +31,7 @@ class PlantNewTree extends Component {
   };
 
   _getPlantingProcessModel = startDate => {
-    const treeInfo = this.props.route ? this.props.route.params.treeInfo : {};
+    const {treeInfo} = this.state;
     const convertedStartDate = new Date(startDate);
     const germinationDate = this._getAddedDate(
       convertedStartDate,
@@ -110,15 +116,26 @@ class PlantNewTree extends Component {
 
   _doPlant = async () => {
     const {navigation} = this.props;
-    const {amountOfTree, startDate} = this.state;
-    const treeInfo = this.props.route ? this.props.route.params.treeInfo : {};
-    const plantingProcessModel = this._getPlantingProcessModel(startDate);
-    const insertResult = await insertPlantingProcess(plantingProcessModel);
-    if (insertResult.status === 200) {
-      navigation.navigate('PlantingProcessOverview', {
-        amountOfTree,
-        treeInfo,
-      });
+    const {plantingSpots, plantingSpotModel, treeInfo} = this.state;
+    const updatePlantingSpotResult = await this._updatePlantingSpot(
+      plantingSpots,
+      plantingSpotModel,
+    );
+    const insertPlantingProcessResult = await this._insertPlantingProcess(
+      plantingSpotModel,
+    );
+    const plantingEnvironment = this.props.route
+      ? this.props.route.params.plantingEnvironment
+      : {};
+    if (updatePlantingSpotResult.result && insertPlantingProcessResult.result) {
+      navigation.dispatch(
+        StackActions.replace('PlantingProcessOverview', {
+          plantingSpotModel,
+          treeInfo,
+          plantingSpots,
+          plantingEnvironment,
+        }),
+      );
     } else {
       Alert.alert('There was an error!', 'Please try again', [
         {
@@ -130,9 +147,42 @@ class PlantNewTree extends Component {
     }
   };
 
+  _updatePlantingSpot = async (plantingSpots, plantingSpotModel) => {
+    const {amountOfTree} = this.state;
+    const treeInfo = this.props.route ? this.props.route.params.treeInfo : {};
+    plantingSpotModel.amount = amountOfTree;
+    plantingSpotModel.treeId = treeInfo.id;
+    plantingSpotModel.tree = treeInfo;
+    plantingSpots[plantingSpotModel.position] = plantingSpotModel;
+    let updateResult = {};
+    if (amountOfTree > 0) {
+      updateResult = await insertOrUpdatePlantingSpot(plantingSpots);
+    }
+    return updateResult;
+  };
+
+  _insertPlantingProcess = async plantingSpotModel => {
+    const {startDate} = this.state;
+    const plantingProcessModel = this._getPlantingProcessModel(startDate);
+    plantingProcessModel.plantingSpotId = plantingSpotModel.id;
+    const insertResult = await insertPlantingProcess(plantingProcessModel);
+    return insertResult;
+  };
+
   _doCancel = () => {
     const {navigation} = this.props;
-    navigation.goBack();
+    const {plantingSpots, plantingSpotModel, treeInfo} = this.state;
+    const plantingEnvironment = this.props.route
+      ? this.props.route.params.plantingEnvironment
+      : {};
+    navigation.dispatch(
+      StackActions.replace('TreeDetailInfo', {
+        plantingSpots,
+        plantingSpotModel,
+        treeInfo,
+        plantingEnvironment,
+      }),
+    );
   };
 
   render() {
@@ -166,13 +216,13 @@ class PlantNewTree extends Component {
                   style: styles.optionTimeline,
                 }}
               />
-              <View style={styles.changeStartDateButton}>
-                <InputDate
-                  placeholder={'CHANGE START DATE'}
-                  style={styles.changeStartDateButtonText}
-                  onDateChange={this._onDateChange}
-                />
-              </View>
+              {/*<View style={styles.changeStartDateButton}>*/}
+              {/*  <InputDate*/}
+              {/*    placeholder={'CHANGE START DATE'}*/}
+              {/*    style={styles.changeStartDateButtonText}*/}
+              {/*    onDateChange={this._onDateChange}*/}
+              {/*  />*/}
+              {/*</View>*/}
             </View>
 
             <View style={styles.buttonContainer}>

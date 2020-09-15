@@ -1,13 +1,14 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../styles/color.style';
+import CONSTANTS from '../../styles/constant.style';
 
 const styles = StyleSheet.create({
   componentContainer: {},
   selectBoxContainer: {
     borderWidth: 5,
     borderColor: COLORS.commonBorder,
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: CONSTANTS.commonDetailMargin,
+    marginRight: CONSTANTS.commonDetailMargin,
   },
   selectBoxStyle: {
     height: 40,
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     color: COLORS.commonText,
   },
   inputDateContainer: {
-    margin: 15,
+    margin: CONSTANTS.commonDetailMargin,
     backgroundColor: COLORS.commonBorder,
   },
   changeStartDateButtonText: {
@@ -23,9 +24,9 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   descriptionInput: {
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 15,
+    marginLeft: CONSTANTS.commonDetailMargin,
+    marginRight: CONSTANTS.commonDetailMargin,
+    marginBottom: CONSTANTS.commonDetailMargin,
     borderWidth: 5,
     borderColor: COLORS.commonBackground,
     backgroundColor: COLORS.commonBorder,
@@ -38,9 +39,9 @@ const styles = StyleSheet.create({
     marginTop: -22,
   },
   boxContainer: {
-    marginRight: 15,
-    marginLeft: 15,
-    marginBottom: 15,
+    marginRight: CONSTANTS.commonDetailMargin,
+    marginLeft: CONSTANTS.commonDetailMargin,
+    marginBottom: CONSTANTS.commonDetailMargin,
     borderWidth: 2,
     borderColor: 'black',
     padding: 5,
@@ -52,8 +53,8 @@ const styles = StyleSheet.create({
   },
   amountOptions: {
     flexDirection: 'row',
-    marginRight: 15,
-    marginLeft: 15,
+    marginRight: CONSTANTS.commonDetailMargin,
+    marginLeft: CONSTANTS.commonDetailMargin,
   },
   amountNumber: {
     flexDirection: 'row',
@@ -72,14 +73,14 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   notificationContainer: {
-    marginTop: 15,
-    marginLeft: 15,
-    marginRight: 15,
+    marginTop: CONSTANTS.commonDetailMargin,
+    marginLeft: CONSTANTS.commonDetailMargin,
+    marginRight: CONSTANTS.commonDetailMargin,
     marginBottom: 10,
   },
   buttonContainer: {
     height: 59,
-    margin: 15,
+    margin: CONSTANTS.commonDetailMargin,
     flexDirection: 'row',
   },
   leftButton: {

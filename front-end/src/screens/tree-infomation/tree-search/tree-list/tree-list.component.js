@@ -11,14 +11,27 @@ class TreeList extends Component {
   }
 
   render() {
-    const {treeList, loadMorePage} = this.props;
+    const {
+      treeList,
+      loadMorePage,
+      plantingSpots,
+      plantingSpotModel,
+      plantingEnvironment,
+    } = this.props;
     return (
       <View>
         <List
           style={styles.listContainer}
           horizontal={true}
           dataArray={treeList}
-          renderRow={treeInfo => <TreeDetailTile treeInfo={treeInfo} />}
+          renderRow={treeInfo => (
+            <TreeDetailTile
+              treeInfo={treeInfo}
+              plantingSpots={plantingSpots}
+              plantingSpotModel={plantingSpotModel}
+              plantingEnvironment={plantingEnvironment}
+            />
+          )}
         />
         <Text style={styles.loadMore} onPress={loadMorePage}>
           {treeList.length > 0 ? 'Load more...' : 'No more tree... Turn back!'}

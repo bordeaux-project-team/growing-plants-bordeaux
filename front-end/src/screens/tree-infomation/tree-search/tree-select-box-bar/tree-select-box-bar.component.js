@@ -60,20 +60,20 @@ class TreeSelectBoxBar extends Component {
           onValueChange={this.onSelectedPlantTypeItemsChange}
           selectedValue={plantTypeItems}
         />
-        <SelectBox
-          containerStyle={styles.selectBoxContainer}
-          selectBoxStyle={styles.selectBoxStyle}
-          items={this.temperatureItems}
-          onValueChange={this.onSelectedTemperatureItemsChange}
-          selectedValue={temperatureItems}
-        />
-        <SelectBox
-          containerStyle={styles.selectBoxContainer}
-          selectBoxStyle={styles.selectBoxStyle}
-          items={this.waterLevelItems}
-          onValueChange={this.onSelectedWaterLevelItemsChange}
-          selectedValue={waterLevelItems}
-        />
+        {/*<SelectBox*/}
+        {/*  containerStyle={styles.selectBoxContainer}*/}
+        {/*  selectBoxStyle={styles.selectBoxStyle}*/}
+        {/*  items={this.temperatureItems}*/}
+        {/*  onValueChange={this.onSelectedTemperatureItemsChange}*/}
+        {/*  selectedValue={temperatureItems}*/}
+        {/*/>*/}
+        {/*<SelectBox*/}
+        {/*  containerStyle={styles.selectBoxContainer}*/}
+        {/*  selectBoxStyle={styles.selectBoxStyle}*/}
+        {/*  items={this.waterLevelItems}*/}
+        {/*  onValueChange={this.onSelectedWaterLevelItemsChange}*/}
+        {/*  selectedValue={waterLevelItems}*/}
+        {/*/>*/}
       </View>
     );
   }

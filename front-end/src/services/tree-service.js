@@ -14,6 +14,11 @@ const searchTree = async searchTreeModel => {
   return await response.json();
 };
 
+const getTreeById = async treeId => {
+  let response = await fetchGet(`api/tree/${treeId}`, true);
+  return await response.json();
+};
+
 const getPlantedTrees = async limitNumberOfShownTrees => {
   const userId = JSON.parse(await AsyncStorage.getItem('user')).id;
   if (!userId) {
@@ -26,4 +31,4 @@ const getPlantedTrees = async limitNumberOfShownTrees => {
   return await response.json();
 };
 
-export {searchTree, getPlantedTrees};
+export {searchTree, getTreeById, getPlantedTrees};

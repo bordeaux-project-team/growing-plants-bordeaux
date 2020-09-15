@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {logger} from 'react-native-logs';
 import 'react-native-gesture-handler';
 import {MainScreenContainer} from './src/screens';
@@ -17,6 +17,8 @@ import TreeDetailInfo from './src/screens/tree-infomation/tree-detail-info/tree-
 import PlantNewTree from './src/screens/planting-process/plant-new-tree/plant-new-tree.component';
 import PlantingProcessOverview from './src/screens/planting-process/planting-process-overview/planting-process-overview.component';
 import NewAction from './src/screens/planting-process/new-action/new-action.component';
+import {Button} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const log = logger.createLogger();
 
@@ -24,6 +26,7 @@ const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
   log.debug('App.js');
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -35,11 +38,11 @@ const App: () => React$Node = () => {
           headerTintColor: '#fff',
           headerLeft: null,
         }}>
+        <Stack.Screen name="Login" component={LoginContainer} />
         <Stack.Screen name="Main" component={MainScreenContainer} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="StartScreen" component={StartScreen} />
         <Stack.Screen name="Home" component={HomeContainer} />
-        <Stack.Screen name="Login" component={LoginContainer} />
         <Stack.Screen
           name="PlantingEnvironment"
           component={PlantingEnvironmentContainer}

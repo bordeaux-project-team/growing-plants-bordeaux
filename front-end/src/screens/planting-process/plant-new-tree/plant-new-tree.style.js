@@ -1,12 +1,13 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../styles/color.style';
+import CONSTANTS from '../../styles/constant.style';
 
 const styles = StyleSheet.create({
   componentContainer: {},
   numberOfTreeInput: {
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 15,
+    marginLeft: CONSTANTS.commonDetailMargin,
+    marginRight: CONSTANTS.commonDetailMargin,
+    marginBottom: CONSTANTS.commonDetailMargin,
     borderWidth: 5,
     borderColor: COLORS.commonBackground,
     backgroundColor: COLORS.commonBorder,
@@ -15,12 +16,12 @@ const styles = StyleSheet.create({
     color: COLORS.commonText,
     marginRight: 11,
     marginLeft: 11,
-    marginTop: -15,
+    marginTop: -CONSTANTS.commonDetailMargin,
   },
   boxContainer: {
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 15,
+    marginLeft: CONSTANTS.commonDetailMargin,
+    marginRight: CONSTANTS.commonDetailMargin,
+    marginBottom: CONSTANTS.commonDetailMargin,
     borderWidth: 2,
     borderColor: 'black',
     padding: 5,
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     height: 59,
-    margin: 15,
+    margin: CONSTANTS.commonDetailMargin,
     flexDirection: 'row',
   },
   leftButton: {

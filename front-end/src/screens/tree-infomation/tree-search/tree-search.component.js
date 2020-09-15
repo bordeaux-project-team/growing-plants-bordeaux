@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {Button, View} from 'react-native';
 import styles from './tree-search.style';
 import BackgroundScreen from '../../common-screens/background-screen.component';
 import TreeSearchBar from './tree-search-bar/search-screen-bar.component';
@@ -7,6 +7,7 @@ import TreeSelectBoxBar from './tree-select-box-bar/tree-select-box-bar.componen
 import PlantedTree from './planted-tree/planted-tree.component';
 import TreeList from './tree-list/tree-list.component';
 import {searchTree} from '../../../services/tree-service';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 class TreeSearch extends Component {
   constructor(props) {
@@ -23,6 +24,11 @@ class TreeSearch extends Component {
       treeList: [],
       pageNumber: 1,
       treeListResult: {},
+      plantingSpots: props.plantingSpots ? props.plantingSpots : {},
+      plantingSpotModel: props.plantingSpotModel ? props.plantingSpotModel : {},
+      plantingEnvironment: props.plantingEnvironment
+        ? props.plantingEnvironment
+        : {},
     };
   }
 
@@ -82,19 +88,48 @@ class TreeSearch extends Component {
     this._setStateOfTreeSearch(nextSearchTreeModel);
   };
 
+  _doBackGardenProcess = () => {
+    const {navigation, plantingEnvironment} = this.props;
+    navigation.dispatch(
+      StackActions.replace('PlantingProcess', {
+        plantingEnvironment,
+      }),
+    );
+  };
+
   render() {
-    const {treeList} = this.state;
+    const {
+      treeList,
+      plantingSpots,
+      plantingSpotModel,
+      plantingEnvironment,
+    } = this.state;
     return (
       <BackgroundScreen>
         <View style={styles.treeSearchBackground}>
           <TreeSearchBar searchByText={this._searchByText} />
           <TreeSelectBoxBar searchByPlantType={this._searchByPlantType} />
           <PlantedTree />
-          <TreeList treeList={treeList} loadMorePage={this._loadMorePage} />
+          <TreeList
+            treeList={treeList}
+            plantingSpots={plantingSpots}
+            plantingSpotModel={plantingSpotModel}
+            plantingEnvironment={plantingEnvironment}
+            loadMorePage={this._loadMorePage}
+          />
+        </View>
+        <View>
+          <Button
+            onPress={this._doBackGardenProcess}
+            title="Back to Garden Process"
+          />
         </View>
       </BackgroundScreen>
     );
   }
 }
 
-export default TreeSearch;
+export default props => {
+  const navigation = useNavigation();
+  return <TreeSearch {...props} navigation={navigation} />;
+};

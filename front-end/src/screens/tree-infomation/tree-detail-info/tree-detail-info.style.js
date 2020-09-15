@@ -1,11 +1,12 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../styles/color.style';
+import CONSTANTS from '../../styles/constant.style';
 
 const styles = StyleSheet.create({
   boxContainer: {
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 15,
+    marginLeft: CONSTANTS.commonDetailMargin,
+    marginRight: CONSTANTS.commonDetailMargin,
+    marginBottom: CONSTANTS.commonDetailMargin,
     borderWidth: 2,
     borderColor: 'black',
     padding: 5,
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     height: 59,
-    margin: 15,
+    margin: CONSTANTS.commonDetailMargin,
     flexDirection: 'row',
   },
   leftButton: {

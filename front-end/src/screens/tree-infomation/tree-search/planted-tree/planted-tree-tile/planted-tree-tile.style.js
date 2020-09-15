@@ -3,7 +3,7 @@ import COLORS from '../../../../styles/color.style';
 
 const styles = StyleSheet.create({
   tileContainer: {
-    borderWidth: 5,
+    borderWidth: 4,
     borderColor: COLORS.commonBorder,
     marginBottom: 1,
   },
@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   listItem: {
+    height: 50,
     backgroundColor: COLORS.commonBackground,
   },
   treeName: {

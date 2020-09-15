@@ -1,8 +1,9 @@
 import {StyleSheet} from 'react-native';
+import CONSTANTS from '../../../styles/constant.style';
 
 const styles = StyleSheet.create({
   listContainer: {
-    marginTop: 15,
+    marginTop: CONSTANTS.commonDetailMargin,
   },
   loadMore: {
     textDecorationLine: 'underline',

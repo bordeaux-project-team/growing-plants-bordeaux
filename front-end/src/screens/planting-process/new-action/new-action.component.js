@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {Alert, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import styles from './new-action.style';
 import TreeWallpaper from '../planting-process-overview/tree-wallpaper/tree-wallpaper.component';
 import BackgroundScreen from '../../common-screens/background-screen.component';
 import SelectBox from '../../common-elements/select-box.component';
 import InputDate from '../../common-elements/input-date.component';
 import InputText from '../../common-elements/input-text.component';
-import {Icon} from 'react-native-elements';
 import TouchButton from '../../common-elements/button.component';
+import {insertPlantingAction} from '../../../services/planting-process-service';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 class NewAction extends Component {
   constructor(props) {
@@ -17,7 +18,9 @@ class NewAction extends Component {
       selectedAction: null,
       startDate: currentDate,
       description: '',
-      selectedAmountOptions: null,
+      selectedAmountUnit: null,
+      amountNumber: null,
+      amountUnitData: [],
     };
   }
 
@@ -53,12 +56,20 @@ class NewAction extends Component {
   };
 
   onValueChangeAction = selectedAction => {
-    console.log('action', selectedAction);
+    const removedSpaceAmountNumber =
+      selectedAction && selectedAction.replace(/ /g, '');
+    const amountNumber = removedSpaceAmountNumber
+      ? this.amountOptionsNumber[removedSpaceAmountNumber]
+      : '';
+    const amountUnitData = removedSpaceAmountNumber
+      ? this.amountOptionsData[removedSpaceAmountNumber]
+      : [];
+    this.setState({amountNumber});
+    this.setState({amountUnitData});
     this.setState({selectedAction});
   };
 
   onDateChange = date => {
-    console.log('date', date);
     this.setState({startDate: date});
   };
 
@@ -79,22 +90,89 @@ class NewAction extends Component {
   };
 
   setDescription = description => {
-    console.log('description', description);
     this.setState({description});
   };
 
-  onValueChangeAmountOptions = selectedAmountOptions => {
-    console.log('selectedAmountOptions', selectedAmountOptions);
-    this.setState({selectedAmountOptions});
+  onValueChangeAmountOptions = selectedAmountUnit => {
+    this.setState({selectedAmountUnit});
   };
 
-  _doAddAction = () => {
-    // add action
+  _doAddAction = async () => {
+    const {navigation} = this.props;
+    const processStep = this.props.route
+      ? this.props.route.params.processStep
+      : {};
+    const {
+      selectedAction,
+      selectedAmountUnit,
+      description,
+      startDate,
+      amountNumber,
+    } = this.state;
+    if (processStep) {
+      const plantingActionModel = {
+        name: selectedAction,
+        processStepId: processStep && processStep.id,
+        measurementUnit: selectedAmountUnit,
+        description: description,
+        actionTime: startDate,
+        amount: amountNumber,
+        status: 0,
+      };
+      const insertResponse = await insertPlantingAction(plantingActionModel);
+      if (insertResponse.status === 200) {
+        const plantingSpotModel = this.props.route
+          ? this.props.route.params.plantingSpotModel
+          : {};
+        const treeInfo = this.props.route
+          ? this.props.route.params.treeInfo
+          : {};
+        const plantingEnvironment = this.props.route
+          ? this.props.route.params.plantingEnvironment
+          : {};
+        const processStep = this.props.route
+          ? this.props.route.params.processStep
+          : {};
+        navigation.dispatch(
+          StackActions.replace('PlantingProcessOverview', {
+            plantingSpotModel,
+            treeInfo,
+            plantingEnvironment,
+            processStep,
+          }),
+        );
+      } else {
+        Alert.alert('There was an error!', 'Please try again', [
+          {
+            text: 'OK',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+        ]);
+      }
+    } else {
+      Alert.alert('The plant is not ready by your plan', [
+        {
+          text: 'OK',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ]);
+    }
   };
 
   _doCancel = () => {
     const {navigation} = this.props;
-    navigation.goBack();
+    const plantingSpotModel = this.props.route
+      ? this.props.route.params.plantingSpotModel
+      : {};
+    const treeInfo = this.props.route ? this.props.route.params.treeInfo : {};
+    navigation.dispatch(
+      StackActions.replace('PlantingProcessOverview', {
+        plantingSpotModel,
+        treeInfo,
+      }),
+    );
   };
 
   render() {
@@ -102,17 +180,11 @@ class NewAction extends Component {
       selectedAction,
       startDate,
       description,
-      selectedAmountOptions,
+      selectedAmountUnit,
+      amountNumber,
+      amountUnitData,
     } = this.state;
     const treeInfo = this.props.route ? this.props.route.params.treeInfo : {};
-    const removedSpaceAmountNumber =
-      selectedAction && selectedAction.replace(/ /g, '');
-    const amountNumber = removedSpaceAmountNumber
-      ? this.amountOptionsNumber[removedSpaceAmountNumber]
-      : '';
-    const amountUnit = removedSpaceAmountNumber
-      ? this.amountOptionsData[removedSpaceAmountNumber]
-      : [];
     return (
       <BackgroundScreen>
         <SafeAreaView style={styles.componentContainer}>
@@ -153,31 +225,31 @@ class NewAction extends Component {
                   <SelectBox
                     containerStyle={styles.selectAmountOptionsBoxContainer}
                     selectBoxStyle={styles.selectAmountOptionsBoxStyle}
-                    items={amountUnit}
+                    items={amountUnitData}
                     onValueChange={this.onValueChangeAmountOptions}
-                    selectedValue={selectedAmountOptions}
+                    selectedValue={selectedAmountUnit}
                   />
                 </View>
               </View>
             </View>
 
-            <View style={styles.boxContainer}>
-              <Text style={styles.boxTitle}>Recurrence</Text>
-              <View style={styles.notificationContainer}>
-                <View style={styles.attributeContainer}>
-                  <Icon
-                    color="#c68020"
-                    type="fontisto"
-                    name="spinner-rotate-forward"
-                  />
-                  <Text> Repeat every 3 days</Text>
-                </View>
-                <View style={styles.attributeContainer}>
-                  <Icon color="#c68020" type="fontisto" name="bell" />
-                  <Text> Add Notification</Text>
-                </View>
-              </View>
-            </View>
+            {/*<View style={styles.boxContainer}>*/}
+            {/*  <Text style={styles.boxTitle}>Recurrence</Text>*/}
+            {/*  <View style={styles.notificationContainer}>*/}
+            {/*    <View style={styles.attributeContainer}>*/}
+            {/*      <Icon*/}
+            {/*        color="#c68020"*/}
+            {/*        type="fontisto"*/}
+            {/*        name="spinner-rotate-forward"*/}
+            {/*      />*/}
+            {/*      <Text> Repeat every 3 days</Text>*/}
+            {/*    </View>*/}
+            {/*    <View style={styles.attributeContainer}>*/}
+            {/*      <Icon color="#c68020" type="fontisto" name="bell" />*/}
+            {/*      <Text> Add Notification</Text>*/}
+            {/*    </View>*/}
+            {/*  </View>*/}
+            {/*</View>*/}
 
             <View style={styles.buttonContainer}>
               <TouchButton
@@ -200,4 +272,7 @@ class NewAction extends Component {
   }
 }
 
-export default NewAction;
+export default props => {
+  const navigation = useNavigation();
+  return <NewAction {...props} navigation={navigation} />;
+};

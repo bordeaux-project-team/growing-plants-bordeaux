@@ -45,18 +45,20 @@ const updatePlantingEnvironment = async (
 
 export const plantingSpotModel = {
   treeId: null, // required
-  position: 20, // a number from 1 -> area = width * length of environment
+  position: 20, // index of a spot
   amount: 20,
   plantingEnvironmentId: null, // required
+  id: 0, // in case update
 };
 
-const insertPlantingSpot = async (envId, plantingSpot) => {
-  plantingSpot.plantingEnvironmentId = envId;
-  return await fetchPost(
+const insertOrUpdatePlantingSpot = async plantingSpots => {
+  const envId = plantingSpots[0].plantingEnvironmentId;
+  const insertOrUpdateResult = await fetchPost(
     `api/planting-environment/${envId}/planting-spot/insert-update`,
-    [plantingSpot],
+    plantingSpots,
     true,
   );
+  return await insertOrUpdateResult.json();
 };
 
 const getPlantingSpotsByPlantingEnvironmentId = async envId => {
@@ -64,7 +66,7 @@ const getPlantingSpotsByPlantingEnvironmentId = async envId => {
     `api/planting-environment/${envId}/planting-spot`,
     true,
   );
-  return plantingSpots.json();
+  return await plantingSpots.json();
 };
 
 const getPlantingEnvironmentByUser = async () => {
@@ -76,7 +78,7 @@ const getPlantingEnvironmentByUser = async () => {
     `api/planting-environment/user/${userId}`,
     true,
   );
-  return plantingEnvironment.json();
+  return await plantingEnvironment.json();
 };
 
 const deletePlantingEnvironment = async envId => {
@@ -89,5 +91,5 @@ export {
   getPlantingEnvironmentByUser,
   deletePlantingEnvironment,
   getPlantingSpotsByPlantingEnvironmentId,
-  insertPlantingSpot,
+  insertOrUpdatePlantingSpot,
 };

@@ -10,19 +10,19 @@ class PlantedTree extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      limitNumberOfShownTree: 2,
+      limitNumberOfShownTree: 4,
       plantedTrees: [],
     };
   }
 
-  componentDidMount() {
-    this._getPlantedTrees();
+  async componentDidMount() {
+    await this._getPlantedTreeList();
   }
 
-  _getPlantedTrees = () => {
+  _getPlantedTreeList = async () => {
     const {limitNumberOfShownTree} = this.state;
     let plantedTrees = [];
-    getPlantedTrees(limitNumberOfShownTree).then(plantedTreesData => {
+    await getPlantedTrees(limitNumberOfShownTree).then(plantedTreesData => {
       plantedTrees = plantedTreesData.result ? plantedTreesData.result : [];
     });
     this.setState({plantedTrees});

@@ -5,28 +5,63 @@ import BackgroundScreen from '../../common-screens/background-screen.component';
 import TreeDetailPicture from './tree-detail-picture/tree-detail-picture.component';
 import {Icon} from 'react-native-elements';
 import TouchButton from '../../common-elements/button.component';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 class TreeDetailInfo extends Component {
   constructor(props) {
     super(props);
     const treeInfo = props.route ? props.route.params.treeInfo : {};
+    const plantingSpots = props.route ? props.route.params.plantingSpots : {};
+    const plantingSpotModel = props.route
+      ? props.route.params.plantingSpotModel
+      : {};
+    const plantingEnvironment = props.route
+      ? props.route.params.plantingEnvironment
+      : {};
     this.state = {
       treeInfo,
+      plantingSpots,
+      plantingSpotModel,
+      plantingEnvironment,
     };
   }
 
   _doPlant = () => {
     const {navigation} = this.props;
-    const {treeInfo} = this.state;
-    navigation.navigate('PlantNewTree', {
+    const {
       treeInfo,
-    });
+      plantingSpots,
+      plantingSpotModel,
+      plantingEnvironment,
+    } = this.state;
+    navigation.dispatch(
+      StackActions.replace('PlantNewTree', {
+        plantingSpots,
+        plantingSpotModel,
+        treeInfo,
+        plantingEnvironment,
+      }),
+    );
   };
 
   _doBack = () => {
+    const plantingSpots = this.props.route
+      ? this.props.route.params.plantingSpots
+      : {};
+    const plantingSpotModel = this.props.route
+      ? this.props.route.params.plantingSpotModel
+      : {};
+    const plantingEnvironment = this.props.route
+      ? this.props.route.params.plantingEnvironment
+      : {};
     const {navigation} = this.props;
-    navigation.goBack();
+    navigation.dispatch(
+      StackActions.replace('TreeInformation', {
+        plantingSpots,
+        plantingEnvironment,
+        selectedPlantingSpotModel: plantingSpotModel,
+      }),
+    );
   };
 
   render() {

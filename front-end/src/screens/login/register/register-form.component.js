@@ -5,7 +5,7 @@ import InputText from '../../common-elements/input-text.component';
 import loginInputStyles from '../../common-elements/login-common.style';
 import TouchButton from '../../common-elements/button.component';
 import {doLogin, registerAccount} from '../../../services/user-service';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -48,7 +48,7 @@ class RegisterForm extends Component {
       if (registerResult.result) {
         const loginResult = await doLogin(email, password);
         if (loginResult.result) {
-          navigation.navigate('MainScreen');
+          navigation.dispatch(StackActions.replace('PlantingEnvironment'));
         } else {
           Alert.alert('There was an error!', 'Please try again', [
             {

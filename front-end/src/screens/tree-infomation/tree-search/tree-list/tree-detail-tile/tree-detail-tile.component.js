@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import styles from './tree-detail-tile.style';
 import {Avatar, ListItem} from 'react-native-elements';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 class TreeDetailTile extends Component {
   constructor(props) {
@@ -10,10 +10,21 @@ class TreeDetailTile extends Component {
   }
 
   _navigateToTreeDetail() {
-    const {navigation, treeInfo} = this.props;
-    navigation.navigate('TreeDetailInfo', {
+    const {
+      navigation,
+      plantingSpots,
+      plantingSpotModel,
       treeInfo,
-    });
+      plantingEnvironment,
+    } = this.props;
+    navigation.dispatch(
+      StackActions.replace('TreeDetailInfo', {
+        plantingSpots,
+        plantingSpotModel,
+        treeInfo,
+        plantingEnvironment,
+      }),
+    );
   }
 
   render() {
