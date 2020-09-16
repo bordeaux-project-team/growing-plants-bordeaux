@@ -156,6 +156,38 @@ namespace GrowingPlants.Apis.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("planting-spot/{id}")]
+        public async Task<ApiResult<bool>> DeletePlantingSpot(int id)
+        {
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+                _logger.LogInformation("Delete plantingSpot");
+
+                var result = await _plantingEnvironmentService.DeletePlantingSpot(id);
+
+                _logger.LogInformation("Delete plantingSpot complete");
+
+                stopwatch.Stop();
+                result.ExecutionTime = stopwatch.Elapsed.TotalMilliseconds;
+                _logger.LogInformation($"Execution time: {result.ExecutionTime}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Delete plantingSpot error: {ex}");
+
+                return new ApiResult<bool>
+                {
+                    Result = false,
+                    ApiCode = ApiCode.UnknownError,
+                    ErrorMessage = ex.ToString()
+                };
+            }
+        }
+
         [HttpGet]
         [Route("{environmentId}/planting-spot")]
         public async Task<ApiResult<List<PlantingSpot>>> GetPlantingSpotsByEnvironmentId(int environmentId)

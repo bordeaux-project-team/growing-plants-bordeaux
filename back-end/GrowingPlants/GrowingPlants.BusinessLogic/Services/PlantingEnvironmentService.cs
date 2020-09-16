@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace GrowingPlants.BusinessLogic.Services
 {
@@ -115,7 +116,10 @@ namespace GrowingPlants.BusinessLogic.Services
 
         public async Task<ApiResult<bool>> DeletePlantingEnvironment(int id)
         {
-            var toDelete = await _unitOfWork.PlantingEnvironmentRepository.GetFirstOrDefault(x => x.Id == id);
+            var toDelete = await _unitOfWork.PlantingEnvironmentRepository
+                .GetQueryable()
+                .Include(x => x.PlantingSpots)
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (toDelete == null)
             {
                 _logger.LogError($"plantingEnvironment not found with id: {id}");
@@ -126,11 +130,54 @@ namespace GrowingPlants.BusinessLogic.Services
                     Result = false
                 };
             }
-            _logger.LogInformation($"Delete plantingEnvironment with Id: {id} - {JsonConvert.SerializeObject(toDelete)}");
+
+            var plantingSpotIds = toDelete.PlantingSpots.Select(x => x.Id).ToList();
+
+            var processToDelete = await _unitOfWork.PlantingProcessRepository
+                .GetQueryable()
+                .Include(x => x.ProcessSteps)
+                .ThenInclude(x => x.PlantingActions)
+                .Where(x => plantingSpotIds.Contains(x.PlantingSpotId ?? 0))
+                .ToListAsync();
+
+            var deleteProcessResult = await _unitOfWork.PlantingProcessRepository.Delete(processToDelete);
             var deleteResult = await _unitOfWork.PlantingEnvironmentRepository.Delete(toDelete);
+
             return new ApiResult<bool>
             {
-                Result = deleteResult,
+                Result = deleteResult || deleteProcessResult,
+                ApiCode = ApiCode.Success
+            };
+        }
+
+        public async Task<ApiResult<bool>> DeletePlantingSpot(int id)
+        {
+            var toDelete = await _unitOfWork.PlantingSpotRepository.GetFirstOrDefault(x => x.Id == id);
+
+            if (toDelete == null)
+            {
+                _logger.LogError($"plantingSpot not found with id: {id}");
+                return new ApiResult<bool>
+                {
+                    ApiCode = ApiCode.NotFound,
+                    ErrorMessage = $"plantingSpot not found with id: {id}",
+                    Result = false
+                };
+            }
+
+            var processToDelete = await _unitOfWork.PlantingProcessRepository
+                .GetQueryable()
+                .Include(x => x.ProcessSteps)
+                .ThenInclude(x => x.PlantingActions)
+                .Where(x => id == x.PlantingSpotId)
+                .ToListAsync();
+
+            var deleteProcessResult = await _unitOfWork.PlantingProcessRepository.Delete(processToDelete);
+            var deleteResult = await _unitOfWork.PlantingSpotRepository.Delete(toDelete);
+
+            return new ApiResult<bool>
+            {
+                Result = deleteResult || deleteProcessResult,
                 ApiCode = ApiCode.Success
             };
         }
