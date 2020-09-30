@@ -33,7 +33,7 @@ namespace GrowingPlants.Apis.Controllers
             try
             {
                 var stopwatch = Stopwatch.StartNew();
-                _logger.LogInformation("Get plantingEnvironments by user");
+                _logger.LogInformation($"Get plantingEnvironments by user {userId}");
 
                 var result = await _plantingEnvironmentService.GetPlantingEnvironmentsByUser(userId);
 
