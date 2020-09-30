@@ -26,7 +26,7 @@ namespace GrowingPlants.BusinessLogic.Services
         public async Task<ApiResult<List<PlantingEnvironment>>> GetPlantingEnvironmentsByUser(int userId)
         {
             var environments = await _unitOfWork.PlantingEnvironmentRepository.GetByUserId(userId);
-            _logger.LogInformation(JsonConvert.SerializeObject(environments));
+            _logger.LogInformation(environments.Count);
             return new ApiResult<List<PlantingEnvironment>>
             {
                 ApiCode = ApiCode.Success,
